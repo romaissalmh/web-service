@@ -160,7 +160,10 @@
   padding-right: 15%;
 
  }*/
-
+  .intro{
+    position: relative !important;
+    
+  }
   .intro p {
   line-height: 1.8;
   display: block;
@@ -193,7 +196,7 @@
   /* ---------------------------------------------------
       DAHSHBOARD STYLE
   ----------------------------------------------------- */
-.dashboard{
+.dashboard,.intro{
   position: relative;
 }
 .dashboard h6, .dashboard  h1,.dashboard h4{

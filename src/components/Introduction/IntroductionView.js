@@ -56,7 +56,7 @@ function IntroductionView() {
 
     return (
         <Container className="intro">
-            <Row style={{marginTop:"16px"}}>    
+            <Row style={{marginTop:"16px",marginLeft:"5vw"}}>    
             
                   <Col xl="6" sm="12" > 
                   <p>
