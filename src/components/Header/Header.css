@@ -94,6 +94,12 @@
     display: none;
   }
 
+ .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
+    background-color: white !important;
+    color: black;
+  }
+
+
 
   @media only screen and (max-width: 720px) {
     html {

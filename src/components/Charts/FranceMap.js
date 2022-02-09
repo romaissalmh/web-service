@@ -4,7 +4,8 @@ import { SVGMap } from "react-svg-map";
 
 import FranceDep from "@svg-maps/france.departments";
 
-export const FranceMap = ({ dataAds, dataSpent }) => {
+export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
+	const [locationClassName, setLocationClassName] = useState({})
 	const [dataLocation, setDataLocation] = useState({
 		    ara: '',
 			bfc: '',
@@ -47,12 +48,12 @@ export const FranceMap = ({ dataAds, dataSpent }) => {
 	useEffect(() => {
 		
 		var result = dataAds.reduce(function(map, obj) {
-			map[obj.region] = obj.countAds;
+			map[obj.region] =  parseInt(obj.countAds) ;
 			return map;
 		}, {});
 		
 		var resultt = dataSpent.reduce(function(map, obj) {
-			map[obj.region] = obj.spentAds;
+			map[obj.region] = parseInt(obj.money) ;
 			return map;
 		}, {});
 		setDataLocation({
@@ -87,7 +88,6 @@ export const FranceMap = ({ dataAds, dataSpent }) => {
 			pac: resultt["Provence-Alpes-Côte d'Azur"]
 		})
 
-		console.log(spentLocation)
 		
 
 
@@ -103,7 +103,6 @@ export const FranceMap = ({ dataAds, dataSpent }) => {
 */
     const handleLocationMouseOver= (event) =>  {
 		const pointedLocationId =  event.target.id
-		console.log(event)
 		setPointedLocation(event.target.attributes.name.value)
 		setPointedDataLocation(dataLocation[pointedLocationId])
 		setPointedSpent(spentLocation[pointedLocationId])
@@ -123,17 +122,65 @@ export const FranceMap = ({ dataAds, dataSpent }) => {
 			left: event.clientX - 100
 		})
 	}
-	
+	const getLocationClassName = (location, index) => {
+		// Generate random heat map
+		console.log(spentLocation[location.id])
+		if(spentLocation[location.id]<20000000) {
+			let i = 0
+		}
+		else{
+			if (spentLocation[location.id]>20000000 && spentLocation[location.id]>30000000 ) {
+				let i = 1
+			}
+			else{
+				if (spentLocation[location.id]>40000000) {
+					let i = 2
+				}
+			}
+		}
+		return `svg-map__location--int${index % 4}`;
+	}
 
         return (
 			
           <div className="franceMap">
-            <SVGMap map={France} 
+            <SVGMap 
+			map={France} 
+			locationClassName = {getLocationClassName}
             onLocationMouseOver={handleLocationMouseOver}
             onLocationMouseOut={handleLocationMouseOut}
             onLocationMouseMove={handleLocationMouseMove} 
+			limits={limits}
+			colors={colors}
             />
+         <div className="legendeMap">
+		 <table>
+        <tbody>
 
+			<tr>
+				<td style={{background:"#B5C7EA"}}>&gt;
+				</td>
+			</tr>
+
+			<tr>
+				<td style={{background:"#b1c1e1"}} >20000000
+				</td>
+			</tr>
+
+			<tr>
+				<td style={{background:"#728bbc"}}>30000000
+				</td>
+			</tr>
+
+			<tr>
+				<td style={{background:"#728bbc"}} >40000000
+				</td>
+			</tr>
+
+
+		</tbody>
+		</table>
+		 </div>
 			
             <div className="mapTooltip" style={tooltipStyle}>
                

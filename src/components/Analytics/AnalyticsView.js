@@ -3,28 +3,28 @@ import {Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,Dropdown
 import PieChart from '../Charts/PieChart'
 import LineChart from '../Charts/LineChart'
 import TwoBarChart from '../Charts/TwoBarChart'
-import { BiEuro } from "react-icons/bi"
+import { BiEuro } from "react-icons/bi" 
 //apis call 
 import {api} from '../../scripts/network'
 import MUIDataTable from "mui-datatables"
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
 
-//I'll make it i'll make because i'm ROMA i'll make it like everytime !!!!
-
 const AnalyticsView = () => {
+
+  
     const [isOpen, setIsOpen] = useState(false);
     const [regionName, setRegionName] = useState("Alsace");
-
+     
 
     const [adsPerMonth,setAdsPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
     })
     const [spentOfMoneyPerMonth, setSpentOfMoneyPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
     })
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
@@ -87,14 +87,16 @@ const AnalyticsView = () => {
             })
             const adsPerMonth = await fetchAdsPerMonth()
             
-            let transform = [0,0,0,0,0,0,0,0,0,0,0,0]
+            let transform = []
             adsPerMonth.map((ad)=>(
-                transform[ad.month - 1]= ad.countAds
+                transform.push(parseInt(ad.countAds))
             ))
     
             setAdsPerMonth({
-                adsPerMonth:transform.slice(6,12),
-                loading:false
+                adsPerMonth:transform,
+                loading:false,
+                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+
             })
         
         }, [])
@@ -108,14 +110,16 @@ const AnalyticsView = () => {
         })
         const adsPerMonth = await fetchSpentOfMoneyPerMonth()
 
-        let transform = [0,0,0,0,0,0,0,0,0,0,0,0]
+        let transform = []
         adsPerMonth.map((ad)=>(
-            transform[ad.month - 1]=parseInt(ad.countMoney)
+            transform.push(parseInt(ad.countMoney)) 
         ))
-        
+
         setSpentOfMoneyPerMonth({
-            adsPerMonth:transform.slice(6,12),
-            loading:false
+            adsPerMonth:transform,
+            loading:false,
+            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+
         })
     })
 
@@ -145,8 +149,10 @@ const AnalyticsView = () => {
             loading:true,
         })
         const data = await fetchDateLocationTime()
+        
         let dates = data.map(
-            a => a.date 
+
+            a => a.date.slice(0, 10)
         )
         let countAds = data.map(
             a => parseInt(a.totalSpent )
@@ -171,10 +177,10 @@ const AnalyticsView = () => {
 
       
         let data1 =  data.map(
-            a => a.gender =="female" ?  a.reachAds :null
+            a => a.gender =="female" ?  Math.floor(a.reach) :null
         )
         let data2 = data.map(
-            a => a.gender =="male" ?  a.reachAds :null
+            a => a.gender =="male" ?  Math.floor(a.reach) :null
         )
         data1 = data1.filter(function (value, index, arr){
             return value != null
@@ -190,7 +196,7 @@ const AnalyticsView = () => {
             labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
 
         })
-   
+        // add getting detailed data
 
     })
 
@@ -200,7 +206,7 @@ const AnalyticsView = () => {
         })
         const adsPerAdvertiser = await fetchAdsByAdvertiser()
         let data = adsPerAdvertiser.map(
-            a => a.countAds 
+            a => parseInt(a.countAds)  
         )
         let labels = adsPerAdvertiser.map(
             a => a.page_name 
@@ -219,7 +225,7 @@ const AnalyticsView = () => {
         })
         const adsPerAdvertiser = await fetchImpressionsByAdvertiser()
         let data = adsPerAdvertiser.map(
-            a => a.countImpressions 
+            a => parseInt(a.countImpressions)  
         )
         let labels = adsPerAdvertiser.map(
             a => a.page_name 
@@ -238,7 +244,7 @@ const AnalyticsView = () => {
         })
         const adsPerAdvertiser = await fetchSpentByAdvertiser()
         let data = adsPerAdvertiser.map(
-            a => a.countExpenditure 
+            a => parseInt(a.countExpenditure)
         )
         let labels = adsPerAdvertiser.map(
             a => a.page_name 
@@ -258,14 +264,14 @@ const AnalyticsView = () => {
         })
         
         const res = await fetchDateLocationRegion(value)
+       
         let data = res.map(
-            a => a.money 
+            a => parseInt(a.money) 
         )
         let labels = res.map(
-            a => a.date 
+            a => a.date.slice(0, 10)
         )
         console.log(data)
-        console.log(labels)
         setDateLocationRegion({
             data:data,
             loading:false,
@@ -282,7 +288,6 @@ const AnalyticsView = () => {
         await api.get(`api/ad/numberOfAdsByMonth/2021`)
          .then ( res => {
              stats = res
-             //console.log(stats)
          })
          .catch(
              err => console.log(err)
@@ -311,7 +316,7 @@ const AnalyticsView = () => {
          .then ( res => {
              stats = res
              //console.log(stats)
-         })
+         }) 
          .catch(
              err => console.log(err)
          )
@@ -349,7 +354,7 @@ const AnalyticsView = () => {
         await api.get(`api/dateLocationTime/dateLocationTimeByRegion/${region}`)
          .then ( res => {
              stats = res; 
-             console.log(stats)
+             //console.log(stats)
          })
          .catch(
              err => console.log(err)
@@ -457,14 +462,14 @@ const AnalyticsView = () => {
                      : 
                      <LineChart 
                      title="Ads published during the last months" 
-                     labels = {['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']} 
+                     labels = {spentOfMoneyPerMonth.labels} 
                      dataset={adsPerMonth.adsPerMonth}
                      currency = ""
                      total="true"
                      color ="#383874"
                      color="rgba(56, 56, 116, 1)"
                      colorOpacity="rgba(56, 56, 116, 0.1)"
-                     source="Source: Facebook Ad Library. Total of french ads published on Facebook ads since July 1, 2021"
+                     source="Source: Facebook Ad Library. Total of french ads published on Facebook ads since July 1, 2021 targeting french regions"
                      />  
                      }
                     </Col>  
@@ -474,21 +479,21 @@ const AnalyticsView = () => {
                      : 
                      <LineChart 
                      title="Total spent to show ads the last months" 
-                     labels = {['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']} 
+                     labels = {spentOfMoneyPerMonth.labels} 
                      dataset={spentOfMoneyPerMonth.adsPerMonth}
-                     currency = " EUR"
+                     currency = " €"
                      total="true"
                      color = "#8675FF"
                      color="rgba(255, 186, 105, 1)"
                      colorOpacity="rgba(255, 186, 105, 0.1)"
-                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 using french language"
+                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
                      />  }
                     </Col>  
             </Row>  <br/>  
-             
+             {/*
             <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
-            <h6> Rankings</h6>     
-         
+               
+              
                  <Col>     
                      {
                      currencies.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -499,9 +504,12 @@ const AnalyticsView = () => {
                      title="The main advert payment currencies" 
                      labels={currencies.currency} 
                      dataset={currencies.countAds}/> }
-                   </Col>  
-           </Row>
-           <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
+                   </Col> 
+           </Row> */
+               }
+           <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>  
+             <h6> Rankings</h6>  
+ 
                 <Col xl="12"  sm="12" >  
                 {
                      adsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -512,7 +520,7 @@ const AnalyticsView = () => {
                      dataset={adsPerAdvertiser.data}
                     // color="rgba(255, 186, 105, 1)"
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
-                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 using french language"
+                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
                      />  }       
                 </Col>
             </Row>
@@ -523,12 +531,12 @@ const AnalyticsView = () => {
                      spentPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
-                     title="Pages that generated the most expenditure" 
+                     title="Pages that generated the most expenditure in €" 
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
                    //color="rgba(255, 186, 105, 1)"
                    //colorOpacity="rgba(255, 186, 105, 0.1)"
-                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 using french language"
+                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
                      />  
                     }       
                 </Col>
@@ -550,33 +558,41 @@ const AnalyticsView = () => {
                      />  }       
                 </Col>
             </Row>
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
-                   
-                   <Col xl="12"  sm="12" >  
+            {
+                /*
 
-                   {
-                    dateLocationTime.loading
-                    ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                    : <LineChart 
-                    title="Total spent in the last month per day" 
-                    labels = {dateLocationTime.labels} 
-                    dataset={dateLocationTime.data}
-                    color = "#8675FF"
-                    currency=""
-                    total="true"
-                    color="rgba(56, 56, 116, 1)"
-                    colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
+              <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
+                               
+                               <Col xl="12"  sm="12" >  
 
-                   />
-                    
-                    }
+                               {
+                                dateLocationTime.loading
+                                ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                                : <LineChart 
+                                title="Total spent in the last month per day" 
+                                labels = {dateLocationTime.labels} 
+                                dataset={dateLocationTime.data}
+                                color = "#8675FF"
+                                currency="€"
+                                total="true"
+                                color="rgba(56, 56, 116, 1)"
+                                colorOpacity="rgba(56, 56, 116, 0.1)"
+                                source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
+
+                               />
+                                
+                                }
 
                         
 
-                   </Col>  
-           </Row>
+                       </Col>  
+               </Row>
 
+
+
+                */
+            }
+          
 
             <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
             <h6> Audience demographics </h6>     
@@ -594,7 +610,7 @@ const AnalyticsView = () => {
             </Row>
 
             <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
-            <h6> Region statistics </h6>     
+            <h6> Regions statistics </h6>     
                     
                     <Col xl="12"  sm="12" >  
                    
@@ -605,20 +621,41 @@ const AnalyticsView = () => {
                             <option value="Basse-Normandie">Basse-Normandie</option>
                             <option value="Bourgogne">Bourgogne</option>
                             <option value="Bretagne">Bretagne</option>
+                            <option value="Centre">Centre</option>
+                            <option value="Champagne-Ardenne">Champagne-Ardenne</option>
+                            <option value="Corse">Corse</option>
+                            <option value="Franche-Comté">Franche-Comté</option>
+                            <option value="Haute-Normandie">French Polynesia </option>
+                            <option value="Languedoc-Roussillon"> Languedoc-Roussillon </option>
+                            <option value="Limousin">Limousin</option>
+                            <option value="Lorraine">Lorraine</option>
+                            <option value="Midi-Pyrénées">Midi-Pyrénées</option>
+                            <option value="Nord-Pas-de-Calais">Nord-Pas-de-Calais</option>
+                            <option value="Pays de la Loire">Pays de la Loire</option>
+                            <option value="Picardie">Picardie</option>
+                            <option value="Poitou-Charentes">Poitou-Charentes</option>
+                            <option value="Provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur </option>
+                            <option value="Reunion Island">Reunion Island</option>
+                            <option value="Rhône-Alpes">Rhône-Alpes</option>
+                            <option value="Saint-Barthelemy">Saint-Barthelemy</option>
+                            <option value="Île-de-France">Île-de-France</option>
+                            <option value="French Southern Territories">French Southern Territories</option>
+
+
 		            </select>
                         {
                         dateLocationRegion.loading
                         ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                         : <LineChart 
-                        title="Total spent in the last month per day" 
+                        title="Total spent in the last months per day" 
                         labels = {dateLocationRegion.labels} 
                         dataset={dateLocationRegion.data}
                         color = "#8675FF"
-                        currency=""
+                        currency=" €" 
                         total="true"
                         color="rgba(56, 56, 116, 1)"
                         colorOpacity="rgba(56, 56, 116, 0.1)"
-                        source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
+                        source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
 
                         />
                         
@@ -633,20 +670,3 @@ const AnalyticsView = () => {
 export default AnalyticsView
 
 
-/* 
- //Pages running the highest number of ads
- //Pages with the highest number of impressions 
- //Pages that generated the most expenditure 
-
-
-                 <LineChart title="Ads published per month" labels = {['July', 'August', 'September', 'October', 'November', 'October', 'December']} dataset={[253299,194339,163690,142867,72162,66818,57952]} />
-      
-                 <HorizontalBarChart title="Total spent to show ads (€)" labels={['Amazon Europe','European Parliament','The Climate Pledge','European Commission','CCFD-Terre Solidaire','Crédit Agricole','Amnesty International France']} dataset={[253299,194339,163690,142867,72162,66818,57952]} />
-         
-                  <VerticalBarChart title="Pages running the highest number of ads" labels={['Helios','Mediapart','Médecins Sans Frontières / MS','Médecins du Monde France','Amnesty International France']} dataset={[1327,1028,801,709,653]} />
-
-          
-                 <VerticalBarChart title="The main advert payment currencies" labels={['EUR','USD','GBP']} dataset={[17276,1675,171]} />
-         
-
-*/

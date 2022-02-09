@@ -7,9 +7,9 @@ import {api} from '../../scripts/network'
 
 function IntroductionView() {
     const [adsPerMonth,setAdsPerMonth] = useState({
-        adsPerMonth : [],
+        data : [],
         loading:true,
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
     })
 
     useEffect(() => {
@@ -21,16 +21,18 @@ function IntroductionView() {
         setAdsPerMonth({
             loading:true
         })
-        const adsPerMonth = await fetchAdsPerMonth()
-        if(adsPerMonth != undefined){
-            let transform = [0,0,0,0,0,0,0,0,0,0,0,0]
-            adsPerMonth.map((ad)=>(
-                transform[ad.month - 1]= ad.countAds
+        const result = await fetchAdsPerMonth()
+        if(result != undefined){
+            let transform = []
+            result.map((ad)=>(
+                transform.push(parseInt(ad.countAds))
             ))
-            console.log(transform.slice(6,12))
+            console.log(transform)
             setAdsPerMonth({
-                adsPerMonth:transform.slice(6,12),
-                loading:false
+                data:transform,
+                loading:false,
+                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+
             })
         }
        
@@ -81,8 +83,8 @@ function IntroductionView() {
                      : 
                      <LineChart 
                      title="Ads published during the last months" 
-                     labels = {['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']} 
-                     dataset={adsPerMonth.adsPerMonth}
+                     labels = {adsPerMonth.labels} 
+                     dataset={adsPerMonth.data}
                      currency = ""
                      total = "false"
                      color ="#383874"

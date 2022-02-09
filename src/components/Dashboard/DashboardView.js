@@ -11,6 +11,17 @@ import {api} from '../../scripts/network'
 
 const DashboardView= () =>  {
     //declare variables
+    const limitsArray = [0, 80, 200, 300];
+
+    const limits = ["Active Cases", "desc", limitsArray];
+
+    const color = [
+        "green", // if the statistics value is equal or less than 0
+        "yellow", // if the statistics value is equal or less than 25
+        "orange", // if the statistics value is equal or less than 50
+        "red", // if the statistics value is equal or less than 75,
+                // theres no greater than color...
+        ];
     const [generalStatistics,setGeneralStatistics] = useState({
          data:[],
          loading:true
@@ -52,7 +63,7 @@ const DashboardView= () =>  {
             a => a.page_name 
         )
         let pageAds = data.map(
-            a => a.countAds 
+            a => parseInt(a.countAds ) 
         )
        // console.log(pageNames.slice(0,4))
         
@@ -99,7 +110,6 @@ const DashboardView= () =>  {
             loading:true
         })
         let data = await fetchSpentByRegion()
-
         if(data != undefined){
             setSpentByRegion({
                 data:data,
@@ -159,7 +169,7 @@ const DashboardView= () =>  {
         await api.get(`api/advertiser/numberOfAdsByAvertiser`)
         .then ( res => {
             stats = res
-            //console.log(res)
+            //console.log(res) 
 
         })
 
@@ -206,7 +216,11 @@ const DashboardView= () =>  {
                         <Col style={{minHeight:"85vh"}} xl="6"  sm="12" >  
                         {
                             adsByRegion.loading || spentByRegion.loading ?  <Spinner> Loading </Spinner> 
-                            :   <FranceMap dataAds={adsByRegion.data} dataSpent={spentByRegion.data}/>
+                            :   <FranceMap
+                                colors={color}
+                                limits={limits}
+                                dataAds={adsByRegion.data} 
+                                dataSpent={spentByRegion.data}/>
                         }
                           
                         </Col>              

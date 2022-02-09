@@ -63,8 +63,8 @@ function ExploreView() {
          }
         },
         {
-         name: "currency",
-         label: "Currency",
+         name: "mean_impressions",
+         label: "Numbers of impressions",
          options: {
           filter: true,
           sort: false,
@@ -78,6 +78,25 @@ function ExploreView() {
           sort: false,
          }
         },
+{
+         name: "ad_delivery_start_time",
+         label: "Start time",
+         options: {
+          filter: true,
+          sort: false,
+         }
+        },
+        {
+         name: "ad_delivery_stop_time",
+         label: "Stop time",
+         options: {
+          filter: true,
+          sort: false,
+         }
+        },
+
+
+
        ];
        
        const data = [

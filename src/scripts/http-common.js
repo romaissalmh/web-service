@@ -5,7 +5,5 @@ import Axios from "axios";
 export default Axios.create({
   baseURL: "",
   headers: {
-   /* "authorization":`Basic ${token}`,*/
-    "Content-type": "application/json"
-  }
+   /* "authorization":`Basic ${token}`,*/  }
 });

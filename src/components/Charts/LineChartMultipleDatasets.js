@@ -30,26 +30,106 @@ ChartJS.register(
     Filler
   );
 
-  const calcSum = (arr) => {
-    try{
-      return arr.filter((a) => a !== NaN).reduce((a, b) => a + b, 0)
-    }
-    catch(e){
 
-    }
-  }
-
-   
   
-function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpacity, source, total /*,shownByMoney, changeShowBy*/}) {
+function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency,color, colorOpacity, source, total}) {
   const [line, setLine] = useState(true)
+      const options = {    
    
-
+    plugins: {
+      legend: {
+          display:true,
+          labels: {
+              //display:false,
+              // This more specific font property overrides the global property
+              font: {
+                  size: 14,
+                  family: 'Gotham-Light'
+              }
+          }
+      },
+      datalabels: {
+        display: false,
+        color: '#383874',
+        font: {
+         size: 14,
+         family: 'Gotham-Light',
+        }
+     }
+    },
+    
+   
+  };
+    console.log(datasets[0].label)
     const data = {
       labels,
       datasets: [ 
         {
-          data: dataset,
+          label:datasets[0].label,
+          data: datasets[0].data,
+          borderColor: "#8675FF",
+          fill: line ? true : false,
+          backgroundColor: line ? colorOpacity :"#8675FF",
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "#8675FF",
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+         {
+          label:datasets[1].label,
+          data: datasets[1].data,
+          borderColor: "#ff2d2e",
+          fill: line ? true : false,
+          backgroundColor: line ? colorOpacity :"#ff2d2e",
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "#ff2d2e",
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+        },
+         {
+          label:datasets[2].label,
+          data: datasets[2].data,
+          borderColor: "#dbdff1",
+          fill: line ? true : false,
+          backgroundColor: line ? colorOpacity :"#dbdff1",
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "#dbdff1",
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+         {
+          label:datasets[3].label,
+          data: datasets[3].data,
+          borderColor: "#ffba69",
+          fill: line ? true : false,
+          backgroundColor: line ? colorOpacity :"#ffba69",
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "#ffba69",
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+         {
+          label:datasets[4].label,
+          data: datasets[4].data,
           borderColor: color,
           fill: line ? true : false,
           backgroundColor: line ? colorOpacity :color,
@@ -62,7 +142,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
           pointRadius:6,
           tension: 0.2,
        
-        }
+        },
       ],
     };
     return (
@@ -76,25 +156,6 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
                     </h5>
                   </Col>
                 
-                        {/*shownByMoney ?
-                          <div className="flex">
-                            <Button style={{backgroundColor:'var(--night-blue)', borderStyle:'none'}}  type="button" onClick={() => changeShowBy(true)}>
-                                    Amount Of Money
-                            </Button>
-                            <Button style={{ backgroundColor:'var(--lavender)',  color:'var(--night-blue)', borderStyle:'none'}} className="shadow"   type="button" onClick={() => changeShowBy(false)}>
-                                    Number Of Ads
-                            </Button>
-                          </div>
-                          :
-                          <div className="flex">
-                            <Button style={{backgroundColor:'var(--lavender)', color:'var(--night-blue)',borderStyle:'none'}}  className="shadow"  type="button" onClick={() => changeShowBy(true)}>
-                                     Amount Of Money
-                            </Button>
-                            <Button style={{backgroundColor:'var(--night-blue)', borderStyle:'none'}}    type="button" onClick={() => changeShowBy(false)}>
-                                      Number Of Ads
-                            </Button>
-                          </div>
-                        */}
                        <Col style={{display:"flex", justifyContent:"flex-end",paddingBottom:"10px"}}>
                     {line ? (
                          <div className="flex">
@@ -122,23 +183,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
              
                 </Row>
                 
-                {
-                  total=="true" ? 
-                  <Row  style={{marginTop:"10px", flex:"display", justifyContent:"space-between", alignItems:"center"}} >
-                  <Col  >
-                  {<StatsCard
-                                    text={"Total : "}
-                                    value={  calcSum(dataset) + currency}
-                                    percentage={false}
-                                    textColor= {color}
-                                    icon={ <BiBarChartAlt2 size="1.5em"/> }
-                        />
-                    }
-                  </Col>
-                 
-                 </Row>
-                  :""
-                }
+             
              
 
 
@@ -151,7 +196,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
                 <div className="chart">
                   {/* Chart wrapper */}
                   {line ? (
-                     <Line options={lineOptions} data={data} />
+                     <Line options={options} data={data} />
 
                   
                   ) :
@@ -172,32 +217,8 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
     )
 }
 
-export default LineChart
+export default LineChartMultipleDatasets
 
 
 
 
-
-
-/* 
-
-<div className="mr-5 mt-2">
-                {<StatsCard  className=""
-                                  text={"Total : "}
-                                  value={calcSum(data)}
-                                  percentage={false}
-                                  textColor={"dark"}
-                                  icon={icon}
-                      />
-                  }
-                </div>
-
-
-
-
-
-
-
-
-
-*/

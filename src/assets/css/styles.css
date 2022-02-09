@@ -240,12 +240,12 @@
   cursor:pointer;
 }
 
-
+/*
  .analytics select:focus,  .analytics select:active, .analytics option:focus {
 pointer-events: none;
   border: none  !important;
   border-color: transparent  !important;
-}
+}*/
 
 /*------------ table ------------*/
 .summary {
@@ -277,13 +277,25 @@ pointer-events: none;
 .svg-map {
   width: 100%;
   height: auto;
-  stroke: var(--purple-Heart);
+ /* stroke: var(--purple-Heart);*/
   stroke-width: 1;
   stroke-linecap: round;
   stroke-linejoin: round; }
 .svg-map__location {
-    fill: #B5C7EA ;
+  /*  fill: #B5C7EA ;*/
     cursor: pointer; }
+.svg-map__location--int0{
+  fill:#B5C7EA;
+}
+.svg-map__location--int1{
+  fill:#b1c1e1;
+}
+.svg-map__location--int2{
+  fill:#728bbc;
+}
+.svg-map__location--int3{
+  fill:#728bbc;
+}
 .svg-map__location:focus, .svg-map__location:hover {
       fill: #6B90E5;
       outline: 0; }
@@ -308,6 +320,19 @@ pointer-events: none;
     backdrop-filter: blur(10px);
     border-color: transparent;
   }
+.franceMap{
+  display: flex;
+}
+.legendeMap {
+ margin:10px;
+}
+.legendeMap td{
+  text-align: center; 
+ /* background-color: black; */
+  color: black; 
+  font-size: 70%; 
+  padding: 5px;
+}
 
   @media only screen and (max-width: 500px) {
     body {

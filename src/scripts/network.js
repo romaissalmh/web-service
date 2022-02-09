@@ -3,7 +3,6 @@ import _ from "lodash";
 
 
 const API_HOST =  process.env.REACT_APP_API_BASE_URL;
-console.log(API_HOST)
 export { API_HOST }
 
 const getApiFinalEndpoint = (endpoint) =>
@@ -39,6 +38,7 @@ export const api = {
     get: (endpoint, options) => {
       options = Object.assign(_.cloneDeep(apiDefaultOptions()), options);
       return new Promise((resolve, reject) => {
+        //console.log(endpoint)
         Axios.get(getApiFinalEndpoint(endpoint), options)
           .then((suc) => {
             let success = _.get(suc, "data.success") || (suc.status ===200);

@@ -8,7 +8,8 @@ import {
   MenuItem,
   SidebarHeader,
   SidebarContent,
-  SidebarFooter
+  SidebarFooter,
+  SubMenu
 } from "react-pro-sidebar"
 
 import { Link } from 'react-router-dom'
@@ -28,13 +29,21 @@ const Header = ({toggled, handleToggleSidebar }) => {
     const [activeIntro, setActiveIntro] = useState(true)
 
     const [activeDashboard, setActiveDashboard] = useState(false)
-    const [activeAnalytics, setActiveAnalytics] = useState(false)
+    const [activeAnalytics1, setActiveAnalytics1] = useState(false)
+    const [activeAnalytics2, setActiveAnalytics2] = useState(false)
+    const [activeAnalytics3, setActiveAnalytics3] = useState(false)
+    const [activeAnalytics4, setActiveAnalytics4] = useState(false)
+
     const [activeExplore, setActiveExplore] = useState(false)
 
   
     const introClick = () => {
       //condition checking to change state from true to false and vice versa
-      setActiveAnalytics(false);
+      setActiveAnalytics1(false);
+      setActiveAnalytics2(false);
+      setActiveAnalytics3(false);
+      setActiveAnalytics4(false);
+
       setActiveExplore(false);
       setActiveDashboard(false);
       setActiveIntro(true);
@@ -42,25 +51,65 @@ const Header = ({toggled, handleToggleSidebar }) => {
     const dashboardClick = () => {
       //condition checking to change state from true to false and vice versa
       setActiveIntro(false)
-      setActiveAnalytics(false)
+       setActiveAnalytics1(false);
+      setActiveAnalytics2(false);
+      setActiveAnalytics3(false);
+      setActiveAnalytics4(false);
       setActiveExplore(false)
       setActiveDashboard(true)
     };
 
     const exploreClick = () => {
       setActiveIntro(false)
-      setActiveAnalytics(false)
+       setActiveAnalytics1(false);
+      setActiveAnalytics2(false);
+      setActiveAnalytics3(false);
+      setActiveAnalytics4(false);
       setActiveDashboard(false)
       setActiveExplore(true)
     };
 
-    const analyticsClick = () => {
+    const analyticsClick1 = () => {
       setActiveIntro(false)
       setActiveDashboard(false)
       setActiveExplore(false)
-      setActiveAnalytics(true)
+      setActiveAnalytics2(false);
+      setActiveAnalytics3(false);
+      setActiveAnalytics4(false);
+      setActiveAnalytics1(true);
+
     };
 
+    const analyticsClick2 = () => {
+        setActiveIntro(false)
+        setActiveDashboard(false)
+        setActiveExplore(false)
+        setActiveAnalytics1(false);
+        setActiveAnalytics3(false);
+        setActiveAnalytics4(false);
+        setActiveAnalytics2(true);
+
+      };
+     const analyticsClick3 = () => {
+      setActiveIntro(false)
+      setActiveDashboard(false)
+      setActiveExplore(false)
+      setActiveAnalytics1(false);
+      setActiveAnalytics2(false);
+      setActiveAnalytics4(false);
+      setActiveAnalytics3(true);
+
+    };
+     const analyticsClick4 = () => {
+      setActiveIntro(false)
+      setActiveDashboard(false)
+      setActiveExplore(false)
+      setActiveAnalytics2(false);
+      setActiveAnalytics3(false);
+      setActiveAnalytics1(false);
+      setActiveAnalytics4(true);
+
+    };
   return (
     <>
           <ProSidebar 
@@ -84,11 +133,17 @@ const Header = ({toggled, handleToggleSidebar }) => {
                     <MenuItem icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} >
                       Dashboard  <Link to="/dashboard" />
                     </MenuItem>
-                    <MenuItem icon={<BiPieChart />} active={activeAnalytics} onClick={analyticsClick} >
-                      Analytics  <Link to="/analytics" />
-                    </MenuItem>
-                    <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick}  >
-                      Explore <Link to="/explore" />
+                    <SubMenu title="Analytics" icon={<BiPieChart />}  >
+                       
+                          <MenuItem active={activeAnalytics1} onClick={analyticsClick1} > General <Link to="/analytics" /> </MenuItem>
+                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} > Candidates <Link to="/analytics/candidates" />  </MenuItem>
+                          <MenuItem active={activeAnalytics3} onClick={analyticsClick3} > Regions <Link to="/analytics/regions" />  </MenuItem>
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} > Demographics <Link to="/analytics/demographics" /> </MenuItem>
+                      
+                    </SubMenu>
+
+                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} >
+                      Explore  <Link to="/explore" />
                     </MenuItem>
                   </Menu>
                 </SidebarContent>
