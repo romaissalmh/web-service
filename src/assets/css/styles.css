@@ -193,7 +193,9 @@
   /* ---------------------------------------------------
       DAHSHBOARD STYLE
   ----------------------------------------------------- */
-
+.dashboard{
+  position: relative;
+}
 .dashboard h6, .dashboard  h1,.dashboard h4{
   margin-left: 30px;
   color: var(--night-blue);

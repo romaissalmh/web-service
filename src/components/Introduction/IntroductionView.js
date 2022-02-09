@@ -4,6 +4,7 @@ import { MdDoubleArrow } from "react-icons/md";
 import LineChart from '../Charts/LineChart'
 import {api} from '../../scripts/network'
 
+import { Link } from 'react-router-dom'
 
 function IntroductionView() {
     const [adsPerMonth,setAdsPerMonth] = useState({
@@ -96,9 +97,13 @@ function IntroductionView() {
                   </Col>
             </Row>  
             <Row  style={{display:"flex", justifyContent:"center", alignItems:"center" , marginBottom:"50px"}}> 
+                      <Link  style={{width:"500px"}} to="/dashboard"> 
                         <Button style={{width:"500px"}}>
-                            General Statistics     <MdDoubleArrow/>
+                            GeneralStatistics     <MdDoubleArrow/>
+
+
                         </Button>
+                        </Link>
          </Row>
         </Container>
     )
