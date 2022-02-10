@@ -13,7 +13,7 @@ const CandidatesView = () => {
 
 	const [adsPerOfficialCandidate,setAdsPerOfficialCandidate] = useState({
         data : [{"label":"Emmanuel Macron","data":[10,54,100,35,47,48]},
-           {"label":"Valérie Pécresse","data":[0,0,1,1,0,8]},
+           {"label":"Jean-Luc Mélenchon","data":[0,9,6,11,1,2]},
            {"label":"Anne Hidalgo","data":[0,1,6,45,2,7]},
            {"label":"Marine Le Pen","data":[62,0,80,50,47,78]},
            {"label":"Eric Zemmour","data":[7,0,20,47,48,38]}],
