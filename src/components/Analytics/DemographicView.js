@@ -54,7 +54,7 @@ const DemographicView = () => {
 
     const fetchDemographicBreakdown =  async (age,gender) => {
         let stats 
-        await api.get(`api/demographicDistribution/reachByGenderAge/`+age+`/`+gender)
+        await api.get(`api/demographicDistribution/advertiserReachByGenderAge/`+age+`/`+gender)
          .then ( res => {
              stats = res
          })
@@ -105,7 +105,7 @@ const DemographicView = () => {
 
                     // color="rgba(255, 186, 105, 1)"
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
-                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
+                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions. This chart is displaying number of people reached by some Facebook pages"
                      />  
 
                    }      

@@ -136,7 +136,7 @@ const Header = ({toggled, handleToggleSidebar }) => {
                     <SubMenu title="Analytics" icon={<BiPieChart />}  >
                        
                           <MenuItem active={activeAnalytics1} onClick={analyticsClick1} > General <Link to="/analytics" /> </MenuItem>
-                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} > Candidates <Link to="/analytics/candidates" />  </MenuItem>
+                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} > Advertisers <Link to="/analytics/advertisers" />  </MenuItem>
                           <MenuItem active={activeAnalytics3} onClick={analyticsClick3} > Regions <Link to="/analytics/regions" />  </MenuItem>
                           <MenuItem active={activeAnalytics4} onClick={analyticsClick4} > Demographics <Link to="/analytics/demographics" /> </MenuItem>
                       

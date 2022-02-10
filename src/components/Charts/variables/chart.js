@@ -24,7 +24,7 @@ const lineOptions = {
   responsive: true,
   layout: {
     padding: 0
-  },
+  }, 
   scales: {
     x: 
       {

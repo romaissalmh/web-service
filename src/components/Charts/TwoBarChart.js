@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
+
 import { Card,CardTitle, CardBody,Col, Button,Row} from "reactstrap";
 import {
   Chart as ChartJS,
@@ -10,7 +11,12 @@ import {
   Legend,
   ArcElement
 } from 'chart.js';
-import { Bar, Line } from 'react-chartjs-2';
+import { 
+  Bar, 
+  Line,
+  getDatasetAtEvent,
+  getElementAtEvent,
+  getElementsAtEvent,} from 'react-chartjs-2';
 import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
 import { lineOptions } from './variables/chart';
 
@@ -25,7 +31,25 @@ ChartJS.register(
   ArcElement
 );
 
+function abbreviateNumber(number){
+       var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
+        // what tier? (determines SI symbol)
+        var tier = Math.log10(Math.abs(number)) / 3 | 0;
+
+        // if zero, we don't need a suffix
+        if(tier == 0) return number;
+
+        // get suffix and determine scale
+        var suffix = SI_SYMBOL[tier];
+        var scale = Math.pow(10, tier * 3);
+
+        // scale the number
+        var scaled = number / scale;
+
+        // format number and add suffix
+        return scaled.toFixed(1) + suffix;
+    }
 
 export const options = {
   responsive: true,
@@ -64,6 +88,7 @@ export const options = {
             size: 14,
             family: 'Gotham-Light'
         }
+
         
       },
         grid: {
@@ -80,7 +105,14 @@ export const options = {
           font: {
             size: 12,
             family: 'Gotham-Light'
-        }},
+        },
+        callback: function(value, index, values) {
+                        return abbreviateNumber(value);
+                    }
+        
+        ,
+
+      },
         grid: {
           display: false,
           borderColor: 'transparent'
@@ -110,10 +142,29 @@ export const options = {
   },
 };
 
-export default function TwoBarChart({title,dataset1,dataset2,labels, source}) {
-  
-  const [bar, setBar] = useState(true)
+export default function TwoBarChart({title,dataset1,dataset2,labels, source, loadAds}) {
+   const chartRef = useRef();
+  const onClick = (event) => {
+    //console.log(getElementAtEvent(chartRef.current, event));
 
+    let datasetIndex = getElementAtEvent(chartRef.current, event)[0].datasetIndex
+    let index = getElementAtEvent(chartRef.current, event)[0].index
+
+    if(datasetIndex ==0){
+      loadAds("female",labels[index])
+      console.log("female")
+      console.log(labels[index])
+    }
+    else{
+      loadAds("male",labels[index])
+
+      console.log("male")
+      console.log(labels[index])
+
+    }
+  }
+  const [bar, setBar] = useState(true)
+   
   const data = {
   labels,
   padding:10,
@@ -188,7 +239,9 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source}) {
         </Row>
         <CardBody>
             {
-              bar ?   <Bar options={options} data={data} />
+              bar ?   <Bar  onClick={onClick}       ref={chartRef}
+
+                     options={options} data={data} />
               :  <Line options={lineOptions} data={data} />
             }
             

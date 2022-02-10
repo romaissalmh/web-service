@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,DropdownToggle} from 'reactstrap'
+import { Modal, ModalFooter,
+    ModalHeader, ModalBody,Button,Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,DropdownToggle} from 'reactstrap'
 import PieChart from '../Charts/PieChart'
 import LineChart from '../Charts/LineChart'
 import TwoBarChart from '../Charts/TwoBarChart'
@@ -15,6 +16,18 @@ const AnalyticsView = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [regionName, setRegionName] = useState("Alsace");
      
+    // Modal open state
+    const [modalDemo, setModalDemo] = useState(false);
+  
+    // Toggle for Modal
+    const toggleModal = (gender,age) => {
+        adsTargetingAgeGender.age = age
+        adsTargetingAgeGender.gender = gender
+        setModalDemo(!modalDemo);
+       
+        if(gender != undefined & age != undefined)
+            loadAdsTargetingAgeGender(age,gender)
+    }
 
     const [adsPerMonth,setAdsPerMonth] = useState({
         adsPerMonth : [],
@@ -50,6 +63,12 @@ const AnalyticsView = () => {
         loading:true,
         labels:[]
     })
+    const [adsTargetingAgeGender,setAdsTargetingAgeGender] = useState({
+        data:[],
+        loading:true,
+        age:"",
+        gender:""
+    })
 
     const [adsPerAdvertiser,setAdsPerAdvertiser] = useState({
         data : [],
@@ -78,7 +97,6 @@ const AnalyticsView = () => {
         loadDateLocationRegion(regionName)
         //setInterval(() => {},10000)
     }, [])
-     const toggle = () => setIsOpen(prevState => !prevState)
      
 
     const loadAdsPerMonth = useCallback(async () => {
@@ -238,6 +256,28 @@ const AnalyticsView = () => {
     
     }, [])
 
+     const loadAdsTargetingAgeGender = useCallback(async (age,gender) => {
+        setAdsTargetingAgeGender({
+            loading:true,
+            age:age,
+            gender:gender,
+        })
+        const data = await fetchAdsTargetingAgeGender(age,gender)
+        console.log(data)
+        /*let data = adsPerAdvertiser.map(
+            a => parseInt(a.countExpenditure)
+        )
+        let labels = adsPerAdvertiser.map(
+            a => a.page_name 
+        )*/
+        setAdsTargetingAgeGender({
+            data:data,
+            loading:false, age:age,
+            gender:gender,
+        })
+    
+    }, [])
+
     const loadSpentPerAdvertiser = useCallback(async () => {
         setSpentPerAdvertiser({
             loading:true
@@ -308,6 +348,21 @@ const AnalyticsView = () => {
          )
          return stats 
      }
+
+      const fetchAdsTargetingAgeGender = async (age,gender) => {
+         //change the api url
+        let stats 
+        await api.get(`api/demographicDistribution/adsTargetingAgeGender/`+age+`/`+gender)
+         .then ( res => {
+             stats = res
+             //console.log(stats)
+         }) 
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+     }
+     
 
      const fetchCurrenciesPercentage = async () => {
          //change the api url
@@ -401,53 +456,45 @@ const AnalyticsView = () => {
 
 
 
-    const columns = [
+    const columnsTargetingTable = [
         {
-         name: "name",
-         label: "Name",
+         name: "page_name",
+         label: "Advertiser page name",
+         options: {
+          filter: true,
+          sort: false,
+           delete:false,
+         }
+        },
+        {
+         name: "ad_creative_body",
+         label: "Ad text",
          options: {
           filter: true,
           sort: true,
+          delete:false,
          }
         },
-        {
-         name: "company",
-         label: "Company",
-         options: {
-          filter: true,
-          sort: false,
-         }
-        },
-        {
-         name: "city",
-         label: "City",
-         options: {
-          filter: true,
-          sort: false,
-         }
-        },
-        {
-         name: "state",
-         label: "State",
-         options: {
-          filter: true,
-          sort: false,
-         }
-        },
-       ];
        
-       const data = [
-        { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-        { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-        { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-        { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
-       ];
+        {
+         name: "reach",
+         label: "Number of people reached",
+         options: {
+          filter: true,
+          sort: false,
+           delete:false,
+         }
+        },
        
-       const options = {
-         filterType: 'checkbox',
-       //filter: false,
+       ];
+
+       const optionsTargetingTable = {
+        // filterType: 'checkbox',
+         filter: false,
          download: false,
-         print: false
+         print: false,
+          delete:false,
+          selectableRowsHideCheckboxes:true
         };
 
     return (
@@ -458,7 +505,7 @@ const AnalyticsView = () => {
                     <Col xl="6" sm="12" >  
                     {
                      adsPerMonth.loading ?  
-                     <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit', margin:"50%"}}>  <Spinner>  </Spinner> </div> 
+                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <LineChart 
                      title="Ads published during the last months" 
@@ -475,10 +522,11 @@ const AnalyticsView = () => {
                     </Col>  
                     <Col xl="6"  sm="12" >  
                     {
-                     spentOfMoneyPerMonth.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                     spentOfMoneyPerMonth.loading ? 
+                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <LineChart 
-                     title="Total spent to show ads the last months" 
+                     title="Total of money spent to show ads the last months" 
                      labels = {spentOfMoneyPerMonth.labels} 
                      dataset={spentOfMoneyPerMonth.adsPerMonth}
                      currency = " €"
@@ -512,7 +560,8 @@ const AnalyticsView = () => {
  
                 <Col xl="12"  sm="12" >  
                 {
-                     adsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                     adsPerAdvertiser.loading ? 
+                     <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <HorizontalBarChart 
                      title="Pages running the highest number of ads" 
@@ -528,7 +577,7 @@ const AnalyticsView = () => {
             <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
                 <Col xl="12"  sm="12" >  
                 {
-                     spentPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                     spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
                      title="Pages that generated the most expenditure in €" 
@@ -583,13 +632,8 @@ const AnalyticsView = () => {
                                 
                                 }
 
-                        
-
                        </Col>  
                </Row>
-
-
-
                 */
             }
           
@@ -601,6 +645,7 @@ const AnalyticsView = () => {
                      demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <TwoBarChart 
+                     loadAds={toggleModal}
                      title="Breakdown of the population reached by the ads by gender and age Percentage" 
                      labels={demographicBreakdown.labels}
                      dataset1={demographicBreakdown.femaleGender}
@@ -609,6 +654,33 @@ const AnalyticsView = () => {
                </Col>  
             </Row>
 
+            <div>            
+
+
+              <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo} toggle={toggleModal}>
+                <ModalHeader
+                    toggle={toggleModal}>We are searching for ads that targeted the age and gender selected</ModalHeader>
+                <ModalBody>
+                    {
+                        adsTargetingAgeGender.loading ?  
+                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+                        <>
+                       <h6 style={{fontWeight:"bold"}}>{ "Samples of ads that are targeting "+ adsTargetingAgeGender.age +" years-old " +adsTargetingAgeGender.gender} </h6>
+                        <br/>
+                     <MUIDataTable 
+                        data={adsTargetingAgeGender.data}
+                        columns={columnsTargetingTable}
+                        options={optionsTargetingTable}
+                    />
+                      </>  
+                    }
+                      
+                </ModalBody>
+                <ModalFooter>
+                    <Button style={{backgroundColor:"#8675FF"}} color="#8675FF" onClick={toggleModal}>Okay</Button>
+                </ModalFooter>
+            </Modal>
+            </div>
             <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
             <h6> Regions statistics </h6>     
                     

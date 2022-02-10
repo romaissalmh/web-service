@@ -46,9 +46,8 @@ function App() {
                   <Route path="/intro" element={<IntroductionView />}/>
                   <Route path="/dashboard" element={<DashboardView />}/>
                   <Route path="/analytics"  element={<AnalyticsView />}/>
-                  <Route path="/analytics/candidates"  element={<CandidatesView />}/>
+                  <Route path="/analytics/advertisers"  element={<CandidatesView />}/>
                   <Route path="/analytics/demographics"  element={<DemographicView />}/>
-
                   <Route path="/analytics/regions"  element={<RegionsView />}/>
 
 

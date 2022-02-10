@@ -104,6 +104,18 @@ const CandidatesView = () => {
          return stats 
      }
 
+    const fetchSpendingPerAdvertiser= async () => {
+            let stats 
+            await api.get(`api/ad/numberOfAdsOfCandidatesByMonth`)
+             .then ( res => {
+                 stats = res
+             })
+             .catch(
+                 err => console.log(err)
+             )
+             return stats 
+         }
+
 
 
 
@@ -112,8 +124,10 @@ const CandidatesView = () => {
 
 		 <Container className="analytics">
             <br/> 
-            <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
-            <h6> The use of Facebook ads by certain political movements  </h6>         
+
+
+               <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
+            <h6> Spending Per Advertiser </h6>         
               <Col xl="12"  sm="12" >  
 
                    {
@@ -136,36 +150,8 @@ const CandidatesView = () => {
 
                    </Col>  
             </Row>
-            <br/><br/><br/>
-         {
-            /*
-            <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
-              <Col xl="12"  sm="12" >  
-
-                   {
-                   <LineChartMultipleDatasets
-                    title="Number of ads published by official candidates" 
-                    labels = {adsPerOfficialCandidate.labels} 
-                    datasets={adsPerOfficialCandidate.data}
-                    color = "#8675FF"
-                    currency=""
-                    total="true"
-                    color="rgba(56, 56, 116, 1)"
-                    colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
-
-                   />
-                    
-                    }
-
-                        
-
-                   </Col>  
-            </Row> 
 
 
-            */
-         }
               
             <br/>  
         </Container>
