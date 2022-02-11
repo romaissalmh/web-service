@@ -56,24 +56,17 @@ function IntroductionView() {
 
     return (
         <Container className="intro">
-            <Row style={{marginTop:"16px",marginLeft:"5vw"}}>    
+            <Row style={{marginTop:"16px",marginLeft:"4vw"}}>    
          
                 <Col xl="6" sm="12" > 
                 <p>
-                <span className="first-letter"> W </span> 
-                 <span > e live in the age of communication. The media are extending    </span>                
-                <span> their coverage  areas more and more,</span> 
-                <span> the communication channels are multiple and the ways of contact are numerous. </span> 
-                <span>  Hence, compaigns and political parties use a </span> 
-                <span>  veriety of communication tools and data analysis </span> 
-                <span>    methods to better target voters.</span> 
-
-             
+                    <span className="first-letter"> W </span> 
+                     e live in the age of communication. The media are extending   their coverage  areas more and more, the communication
+                      channels are multiple and the ways of contact are numerous. Hence, compaigns and political parties use a   veriety of communication tools and data analysis methods to better target voters.
                 </p> 
 
                 <p>
                 One of these techniques, the mobilization of social networks such as Facebook and Twitter which, using the data they hold of their users, have acquired a strong targeting capacity allowing them to send messages to the targeted audience and even to refine the content of these messages according to their interests.
-
                 </p> 
                 <p> 
                 Political micro-targeting can therefore indirectly represent a threat to the effectiveness of electoral democracy since online platforms that host this kind of paid content do not comply with transparency obligations; none of them share data about the targeting methods they offer.

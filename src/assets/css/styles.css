@@ -168,7 +168,10 @@
     position: relative !important;
     
   }
-  .intro p {
+  span{
+    color: black;
+  }
+  .intro p  {
   line-height: 1.8;
   display: block;
   margin: 0px 0px;

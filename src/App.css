@@ -3,7 +3,7 @@
 
 @font-face {
   font-family: 'Gotham-Regular';
-  src: local('Gotham-Regular'), url('./assets/fonts/Gotham-Font/Gotham-Black.otf') format('truetype');
+  src: local('Gotham-Regular'), url('./assets/fonts/Gotham-Font/GothamBook.ttf') format('truetype');
 
  }
  @font-face {
