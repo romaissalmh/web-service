@@ -91,6 +91,7 @@ function IntroductionView() {
                    
                   </Col>
             </Row>  
+             <br/>  
             <Row  style={{display:"flex", justifyContent:"center", alignItems:"center" , marginBottom:"50px"}}> 
                       <Link  style={{width:"500px"}} to="/dashboard"> 
                         <Button style={{width:"500px"}}>

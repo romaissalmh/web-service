@@ -65,7 +65,7 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 			ges: result["Alsace"]+ result["Lorraine"]+result["Champagne-Ardenne"],
 			hdf: result["Picardie"] + result["Nord-Pas-de-Calais"],
 			idf: result["Île-de-France"],
-			nor: result["Haute Normandie"] + result["Basse Normandie"],
+			nor: result["Haute-Normandie"] + result["Basse-Normandie"],
 			naq: result["Limousin"]+result["Aquitaine"]+result["Poitou-Charentes"],
 			occ: result["Midi-Pyrénées"] + result["Languedoc-Roussillon"],
 			pdl: result["Pays de la Loire"],
