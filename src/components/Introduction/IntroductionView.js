@@ -60,9 +60,8 @@ function IntroductionView() {
          
                 <Col xl="6" sm="12" > 
                 <p>
-                <span className="first-letter"> W </span>
-                e live in the age of communication. The media are extending their coverage areas more and more, the communication channels are multiple and the ways of contact are numerous. Hence, campaigns and political parties use a variety of communication tools and data analysis methods to better target voters.
-
+                <span className="first-letter"> W </span>  <span > e live in the age of communication. The media are extending their coverage areas more and more, the communication channels are multiple and the ways of contact are numerous. Hence, campaigns and political parties use a variety of communication tools and data analysis methods to better target voters.
+                </span>  
                 </p> 
 
                 <p>
