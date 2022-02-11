@@ -34,7 +34,8 @@
     background-color: #fff;
   }
   .header h2{
-    font-family: Gotham-Bold;
+    font-family: "Gotham";
+    font-weight: bold;
     color: var(--c-title);
     font-weight: 900;
     font-size: 26px;
@@ -181,7 +182,8 @@
   .intro .first-letter{
     font-size: 112px;
     color: black;
-    font-family: "Gotham-Bold";
+    font-family: "Gotham";
+    font-weight: bold;
     display: block;
     float: left;
     line-height: 1;
@@ -212,7 +214,8 @@
   font-weight: 900;
 }
 .dashboard h6{
-  font-family: "Gotham-Bold";
+  font-family: "Gotham";
+    font-weight: bold;
 }
   /* ---------------------------------------------------
       ANALYTICS STYLE
@@ -229,14 +232,15 @@
 .analytics h6{
   color: var(--night-blue);
   font-weight: 900;
-  font-family: "Gotham-Bold";
+  font-family: "Gotham";
+  font-weight: bold;
   font-size: 30px;
 }
 
 .analytics select{
   border: none;
   color: #8675FF; 
-  font-family: "Gotham-Regular";
+  font-family: "Gotham";
   font-size: 20px;
   background-color: transparent;
   border: 1px solid #8675FF !important;
@@ -249,8 +253,8 @@
 
 .analytics select option{
   margin:10px !important;
-  font-family: "Gotham-Light";
-  cursor:pointer;
+   font-family: "Gotham";
+     cursor:pointer;
 }
 
 /*
