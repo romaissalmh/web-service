@@ -581,7 +581,7 @@ const AnalyticsView = () => {
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
-                     title="Pages that generated the most expenditure in €" 
+                     title="Pages that generated the most expenditure (in euro)" 
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
                    //color="rgba(255, 186, 105, 1)"

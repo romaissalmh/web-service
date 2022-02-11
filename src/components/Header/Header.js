@@ -127,23 +127,20 @@ const Header = ({toggled, handleToggleSidebar }) => {
                 </SidebarHeader>
                 <SidebarContent>
                   <Menu iconShape="square">
-                  <MenuItem icon={<BiWorld />} active={activeIntro} onClick={introClick} >
-                      Introduction  <Link to="/intro" />
+                  <MenuItem icon={<BiWorld />} active={activeIntro} onClick={introClick} >Introduction<Link to="/intro" />
                     </MenuItem>
-                    <MenuItem icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} >
-                      Dashboard  <Link to="/dashboard" />
+                    <MenuItem icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} >Dashboard<Link to="/dashboard" />
                     </MenuItem>
                     <SubMenu title="Analytics" icon={<BiPieChart />}  >
                        
-                          <MenuItem active={activeAnalytics1} onClick={analyticsClick1} > General <Link to="/analytics" /> </MenuItem>
-                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} > Advertisers <Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem active={activeAnalytics3} onClick={analyticsClick3} > Regions <Link to="/analytics/regions" />  </MenuItem>
-                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} > Demographics <Link to="/analytics/demographics" /> </MenuItem>
+                          <MenuItem active={activeAnalytics1} onClick={analyticsClick1} >General<Link to="/analytics" /> </MenuItem>
+                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} >Advertisers<Link to="/analytics/advertisers" />  </MenuItem>
+                          <MenuItem active={activeAnalytics3} onClick={analyticsClick3} >Regions<Link to="/analytics/regions" />  </MenuItem>
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} >Demographics<Link to="/analytics/demographics" /> </MenuItem>
                       
                     </SubMenu>
 
-                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} >
-                      Explore  <Link to="/explore" />
+                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} >Explore<Link to="/explore" />
                     </MenuItem>
                   </Menu>
                 </SidebarContent>
