@@ -63,12 +63,11 @@ function IntroductionView() {
                     <span className="first-letter"> W </span> 
                      e live in the age of communication. The media are extending   their coverage  areas more and more, the communication
                       channels are multiple and the ways of contact are numerous. Hence, compaigns and political parties use a   veriety of communication tools and data analysis methods to better target voters.
-                </p> 
+              
+                   <br/>
 
-                <p>
                 One of these techniques, the mobilization of social networks such as Facebook and Twitter which, using the data they hold of their users, have acquired a strong targeting capacity allowing them to send messages to the targeted audience and even to refine the content of these messages according to their interests.
-                </p> 
-                <p> 
+               <br/>
                 Political micro-targeting can therefore indirectly represent a threat to the effectiveness of electoral democracy since online platforms that host this kind of paid content do not comply with transparency obligations; none of them share data about the targeting methods they offer.
                 In this context, we have created this web service in order to have a better overview and detailed watch on the use of Facebook as a targeting tool during the period of the French presidential elections.
 
@@ -93,6 +92,7 @@ function IntroductionView() {
                    
                   </Col>
             </Row>  
+            <br/>
             <Row  style={{display:"flex", justifyContent:"center", alignItems:"center" , marginBottom:"50px"}}> 
                       <Link  style={{width:"500px"}} to="/dashboard"> 
                         <Button style={{width:"500px"}}>
