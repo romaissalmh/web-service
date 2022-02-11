@@ -332,6 +332,8 @@ pointer-events: none;
   }
 .franceMap{
   display: flex;
+  width: 100%;
+  height: 100%;
 }
 .legendeMap {
  margin:10px;

@@ -11,6 +11,7 @@ import {
   SidebarFooter,
   SubMenu
 } from "react-pro-sidebar"
+import { useIntl } from 'react-intl';
 
 import { Link } from 'react-router-dom'
 //import icons from react icons
@@ -24,6 +25,7 @@ import "react-pro-sidebar/dist/css/styles.css"
 import "./Header.css"
 
 const Header = ({toggled, handleToggleSidebar }) => {
+    const t = ["intro","car"]
 
     //create variable for active menus
     const [activeIntro, setActiveIntro] = useState(true)
@@ -127,20 +129,24 @@ const Header = ({toggled, handleToggleSidebar }) => {
                 </SidebarHeader>
                 <SidebarContent>
                   <Menu iconShape="square">
-                  <MenuItem icon={<BiWorld />} active={activeIntro} onClick={introClick} >Introduction<Link to="/intro" />
+                 
+                  <MenuItem style={{width:'100%', height:"100%"}} icon={<BiWorld />} active={activeIntro} onClick={introClick} > <span> Introduction </span> <Link to="/intro" />    
                     </MenuItem>
-                    <MenuItem icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} >Dashboard<Link to="/dashboard" />
+                
+                   
+                    <MenuItem  style={{width:'100%', height:"100%"}} icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} > <span> Dashboard </span>     <Link to="/dashboard"/>
                     </MenuItem>
+               
                     <SubMenu title="Analytics" icon={<BiPieChart />}  >
                        
-                          <MenuItem active={activeAnalytics1} onClick={analyticsClick1} >General<Link to="/analytics" /> </MenuItem>
-                          <MenuItem active={activeAnalytics2} onClick={analyticsClick2} >Advertisers<Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem active={activeAnalytics3} onClick={analyticsClick3} >Regions<Link to="/analytics/regions" />  </MenuItem>
-                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} >Demographics<Link to="/analytics/demographics" /> </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span> General </span> <Link to="/analytics" /> </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span> Advertisers </span> <Link to="/analytics/advertisers" />  </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span> Regions </span> <Link to="/analytics/regions" />  </MenuItem>
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> Demographics </span> <Link to="/analytics/demographics" /> </MenuItem>
                       
                     </SubMenu>
 
-                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} >Explore<Link to="/explore" />
+                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} ><span> Explore </span><Link to="/explore" />
                     </MenuItem>
                   </Menu>
                 </SidebarContent>
