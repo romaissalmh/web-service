@@ -44,7 +44,7 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
               // This more specific font property overrides the global property
               font: {
                   size: 14,
-                  family: 'Gotham-Light'
+                  family: 'Gotham'
               }
           }
       },
@@ -53,7 +53,7 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
         color: '#383874',
         font: {
          size: 14,
-         family: 'Gotham-Light',
+         family: 'Gotham',
         }
      }
     },
@@ -151,7 +151,7 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
             <CardTitle >
                 <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)'}} >
                   <Col xl="8" sm="8">
-                    <h5 style={{fontFamily:"Gotham-Bold"}}>
+                    <h5 style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                    {title} 
                     </h5>
                   </Col>

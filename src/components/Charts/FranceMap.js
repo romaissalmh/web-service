@@ -184,7 +184,7 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 			
             <div className="mapTooltip" style={tooltipStyle}>
                
-				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham-Bold"}}> {pointedLocation } {pointedDataLocation != undefined && pointedDataLocation != "NaN" ?": " + pointedDataLocation + " ads":"" }</p>
+				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham", fontWeight:"bold"}}> {pointedLocation } {pointedDataLocation != undefined && pointedDataLocation != "NaN" ?": " + pointedDataLocation + " ads":"" }</p>
 			
 				{pointedSpent != undefined && pointedSpent != NaN ? <h6>{pointedSpent} €</h6>: "" }
 			  </div>

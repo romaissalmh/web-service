@@ -19,7 +19,7 @@ const StatsCard = ({ text , value  , textColor,icon }) => {
                     <CardTitle className="text-uppercase text-muted">
                       {text}
                     </CardTitle>
-                    <h2 style={{margin:"0px",fontSize:'20px', fontFamily:"Gotham-Bold", color:textColor}}>{value}</h2>
+                    <h2 style={{margin:"0px",fontSize:'20px', fontFamily:"Gotham", fontWeight:"bold", color:textColor}}>{value}</h2>
 
                   </Col>
                   <Col className="col-auto">

@@ -25,7 +25,8 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
               
               size: 14,
               weight:'bold',
-              family: 'Gotham-Bold'
+              family: 'Gotham'
+
           }
           
         },
@@ -50,7 +51,7 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
           
               size: 14,
               weight:'bold',
-              family: 'Gotham-Bold'
+              family: 'Gotham'
           }
         },
           grid: {
@@ -74,7 +75,7 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
               display:false,
               font: {
                   size: 16,
-                  family: 'Gotham-Light'
+                  family: 'Gotham'
               }
           }
       },
@@ -86,7 +87,7 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
            align:'end',
            font: {
             size: 14,
-            family: 'Gotham-Light',
+            family: 'Gotham',
             weight:'bold'
         }
         },

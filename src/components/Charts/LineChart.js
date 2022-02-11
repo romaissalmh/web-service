@@ -71,7 +71,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
             <CardTitle >
                 <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)'}} >
                   <Col xl="8" sm="8">
-                    <h5 style={{fontFamily:"Gotham-Bold"}}>
+                    <h5 style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                    {title} 
                     </h5>
                   </Col>

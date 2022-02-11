@@ -63,14 +63,14 @@ export const options = {
       position: 'top',
       font: {
         size: 12,
-        family: 'Gotham-Light'
+        family: 'Gotham'
     }
     },
     title: { 
       display: false,
       font: {
         size: 12,
-        family: 'Gotham-Light'
+        family: 'Gotham'
     },
     
     },
@@ -86,7 +86,7 @@ export const options = {
         ticks: {
           font: {
             size: 14,
-            family: 'Gotham-Light'
+            family: 'Gotham'
         }
 
         
@@ -104,7 +104,7 @@ export const options = {
         ticks: {
           font: {
             size: 12,
-            family: 'Gotham-Light'
+            family: 'Gotham'
         },
         callback: function(value, index, values) {
                         return abbreviateNumber(value);
@@ -209,7 +209,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
         <Card className=" shadow">
         <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)', paddingBottom:'10px'}}>
             <Col xl="8" >
-              <CardTitle tag="h5" style={{fontFamily:"Gotham-Bold"}}>
+              <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
               </CardTitle>  
             </Col>

@@ -58,7 +58,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
             font: {
               size: 14,
               weight:'bold',
-              family: 'Gotham-Light'
+              family: 'Gotham'
           }
         },
           grid: {
@@ -77,7 +77,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
               // This more specific font property overrides the global property
               font: {
                   size: 14,
-                  family: 'Gotham-Light'
+                  family: 'Gotham'
               }
           }
       },
@@ -126,7 +126,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
         <Card className=" shadow">
            
           <CardBody>
-            <CardTitle tag="h5" style={{fontFamily:"Gotham-Bold"}}>
+            <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
             </CardTitle>
             <div className="" style={{height:""}}>
