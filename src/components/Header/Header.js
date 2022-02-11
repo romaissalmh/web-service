@@ -11,7 +11,6 @@ import {
   SidebarFooter,
   SubMenu
 } from "react-pro-sidebar"
-import { useIntl } from 'react-intl';
 
 import { Link } from 'react-router-dom'
 //import icons from react icons
