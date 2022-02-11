@@ -7971,6 +7971,11 @@ resize-observer-polyfill@^1.5.1:
   resolved "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
   integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
 
+resize-observer@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/resize-observer/-/resize-observer-1.0.4.tgz#48beb64602ce408ebd1a433784d64ef76f38d321"
+  integrity sha512-AQ2MdkWTng9d6JtjHvljiQR949qdae91pjSNugGGeOFzKIuLHvoZIYhUTjePla5hCFDwQHrnkciAIzjzdsTZew==
+
 resolve-cwd@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/resolve-cwd/-/resolve-cwd-3.0.0.tgz"

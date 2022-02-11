@@ -14,12 +14,22 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import {  FaBars } from 'react-icons/fa'; 
 
+import { install } from "resize-observer";
+
+
 
 function App() {
   const [toggled, setToggled] = useState(false);
 
+
   useEffect(() => {
-    document.title = "French Elections";
+    
+   
+
+      if (typeof window !== "undefined") {
+      install();
+      }
+
 
   }, []);
 
