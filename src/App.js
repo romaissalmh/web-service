@@ -17,7 +17,6 @@ import {  FaBars } from 'react-icons/fa';
 import { install } from "resize-observer";
 
 
-
 function App() {
   const [toggled, setToggled] = useState(false);
 
@@ -40,8 +39,7 @@ function App() {
   };
   
   return (
- 
-    <Router>
+       <Router>
         <div className="App">
            
                 <Header
@@ -67,9 +65,8 @@ function App() {
               
         </div> 
   </Router>
-
- 
   );
 }
 
 export default App;
+

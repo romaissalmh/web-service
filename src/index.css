@@ -20,6 +20,9 @@
   --birches: #023aff;
   --lavender: #dbdff1;
 }
+html{
+  overflow: auto !important;
+}
 
 body {
   margin: 0;

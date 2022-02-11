@@ -209,7 +209,7 @@
     position: relative !important;
 }
 .dashboard h6, .dashboard  h1,.dashboard h4{
-  margin-left: 30px;
+ /* margin-left: 30px;*/
   color: var(--night-blue);
   font-weight: 900;
 }
@@ -224,7 +224,7 @@
   position: relative;
 }
 .analytics h4{
-  margin-left: 30px;
+  /*margin-left: 30px;*/
   color: var(--night-blue);
   font-weight: 900;
 }
@@ -302,20 +302,25 @@ pointer-events: none;
   /*  fill: #B5C7EA ;*/
     cursor: pointer; }
 .svg-map__location--int0{
-  fill:#B5C7EA;
+  fill:#d7dff0;
 }
 .svg-map__location--int1{
-  fill:#b1c1e1;
+  fill:#b9ccf2;
 }
 .svg-map__location--int2{
-  fill:#728bbc;
+  fill:#9ab9f5;
 }
 .svg-map__location--int3{
   fill:#728bbc;
 }
-.svg-map__location:focus, .svg-map__location:hover {
-      fill: #6B90E5;
-      outline: 0; }
+.svg-map__location--int0:hover,.svg-map__location--int3:hover,.svg-map__location--int2:hover,.svg-map__location--int1:hover,
+.svg-map__location--int0:focus,.svg-map__location--int3:focus,.svg-map__location--int2:focus,.svg-map__location--int1:focus
+{
+     fill: var(--lavender);
+     opacity: 0.6;
+     border: none;
+    
+       }
 .svg-map__location[aria-checked=true] {
       fill: #f4bc44; }
 

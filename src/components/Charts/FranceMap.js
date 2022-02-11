@@ -158,17 +158,17 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
         <tbody>
 
 			<tr>
-				<td style={{background:"#B5C7EA"}}>&gt;
+				<td style={{background:"#d7dff0"}}>&gt;
 				</td>
 			</tr>
 
 			<tr>
-				<td style={{background:"#b1c1e1"}} >20000000
+				<td style={{background:"#bbc6da"}} >20000000
 				</td>
 			</tr>
 
 			<tr>
-				<td style={{background:"#728bbc"}}>30000000
+				<td style={{background:"#92a0bc"}}>30000000
 				</td>
 			</tr>
 

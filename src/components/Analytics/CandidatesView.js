@@ -127,7 +127,7 @@ const CandidatesView = () => {
 
 
                <Row style={{marginLeft:"5vw"}}>     
-            <h6> Spending Per Advertiser </h6>         
+            <h6> Advertisers statistics </h6>         
               <Col xl="12"  sm="12" >  
 
                    {
