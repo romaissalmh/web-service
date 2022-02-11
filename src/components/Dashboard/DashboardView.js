@@ -184,7 +184,7 @@ const DashboardView= () =>  {
     return (
             <Container  className="dashboard">
                
-                    <Row style={{marginLeft:"5vw", marginTop:"15px"}}>            
+                    <Row style={{marginLeft:"4vw", marginTop:"15px"}}>            
                      <h4> General statistics </h4>    <br/> 
                         <Col xl="6" sm="12" >  
                             <h6> All ads </h6>  
