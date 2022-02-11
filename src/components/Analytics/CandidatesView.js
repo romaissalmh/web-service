@@ -126,7 +126,7 @@ const CandidatesView = () => {
             <br/> 
 
 
-               <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
+               <Row style={{marginLeft:"5vw"}}>     
             <h6> Spending Per Advertiser </h6>         
               <Col xl="12"  sm="12" >  
 

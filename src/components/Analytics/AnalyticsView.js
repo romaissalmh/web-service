@@ -499,8 +499,9 @@ const AnalyticsView = () => {
 
     return (
         <Container className="analytics">
+            
+            <Row style={{marginLeft:"5vw",  minHeight:"300px"}}>     
             <h4> Detailed statistics </h4>    <br/> 
-            <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
             <h6> Overview of ads in the ad library  </h6>         
                     <Col xl="6" sm="12" >  
                     {
@@ -555,7 +556,7 @@ const AnalyticsView = () => {
                    </Col> 
            </Row> */
                }
-           <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>  
+           <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>  
              <h6> Rankings</h6>  
  
                 <Col xl="12"  sm="12" >  
@@ -574,7 +575,7 @@ const AnalyticsView = () => {
                 </Col>
             </Row>
               
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
+            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>   
                 <Col xl="12"  sm="12" >  
                 {
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -591,7 +592,7 @@ const AnalyticsView = () => {
                 </Col>
             </Row>
               
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
+            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>   
            <Col xl="12"  sm="12" >  
 
            {
@@ -638,7 +639,7 @@ const AnalyticsView = () => {
             }
           
 
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
+            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>            
             <h6> Audience demographics </h6>     
                     <Col xl="12"  sm="12" >  
                     {
@@ -681,7 +682,7 @@ const AnalyticsView = () => {
                 </ModalFooter>
             </Modal>
             </div>
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
+            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>            
             <h6> Regions statistics </h6>     
                     
                     <Col xl="12"  sm="12" >  

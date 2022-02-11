@@ -13,7 +13,7 @@ const RegionsView = () => {
 
 		 <Container className="analytics">
             <br/> 
-            <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
+            <Row style={{marginLeft:"5vw", minHeight:"300px"}}>     
             <p> Page under working </p>         
             
               </Row>  

@@ -54,8 +54,12 @@
     height: 100vh;
   }
   .container{
+    margin: 0;
+    padding: 0;
     margin-top:20px;
     margin-right: 0px !important;
+    min-height: 100vh;
+    width: 100% !important;
   }
   .container h5{
     font-weight: 800;
@@ -196,8 +200,8 @@
   /* ---------------------------------------------------
       DAHSHBOARD STYLE
   ----------------------------------------------------- */
-.dashboard,.intro{
-  position: relative;
+.dashboard{
+    position: relative !important;
 }
 .dashboard h6, .dashboard  h1,.dashboard h4{
   margin-left: 30px;
@@ -229,7 +233,7 @@
 .analytics select{
   border: none;
   color: #8675FF; 
-  font-family: "Gotham-Bold";
+  font-family: "Gotham-Regular";
   font-size: 20px;
   background-color: transparent;
   border: 1px solid #8675FF !important;
@@ -242,6 +246,7 @@
 
 .analytics select option{
   margin:10px !important;
+  font-family: "Gotham-Light";
   cursor:pointer;
 }
 
@@ -367,6 +372,7 @@ pointer-events: none;
      .container {
        min-height: 100%;
        margin-left: 10px !important;
+
      }
    
   }

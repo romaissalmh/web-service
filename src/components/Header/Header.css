@@ -8,8 +8,9 @@
   }
 */
  .pro-sidebar {
-    position: fixed;
-    height: 100vh;
+
+  position: fixed ;
+   
     margin: 0px;
     padding: 0px;
     text-align: left;
@@ -36,10 +37,12 @@
   */
   
    .pro-sidebar-inner {
+     height: 100vh;
     background-color: white !important;
     box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15) !important;
   }
    .pro-sidebar-inner .pro-sidebar-layout {
+    
     overflow-y: hidden;
   }
    .pro-sidebar-inner .pro-sidebar-layout .logotext {
@@ -96,6 +99,9 @@
  .pro-sidebar .pro-menu > ul > .pro-sub-menu > .pro-inner-list-item {
     background-color: white !important;
     color: black;
+  }
+  a{
+    font-family: "Gotham-Light";
   }
 
 

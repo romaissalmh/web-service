@@ -115,17 +115,19 @@ function ExploreView() {
 
     return (
         <Container className="analytics">
-             <h4> Explore the ads </h4>    <br/> 
-              {   ads.loading ?  <Spinner>  </Spinner> :
-              <Row style={{marginLeft:"20px", marginTop:"20px"}}>            
+           
+             <Row style={{marginLeft:"5vw", marginTop:"20px"}}> 
+               <h4> Explore the ads </h4>    <br/>  
+                 {   ads.loading ?  <Spinner>  </Spinner> :
+          
                 <Col>     
                     <MUIDataTable
                         data={ads.data}
                         columns={columns}
                         options={options}
                         />
-                </Col>  
-            </Row>  }
+                </Col> } 
+            </Row>  
         </Container>
     )
 }

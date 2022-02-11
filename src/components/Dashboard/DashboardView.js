@@ -182,12 +182,13 @@ const DashboardView= () =>  {
 
 
     return (
-            <Container className="dashboard">
-                <h4> General statistics </h4>    <br/> 
-                    <Row>            
+            <Container  className="dashboard">
+               
+                    <Row style={{marginLeft:"5vw"}}>            
+                     <h4> General statistics </h4>    <br/> 
                         <Col xl="6" sm="12" >  
                             <h6> All ads </h6>  
-                            <Row style={{minHeight:"200px"}}> 
+                            <Row > 
                                 {
                                     generalStatistics.loading ? <Spinner> Loading </Spinner> 
                                     :   
@@ -200,7 +201,7 @@ const DashboardView= () =>  {
 
                             </Row> 
 
-                            <Row style={{minHeight:"200px", minWidth:"200px", display:"flex", justifyConten:'center', alignItems:"center"}}> 
+                            <Row style={{ display:"flex", justifyConten:'center', alignItems:"center"}}> 
                             {
                                 adsByAdvertiser.loading ? <Spinner> Loading </Spinner> 
                                 :

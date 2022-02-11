@@ -33,7 +33,7 @@ function App() {
  
     <Router>
         <div className="App">
-            <div className="app-content">
+           
                 <Header
                 toggled={toggled}
                 handleToggleSidebar={handleToggleSidebar}
@@ -41,6 +41,7 @@ function App() {
                 <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                   <FaBars />
                 </div>
+                  
                 <Routes>
                   <Route path="/"  element={<IntroductionView />} />
                   <Route path="/intro" element={<IntroductionView />}/>
@@ -53,7 +54,7 @@ function App() {
 
                   <Route path="/explore" element={<ExploreView />}/>
                 </Routes>
-            </div>
+              
         </div> 
   </Router>
 

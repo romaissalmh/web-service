@@ -69,17 +69,17 @@ const DemographicView = () => {
 
 		 <Container className="analytics">
             <br/> 
-            <Row style={{marginLeft:"20px", minHeight:"300px"}}>     
+            <Row style={{marginLeft:"5vw"}}>     
             <h6> Audience demographics statistics </h6>         
               <div style={{display:"flex","justify-content":"space-around"}}> 
             
-                  <select  style={{height:"50px"}} value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
+                  <select value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
                          <option value="female">Female</option>
                          <option value="male">Male</option>
                 </select>
 
 
-                <select style={{height:"50px"}}  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
+                <select  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
                         <option value="13-17">13-17</option>
                         <option value="18-24">18-24</option>
                         <option value="25-34">25-34</option>
