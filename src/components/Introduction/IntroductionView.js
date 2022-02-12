@@ -43,7 +43,7 @@ function IntroductionView() {
      // fetching data from the server 
      const fetchAdsPerMonth = async () => {
         let stats 
-        await api.get(`api/ad/numberOfAdsByMonth/2021`)
+        await api.get(`api/general/numberOfEntitiesByMonth/2021`)
          .then ( res => {
              stats = res
              console.log(stats)

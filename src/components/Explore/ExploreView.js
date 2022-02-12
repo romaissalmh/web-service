@@ -32,7 +32,7 @@ function ExploreView() {
 
     const fetchAds = async () => {
         let stats 
-        await api.get(`api/ad/`)
+        await api.get(`api/general/`)
          .then ( res => {
              stats = res
              //console.log(stats)

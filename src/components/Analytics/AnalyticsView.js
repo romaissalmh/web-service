@@ -325,7 +325,7 @@ const AnalyticsView = () => {
 
     const fetchAdsPerMonth = async () => {
         let stats 
-        await api.get(`api/ad/numberOfAdsByMonth/2021`)
+        await api.get(`api/general/numberOfEntitiesByMonth/2021`)
          .then ( res => {
              stats = res
          })
@@ -338,7 +338,7 @@ const AnalyticsView = () => {
            
     const fetchSpentOfMoneyPerMonth = async () => {
         let stats 
-        await api.get(`api/ad/spentOfMoneyByMonth/2021`)
+        await api.get(`api/general/spentOfMoneyByMonth/2021`)
          .then ( res => {
              stats = res
              //console.log(stats)
@@ -352,7 +352,7 @@ const AnalyticsView = () => {
       const fetchAdsTargetingAgeGender = async (age,gender) => {
          //change the api url
         let stats 
-        await api.get(`api/demographicDistribution/adsTargetingAgeGender/`+age+`/`+gender)
+        await api.get(`api/demographicDistribution/entitiesTargetingAgeGender/`+age+`/`+gender)
          .then ( res => {
              stats = res
              //console.log(stats)
@@ -367,7 +367,7 @@ const AnalyticsView = () => {
      const fetchCurrenciesPercentage = async () => {
          //change the api url
         let stats 
-        await api.get(`api/ad/numberOfAdsByCurrency`)
+        await api.get(`api/general/numberOfEntitiesByCurrency`)
          .then ( res => {
              stats = res
              //console.log(stats)
@@ -419,7 +419,7 @@ const AnalyticsView = () => {
 
     const fetchAdsByAdvertiser = async () => {
         let stats 
-        await api.get(`api/advertiser/numberOfAdsByAvertiser`)
+        await api.get(`api/pages/numberOfEntitiesByPage`)
          .then ( res => {
              stats = res; 
              //console.log(stats)
@@ -431,7 +431,7 @@ const AnalyticsView = () => {
      }
      const fetchImpressionsByAdvertiser = async () => {
         let stats 
-        await api.get(`api/advertiser/numberOfImpressionsByAvertiser`)
+        await api.get(`api/pages/numberOfImpressionsByPage`)
          .then ( res => {
              stats = res; 
              //console.log(stats)
@@ -443,7 +443,7 @@ const AnalyticsView = () => {
      }
      const fetchSpentByAdvertiser = async () => {
         let stats 
-        await api.get(`api/advertiser/expenditureByAvertiser`)
+        await api.get(`api/pages/expenditureByPage`)
          .then ( res => {
              stats = res; 
              //console.log(stats)

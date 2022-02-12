@@ -121,7 +121,7 @@ const DashboardView= () =>  {
     // get the general statistics 
     const fetchGeneralStatistics = async () => {
        let stats 
-        await api.get(`api/ad/generalStatistics/`)
+        await api.get(`api/general/generalStatistics/`)
         .then ( res => {
             stats = res[0] ; 
             //console.log(stats)
@@ -136,7 +136,7 @@ const DashboardView= () =>  {
     const fetchAdsByRegion = async () => {
         let stats = []
 
-       await api.get(`api/regionDistribution/adsByRegion/`)
+       await api.get(`api/regionDistribution/entitiesByRegion/`)
         .then ( res => {
             stats = res
 
@@ -166,7 +166,7 @@ const DashboardView= () =>  {
      const fetchNumberOfAdsPerAdvertiser = async () => {
         let stats = []
 
-        await api.get(`api/advertiser/numberOfAdsByAvertiser`)
+        await api.get(`api/pages/numberOfEntitiesByPage`)
         .then ( res => {
             stats = res
             //console.log(res) 

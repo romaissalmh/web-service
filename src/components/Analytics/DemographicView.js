@@ -54,7 +54,7 @@ const DemographicView = () => {
 
     const fetchDemographicBreakdown =  async (age,gender) => {
         let stats 
-        await api.get(`api/demographicDistribution/advertiserReachByGenderAge/`+age+`/`+gender)
+        await api.get(`api/demographicDistribution/pageReachByGenderAge/`+age+`/`+gender)
          .then ( res => {
              stats = res
          })
