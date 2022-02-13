@@ -49,20 +49,19 @@ function App() {
                 <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                   <FaBars />
                 </div>
-                  
-                <Routes>
-                  <Route path="/"  element={<IntroductionView />} />
-                  <Route path="/intro" element={<IntroductionView />}/>
-                  <Route path="/dashboard" element={<DashboardView />}/>
-                  <Route path="/analytics"  element={<AnalyticsView />}/>
-                  <Route path="/analytics/advertisers"  element={<CandidatesView />}/>
-                  <Route path="/analytics/demographics"  element={<DemographicView />}/>
-                  <Route path="/analytics/regions"  element={<RegionsView />}/>
-
-
-                  <Route path="/explore" element={<ExploreView />}/>
-                </Routes>
               
+                <Routes>
+                      <Route path="/"  element={<IntroductionView />} />
+                      <Route path="/intro" element={<IntroductionView />}/>
+                      <Route path="/dashboard" element={<DashboardView />}/>
+                      <Route path="/analytics"  element={<AnalyticsView />}/>
+                      <Route path="/analytics/advertisers"  element={<CandidatesView />}/>
+                      <Route path="/analytics/demographics"  element={<DemographicView />}/>
+                      <Route path="/analytics/regions"  element={<RegionsView />}/>
+
+
+                      <Route path="/explore" element={<ExploreView />}/>
+                </Routes>
         </div> 
   </Router>
   );

@@ -209,7 +209,7 @@
     position: relative !important;
 }
 .dashboard h6, .dashboard  h1,.dashboard h4{
- /* margin-left: 30px;*/
+ margin-left: 0px;
   color: var(--night-blue);
   font-weight: 900;
 }

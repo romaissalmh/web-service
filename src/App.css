@@ -78,7 +78,6 @@ a:focus {
 
   background-color: #F8F7FD;
   display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 .App-logo {

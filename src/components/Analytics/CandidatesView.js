@@ -116,22 +116,13 @@ const CandidatesView = () => {
              return stats 
          }
 
-
-
-
-
 	return (
 
 		 <Container className="analytics">
             <br/> 
-
-
-               <Row style={{marginLeft:"5vw"}}>     
-            <h6> Advertisers statistics </h6>         
-              <Col xl="12"  sm="12" >  
-
-                   {
-                   <LineChartMultipleDatasets
+            <Row style={{ padding:"30px"}}>     
+                <h6> Advertisers statistics </h6>   {
+                <LineChartMultipleDatasets
                     title="Number of ads mentionning electoral candidates" 
                     labels = {adsPerCandidate.labels} 
                     datasets={adsPerCandidate.data}
@@ -141,21 +132,11 @@ const CandidatesView = () => {
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
-
-                   />
-                    
-                    }
-
-                        
-
-                   </Col>  
+                   />}
             </Row>
-
-
-              
             <br/>  
-        </Container>
-            )
+        </Container> 
+        )
 }
 
 

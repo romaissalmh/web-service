@@ -10,7 +10,7 @@ function IntroductionView() {
     const [adsPerMonth,setAdsPerMonth] = useState({
         data : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
     })
 
     useEffect(() => {
@@ -28,11 +28,10 @@ function IntroductionView() {
             result.map((ad)=>(
                 transform.push(parseInt(ad.countAds))
             ))
-            console.log(transform)
             setAdsPerMonth({
                 data:transform,
                 loading:false,
-                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
 
             })
         }
@@ -43,7 +42,7 @@ function IntroductionView() {
      // fetching data from the server 
      const fetchAdsPerMonth = async () => {
         let stats 
-        await api.get(`api/general/numberOfEntitiesByMonth/2021`)
+        await api.get(`api/general/numberOfEntitiesByMonth`)
          .then ( res => {
              stats = res
              console.log(stats)
@@ -56,21 +55,19 @@ function IntroductionView() {
 
     return (
         <Container className="intro">
-            <Row style={{marginTop:"16px",marginLeft:"5vw"}}>    
+            <Row style={{marginLeft:"", display:"flex", justifyContent:"center", alignItems:"center", height:"100%"}}>    
          
-                <Col xl="6" sm="12" > 
-                <p>
-                    <span className="first-letter"> W </span>  e live in the age of communication. The media are extending   their coverage  areas more and more,the communication channels are multiple and the ways of contact are numerous. Hence, compaigns and political parties use a   veriety of communication tools and data analysis methods to better target voters.
-                </p> 
-
-                <p>
-                One of these techniques, the mobilization of social networks such as Facebook and Twitter which, using the data they hold of their users, have acquired a strong targeting capacity allowing them to send messages to the targeted audience and even to refine the content of these messages according to their interests.
-                </p> 
-                <p> 
-                Political micro-targeting can therefore indirectly represent a threat to the effectiveness of electoral democracy since online platforms that host this kind of paid content do not comply with transparency obligations; none of them share data about the targeting methods they offer.
-                In this context, we have created this web service in order to have a better overview and detailed watch on the use of Facebook as a targeting tool during the period of the French presidential elections.
-
-                </p>    
+                <Col xl="6" sm="12"  style={{display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", padding:"20px"}} > 
+                <p style={{padding:"20px"}} >
+                 This web portal is your way to discover all the Facebook political ads that are being published in France and have a better overview and detailed watch on the use of Facebook as a targeting tool during the period of the French presidential elections.
+                </p>  <br/>  <br/> 
+  
+                      <Link   style={{display:"flex", justifyContent:"center", alignItems:"center" , marginBottom:"50px",width:"300px"}}  to="/dashboard"> 
+                        <Button style={{width:""}}>
+                            Let's explore    <MdDoubleArrow/>
+                        </Button>
+                        </Link>
+           
 
                   </Col> 
                   <Col xl="6" sm="12" >  
@@ -92,15 +89,7 @@ function IntroductionView() {
                   </Col>
             </Row>  
              <br/>  
-            <Row  style={{display:"flex", justifyContent:"center", alignItems:"center" , marginBottom:"50px"}}> 
-                      <Link  style={{width:"500px"}} to="/dashboard"> 
-                        <Button style={{width:"500px"}}>
-                            GeneralStatistics     <MdDoubleArrow/>
-
-
-                        </Button>
-                        </Link>
-         </Row>
+          
         </Container>
     )
 }

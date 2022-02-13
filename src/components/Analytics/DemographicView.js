@@ -47,7 +47,6 @@ const DemographicView = () => {
             labels:pages,
 
         })
-          console.log(demographicBreakdown)
 
     })
     // fetching data from the server
@@ -69,32 +68,24 @@ const DemographicView = () => {
 
 		 <Container className="analytics">
             <br/> 
-            <Row style={{marginLeft:"5vw"}}>     
+            <Row style={{padding:"30px"}}>     
             <h6> Audience demographics statistics </h6>         
-              <div style={{display:"flex","justify-content":"space-around"}}> 
-            
-                  <select value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
+            <div style={{display:"flex","justify-content":"space-around"}}> 
+                    <select value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
                          <option value="female">Female</option>
                          <option value="male">Male</option>
-                </select>
-
-
-                <select  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
-                        <option value="13-17">13-17</option>
-                        <option value="18-24">18-24</option>
-                        <option value="25-34">25-34</option>
-                        <option value="35-44">35-44</option>
-                        <option value="45-54">45-54</option>
-                        <option value="55-64">55-64</option>
-                        <option value="65+">65+</option>
-
-                </select>
-
-
-             </div> 
-              
-
-                <Col xl="12"  sm="12" >  
+                    </select>
+                    <select  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
+                            <option value="13-17">13-17</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45-54">45-54</option>
+                            <option value="55-64">55-64</option>
+                            <option value="65+">65+</option>
+                    </select>
+            </div> 
+            <Col xl="12"  sm="12" >  
                  {
                      demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
@@ -109,13 +100,9 @@ const DemographicView = () => {
                      />  
 
                    }      
-                   
-            
-
-                </Col>  
                 
-            
-              </Row>  
+            </Col>              
+            </Row>  
         </Container>
             )
 }

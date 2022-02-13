@@ -32,12 +32,12 @@ const AnalyticsView = () => {
     const [adsPerMonth,setAdsPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
     })
     const [spentOfMoneyPerMonth, setSpentOfMoneyPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
     })
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
@@ -113,7 +113,7 @@ const AnalyticsView = () => {
             setAdsPerMonth({
                 adsPerMonth:transform,
                 loading:false,
-                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
 
             })
         
@@ -136,7 +136,7 @@ const AnalyticsView = () => {
         setSpentOfMoneyPerMonth({
             adsPerMonth:transform,
             loading:false,
-            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022']
+            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
 
         })
     })
@@ -263,7 +263,6 @@ const AnalyticsView = () => {
             gender:gender,
         })
         const data = await fetchAdsTargetingAgeGender(age,gender)
-        console.log(data)
         /*let data = adsPerAdvertiser.map(
             a => parseInt(a.countExpenditure)
         )
@@ -298,7 +297,6 @@ const AnalyticsView = () => {
     }, [])
     const loadDateLocationRegion  = useCallback(async (value) => {
         setRegionName(value)
-        console.log("reg"+value)
         setDateLocationRegion({
             loading:true
         })
@@ -311,7 +309,6 @@ const AnalyticsView = () => {
         let labels = res.map(
             a => a.date.slice(0, 10)
         )
-        console.log(data)
         setDateLocationRegion({
             data:data,
             loading:false,
@@ -325,20 +322,20 @@ const AnalyticsView = () => {
 
     const fetchAdsPerMonth = async () => {
         let stats 
-        await api.get(`api/general/numberOfEntitiesByMonth/2021`)
+        await api.get(`api/general/numberOfEntitiesByMonth`)
          .then ( res => {
              stats = res
          })
          .catch(
              err => console.log(err)
          )
-         return stats 
+         return stats  
      }
 
            
     const fetchSpentOfMoneyPerMonth = async () => {
         let stats 
-        await api.get(`api/general/spentOfMoneyByMonth/2021`)
+        await api.get(`api/general/spentOfMoneyByMonth`)
          .then ( res => {
              stats = res
              //console.log(stats)
@@ -500,7 +497,7 @@ const AnalyticsView = () => {
     return (
         <Container className="analytics">
             
-            <Row style={{marginLeft:"5vw",  minHeight:"300px"}}>     
+            <Row style={{minHeight:"300px", padding:"30px"}}>     
             <h4> Detailed statistics </h4>    <br/> 
             <h6> Overview of ads in the ad library  </h6>         
                     <Col xl="6" sm="12" >  
@@ -540,7 +537,7 @@ const AnalyticsView = () => {
                     </Col>  
             </Row>  <br/>  
              {/*
-            <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>   
+            <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
                
               
                  <Col>     
@@ -556,10 +553,9 @@ const AnalyticsView = () => {
                    </Col> 
            </Row> */
                }
-           <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>  
+           <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
              <h6> Rankings</h6>  
  
-                <Col xl="12"  sm="12" >  
                 {
                      adsPerAdvertiser.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
@@ -572,11 +568,9 @@ const AnalyticsView = () => {
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
                       source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
                      />  }       
-                </Col>
             </Row>
               
-            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>   
-                <Col xl="12"  sm="12" >  
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
                 {
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
@@ -589,11 +583,9 @@ const AnalyticsView = () => {
                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
                      />  
                     }       
-                </Col>
             </Row>
               
-            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>   
-           <Col xl="12"  sm="12" >  
+            <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
 
            {
                      impressionsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -606,12 +598,11 @@ const AnalyticsView = () => {
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
                       source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 using french language"
                      />  }       
-                </Col>
             </Row>
             {
                 /*
 
-              <Row style={{marginLeft:"20px", marginTop:"20px", minHeight:"300px"}}>            
+              <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
                                
                                <Col xl="12"  sm="12" >  
 
@@ -639,9 +630,8 @@ const AnalyticsView = () => {
             }
           
 
-            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>            
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
             <h6> Audience demographics </h6>     
-                    <Col xl="12"  sm="12" >  
                     {
                      demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
@@ -652,7 +642,6 @@ const AnalyticsView = () => {
                      dataset1={demographicBreakdown.femaleGender}
                      dataset2={demographicBreakdown.maleGender}
                      /> }
-               </Col>  
             </Row>
 
             <div>            
@@ -682,10 +671,9 @@ const AnalyticsView = () => {
                 </ModalFooter>
             </Modal>
             </div>
-            <Row style={{marginLeft:"5vw", marginTop:"20px", minHeight:"300px"}}>            
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
             <h6> Regions statistics </h6>     
                     
-                    <Col xl="12"  sm="12" >  
                    
                     <select value={regionName} onChange={(event) => loadDateLocationRegion(event.target.value)}>
                             <option value="Alsace">Alsace</option>
@@ -733,7 +721,6 @@ const AnalyticsView = () => {
                         />
                         
                         }
-               </Col>  
             </Row>
        
 

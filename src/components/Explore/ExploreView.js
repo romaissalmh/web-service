@@ -116,7 +116,7 @@ function ExploreView() {
     return (
         <Container className="analytics">
            
-             <Row style={{marginLeft:"5vw", marginTop:"20px"}}> 
+             <Row style={{ padding:"30px", marginTop:"20px"}}> 
                <h4> Explore the ads </h4>    <br/>  
                  {   ads.loading ?  <Spinner>  </Spinner> :
           
