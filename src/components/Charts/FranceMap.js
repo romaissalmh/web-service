@@ -126,16 +126,16 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 		// Generate random heat map
 		console.log(spentLocation[location.id])
 		let i 
-		if(spentLocation[location.id]<1000000) {
-			 i = 0
+		if(spentLocation[location.id]>2000000) {
+			 i = 2
 		}
 		else{
-			if (spentLocation[location.id]>1000000 && spentLocation[location.id]>2000000 ) {
+			if (spentLocation[location.id]>1000000 && spentLocation[location.id]<2000000 ) {
 				 i = 1
 			}
 			else{
-				if (spentLocation[location.id]>2000000) {
-					 i = 2
+				if (spentLocation[location.id]<1000000) {
+					 i = 0
 				}
 			}
 		}
