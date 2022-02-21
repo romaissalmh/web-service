@@ -138,7 +138,7 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 				}
 			}
 		}
-		return `svg-map__location--int${index % 4}`;
+		return `svg-map__location--int${i}`;
 	}
 
         return (
