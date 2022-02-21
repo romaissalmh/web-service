@@ -7,9 +7,10 @@ import { BiEuro } from "react-icons/bi"
 //apis call 
 import {api} from '../../scripts/network'
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
+import { useIntl } from 'react-intl';
 
 const CandidatesView = () => {
-
+    const intl = useIntl();
 
 	const [adsPerOfficialCandidate,setAdsPerOfficialCandidate] = useState({
         data : [{"label":"Emmanuel Macron","data":[10,54,100,35,47,48]},
@@ -121,9 +122,9 @@ const CandidatesView = () => {
 		 <Container className="analytics">
             <br/> 
             <Row style={{ padding:"30px"}}>     
-                <h6> Advertisers statistics </h6>   {
+                <h6>  </h6>   {
                 <LineChartMultipleDatasets
-                    title="Number of ads mentionning electoral candidates" 
+                    title={intl.formatMessage({ id: 'candidatesPlot' })}
                     labels = {adsPerCandidate.labels} 
                     datasets={adsPerCandidate.data}
                     color = "#8675FF"
@@ -131,7 +132,7 @@ const CandidatesView = () => {
                     total="true"
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
+                    source={intl.formatMessage({ id: 'plotSource1' })}
                    />}
             </Row>
             <br/>  

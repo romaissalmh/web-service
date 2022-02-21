@@ -4,9 +4,11 @@ import HorizontalBarChart from '../Charts/HorizontalBarChart'
 import { BiEuro } from "react-icons/bi" 
 //apis call 
 import {api} from '../../scripts/network'
+import { useIntl } from 'react-intl';
 
 const DemographicView = () => {
-    
+    const intl = useIntl();
+
     const [demographicBreakdown,setDemographicBreakdown] = useState({
         data : [],
         age:'18-24',
@@ -69,11 +71,11 @@ const DemographicView = () => {
 		 <Container className="analytics">
             <br/> 
             <Row style={{padding:"30px"}}>     
-            <h6> Audience demographics statistics </h6>         
+            <h6> {intl.formatMessage({ id: 'analyticsSubTitle2' })} </h6>         
             <div style={{display:"flex","justify-content":"space-around"}}> 
                     <select value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
-                         <option value="female">Female</option>
-                         <option value="male">Male</option>
+                         <option value="female">{intl.formatMessage({ id: 'female' })} </option>
+                         <option value="male">{intl.formatMessage({ id: 'male' })} </option>
                     </select>
                     <select  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
                             <option value="13-17">13-17</option>
@@ -90,7 +92,7 @@ const DemographicView = () => {
                      demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
-                     title={"Pages that reached " +demographicBreakdown.age+" years-old "+demographicBreakdown.gender+ " the most"}
+                     title= {intl.formatMessage({ id: 'demoPlotTitle1' }) +demographicBreakdown.age+ intl.formatMessage({ id: 'demoPlotTitle2' }) +demographicBreakdown.gender+ intl.formatMessage({ id: 'demoPlotTitle3' })} 
                     labels = {demographicBreakdown.labels} 
                     dataset={demographicBreakdown.data}
 

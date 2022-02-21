@@ -13,18 +13,16 @@ import ExploreView from './components/Explore/ExploreView'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header/Header';
 import {  FaBars } from 'react-icons/fa'; 
-
+import { IntlProvider } from 'react-intl';
+import messages from './components/messages';
 import { install } from "resize-observer";
 
 
 function App() {
   const [toggled, setToggled] = useState(false);
-
-
+  const [locale, setLocale] = useState('fr');
+  const [rtl, setRtl] = useState(false);
   useEffect(() => {
-    
-   
-
       if (typeof window !== "undefined") {
       install();
       }
@@ -32,38 +30,46 @@ function App() {
 
   }, []);
 
- 
+  const handleRtlChange = (checked) => {
+    setRtl(checked);
+    setLocale(checked ? 'fr' : 'en');
+  };
 
   const handleToggleSidebar = (value) => {
     setToggled(value);
   };
   
   return (
+        <IntlProvider locale={locale} messages={messages[locale]}>
+
        <Router>
-        <div className="App">
-           
-                <Header
+          <div className="App">
+                <Header         
+                handleRtlChange={handleRtlChange}
                 toggled={toggled}
                 handleToggleSidebar={handleToggleSidebar}
+                rtl={rtl}
                 />
                 <div className="btn-toggle" onClick={() => handleToggleSidebar(true)}>
                   <FaBars />
                 </div>
               
                 <Routes>
-                      <Route path="/"  element={<IntroductionView />} />
-                      <Route path="/intro" element={<IntroductionView />}/>
-                      <Route path="/dashboard" element={<DashboardView />}/>
-                      <Route path="/analytics"  element={<AnalyticsView />}/>
-                      <Route path="/analytics/advertisers"  element={<CandidatesView />}/>
-                      <Route path="/analytics/demographics"  element={<DemographicView />}/>
-                      <Route path="/analytics/regions"  element={<RegionsView />}/>
+                      <Route path="/"  element={<IntroductionView rtl={rtl} />} />
+                      <Route path="/intro" element={<IntroductionView rtl={rtl} />}/>
+                      <Route path="/dashboard" element={<DashboardView  rtl={rtl}/>}/>
+                      <Route path="/analytics"  element={<AnalyticsView rtl={rtl} />}/>
+                      <Route path="/analytics/advertisers"  element={<CandidatesView rtl={rtl} />}/>
+                      <Route path="/analytics/demographics"  element={<DemographicView rtl={rtl} />}/>
+                      <Route path="/analytics/regions"  element={<RegionsView rtl={rtl} />}/>
 
 
                       <Route path="/explore" element={<ExploreView />}/>
                 </Routes>
-        </div> 
-  </Router>
+          </div> 
+      </Router>
+      </IntlProvider>
+
   );
 }
 

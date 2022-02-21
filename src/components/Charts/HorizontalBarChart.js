@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card,CardTitle, CardBody,Col } from "reactstrap";
+import { Card,CardTitle, CardBody } from "reactstrap";
 import { Bar } from 'react-chartjs-2';
 
 
@@ -13,7 +13,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
         var tier = Math.log10(Math.abs(number)) / 3 | 0;
 
         // if zero, we don't need a suffix
-        if(tier == 0) return number;
+        if(tier === 0) return number;
 
         // get suffix and determine scale
         var suffix = SI_SYMBOL[tier];
@@ -129,7 +129,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
             <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
             </CardTitle>
-            <div className="" style={{height:""}}>
+            <div>
           
              
                 <Bar options={options} data={data} />

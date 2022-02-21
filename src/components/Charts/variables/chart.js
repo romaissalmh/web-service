@@ -1,4 +1,3 @@
-var mode = "light" //(themeMode) ? themeMode : 'light';
 
   function abbreviateNumber(number){
        var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
@@ -7,7 +6,7 @@ var mode = "light" //(themeMode) ? themeMode : 'light';
         var tier = Math.log10(Math.abs(number)) / 3 | 0;
 
         // if zero, we don't need a suffix
-        if(tier == 0) return number;
+        if(tier === 0) return number;
 
         // get suffix and determine scale
         var suffix = SI_SYMBOL[tier];
@@ -17,10 +16,11 @@ var mode = "light" //(themeMode) ? themeMode : 'light';
         var scaled = number / scale;
 
         // format number and add suffix
-        return scaled.toFixed(1) + suffix;
+        return scaled.toFixed(1) + suffix; 
     }
 
 const lineOptions = {
+  //maintainAspectRatio:false,
   responsive: true,
   layout: {
     padding: 0

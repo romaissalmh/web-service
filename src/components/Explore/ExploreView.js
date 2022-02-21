@@ -2,8 +2,11 @@ import React, {useState, useEffect, useCallback} from 'react'
 import {Container, Row, Col, Spinner} from 'reactstrap'
 import MUIDataTable from "mui-datatables"
 import {api} from '../../scripts/network'
+import { useIntl } from 'react-intl';
 
 function ExploreView() {
+    const intl = useIntl();
+
     const [ads,setAds] = useState({
         data : [],
         loading:true,
@@ -48,7 +51,7 @@ function ExploreView() {
     const columns = [
         {
          name: "ad_creative_body",
-         label: "Ad content",
+         label:  intl.formatMessage({ id: 'exploreColumn1' }),
          options: {
           filter: false,
           sort: true,
@@ -56,7 +59,7 @@ function ExploreView() {
         },
         {
          name: "funding_entity",
-         label: "Funding Entity",
+         label:  intl.formatMessage({ id: 'exploreColumn2' }),
          options: {
           filter: true,
           sort: false,
@@ -64,7 +67,7 @@ function ExploreView() {
         },
         {
          name: "mean_impressions",
-         label: "Numbers of impressions",
+         label:  intl.formatMessage({ id: 'exploreColumn3' }),
          options: {
           filter: true,
           sort: false,
@@ -72,7 +75,7 @@ function ExploreView() {
         },
         {
          name: "publisher_platforms",
-         label: "Publisher plateforms",
+         label:  intl.formatMessage({ id: 'exploreColumn4' }),
          options: {
           filter: true,
           sort: false,
@@ -80,7 +83,7 @@ function ExploreView() {
         },
 {
          name: "ad_delivery_start_time",
-         label: "Start time",
+         label:  intl.formatMessage({ id: 'exploreColumn5' }),
          options: {
           filter: true,
           sort: false,
@@ -88,7 +91,7 @@ function ExploreView() {
         },
         {
          name: "ad_delivery_stop_time",
-         label: "Stop time",
+         label:  intl.formatMessage({ id: 'exploreColumn6' }),
          options: {
           filter: true,
           sort: false,
@@ -117,7 +120,7 @@ function ExploreView() {
         <Container className="analytics">
            
              <Row style={{ padding:"30px", marginTop:"20px"}}> 
-               <h4> Explore the ads </h4>    <br/>  
+               <h4> {intl.formatMessage({ id: 'exploreTitle' })} </h4>    <br/>  
                  {   ads.loading ?  <Spinner>  </Spinner> :
           
                 <Col>     
@@ -133,12 +136,3 @@ function ExploreView() {
 }
 
 export default ExploreView
-/*
- <Row>
-                <h3>
-                    This feature has not been unlocked yet.
-                </h3>
-                <Chart/>
-            </Row>
-
-*/

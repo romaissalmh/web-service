@@ -88,8 +88,6 @@ export const options = {
             size: 14,
             family: 'Gotham'
         }
-
-        
       },
         grid: {
           display: false,
@@ -109,7 +107,6 @@ export const options = {
         callback: function(value, index, values) {
                         return abbreviateNumber(value);
                     }
-        
         ,
 
       },
@@ -119,47 +116,21 @@ export const options = {
         },
       },
   },
-  elements: {
-    point: {
-      radius: 0,
-      backgroundColor: 'red',
-    },
-    line: {
-      tension: 0.1, 
-      borderWidth: 4,
-      borderColor: 'red',
-      backgroundColor: 'transparent',
-      borderCapStyle: "rounded"
-    },
-    rectangle: {
-      backgroundColor: 'red'
-    },
-    arc: {
-      backgroundColor: 'red',
-      borderColor: 'red',
-      borderWidth: 4
-    }
-  },
+  
 };
 
 export default function TwoBarChart({title,dataset1,dataset2,labels, source, loadAds}) {
    const chartRef = useRef();
   const onClick = (event) => {
-    //console.log(getElementAtEvent(chartRef.current, event));
 
     let datasetIndex = getElementAtEvent(chartRef.current, event)[0].datasetIndex
     let index = getElementAtEvent(chartRef.current, event)[0].index
 
     if(datasetIndex ==0){
       loadAds("female",labels[index])
-      console.log("female")
-      console.log(labels[index])
     }
     else{
       loadAds("male",labels[index])
-
-      console.log("male")
-      console.log(labels[index])
 
     }
   }
@@ -167,7 +138,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
    
   const data = {
   labels,
-  padding:10,
+  padding:0,
   datasets: [
     {
       label: 'Female',
@@ -176,14 +147,11 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
       fill: bar ? false : true,
       backgroundColor: bar ? 'rgba(255, 112, 139,1)' :'rgba(255, 112, 139,0.1)',
       borderRadius: 6,
-      borderWidth:2,
-      barThickness:40,
-      pointBorderWidth:3,
+    
       pointBorderColor: "#fff",
       pointBackgroundColor: "rgba(255, 112, 139,1)",
       pointStyle: 'circle',
-      pointRadius:6,
-      tension: 0.2,
+    
     },
     {
       label: 'Male',
@@ -192,14 +160,11 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
       borderColor: bar ? 'rgba(0, 0, 0, 0)': 'rgba(56, 56, 116, 1)' ,
       backgroundColor: bar ? 'rgba(56, 56, 116, 1)' :'rgba(56, 56, 116,0.1)',
       borderRadius: 6,
-      barThickness:40,
-      borderWidth:2,
-      pointBorderWidth:3,
+    
       pointBorderColor: "#fff",
       pointBackgroundColor: "rgba(56, 56, 116, 1)",
       pointStyle: 'circle',
-      pointRadius:6,
-      tension: 0.2,
+     
     },
   ],
 };
@@ -208,7 +173,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
   
         <Card className=" shadow">
         <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)', paddingBottom:'10px'}}>
-            <Col xl="8" >
+            <Col xl="8" sm="8" >
               <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
               </CardTitle>  
@@ -235,7 +200,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
                         </Button>
                     </div>    
                     }
-                </Col>
+            </Col>
         </Row>
         <CardBody>
             {

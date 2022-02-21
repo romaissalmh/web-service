@@ -1,18 +1,21 @@
 import React from 'react'
 import { Table } from "reactstrap";
+import { useIntl } from 'react-intl';
 
 function Summary({data}) { 
+    const intl = useIntl();
+
     return (
         
                 <Table className="summary" borderless="true">
                     <tbody>
                        
                         <tr>
-                            <th >Number of pages </th>
-                            <th >Lower boundary of impressions </th>
-                            <th >Upper boundary of impressions </th>
-                            <th >Lower boundary of spending </th>
-                            <th>Upper boundary of spending </th>
+                            <th > {intl.formatMessage({ id: 'dashboardSubTitle1' })} </th>
+                            <th >  {intl.formatMessage({ id: 'dashboardSubTitle2' })}</th>
+                            <th >  {intl.formatMessage({ id: 'dashboardSubTitle3' })}</th>
+                            <th >  {intl.formatMessage({ id: 'dashboardSubTitle4' })}</th>
+                            <th> {intl.formatMessage({ id: 'dashboardSubTitle5' })}</th>
 
                         </tr>
                       

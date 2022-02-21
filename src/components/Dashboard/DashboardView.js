@@ -5,6 +5,7 @@ import {Container, Row, Col, Spinner} from 'reactstrap'
 import Summary from '../Charts/Summary'
 import CustomHorizontalBarChart from '../Charts/CustomHorizontalBarChart'
 import FranceMap from '../Charts/FranceMap.js'
+import { useIntl } from 'react-intl';
 
 //apis call 
 import {api} from '../../scripts/network'
@@ -12,14 +13,15 @@ import {api} from '../../scripts/network'
 const DashboardView= () =>  {
     //declare variables
     const limitsArray = [0, 80, 200, 300];
+    const intl = useIntl();
 
     const limits = ["Active Cases", "desc", limitsArray];
 
     const color = [
         "green", // if the statistics value is equal or less than 0
-        "yellow", // if the statistics value is equal or less than 25
-        "orange", // if the statistics value is equal or less than 50
-        "red", // if the statistics value is equal or less than 75,
+        "yellow", // if the statistics value is equal or less than 
+        "orange", // if the statistics value is equal or less than 
+        "red", // if the statistics value is equal or less than ,
                 // theres no greater than color...
         ];
     const [generalStatistics,setGeneralStatistics] = useState({
@@ -185,9 +187,9 @@ const DashboardView= () =>  {
             <Container  className="dashboard">
                
                     <Row style={{ marginTop:"20px"}}>            
-                     <h4> General statistics </h4>    <br/> 
+                     <h4>  {intl.formatMessage({ id: 'dashboardTitle' })} </h4>    <br/> 
                         <Col xl="6" sm="12" >  
-                            <h6> All ads </h6>  
+                            <h6>  {intl.formatMessage({ id: 'dashboardSubTitle' })} </h6>  
                             <Row > 
                                 {
                                     generalStatistics.loading ? <Spinner> Loading </Spinner> 
@@ -205,7 +207,7 @@ const DashboardView= () =>  {
                             {
                                 adsByAdvertiser.loading ? <Spinner> Loading </Spinner> 
                                 :
-                                <CustomHorizontalBarChart title="Most politicaly engaged pages" labels={adsByAdvertiser.pageNames} dataset={adsByAdvertiser.pageAds} />
+                                <CustomHorizontalBarChart title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} labels={adsByAdvertiser.pageNames} dataset={adsByAdvertiser.pageAds} />
 
                               }
                             </Row> 

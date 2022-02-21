@@ -9,8 +9,10 @@ import { BiEuro } from "react-icons/bi"
 import {api} from '../../scripts/network'
 import MUIDataTable from "mui-datatables"
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
+import { useIntl } from 'react-intl';
 
 const AnalyticsView = () => {
+    const intl = useIntl();
 
   
     const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +34,26 @@ const AnalyticsView = () => {
     const [adsPerMonth,setAdsPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+        labels: [intl.formatMessage({ id: 'jul' }),
+        intl.formatMessage({ id: 'aug' }),
+        intl.formatMessage({ id: 'sep' }),
+        intl.formatMessage({ id: 'oct' }),
+        intl.formatMessage({ id: 'nov' }),
+        intl.formatMessage({ id: 'dec' }),
+        intl.formatMessage({ id: 'jan' }),
+        intl.formatMessage({ id: 'fev' })]
     })
     const [spentOfMoneyPerMonth, setSpentOfMoneyPerMonth] = useState({
         adsPerMonth : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+        labels: [intl.formatMessage({ id: 'jul' }),
+        intl.formatMessage({ id: 'aug' }),
+        intl.formatMessage({ id: 'sep' }),
+        intl.formatMessage({ id: 'oct' }),
+        intl.formatMessage({ id: 'nov' }),
+        intl.formatMessage({ id: 'dec' }),
+        intl.formatMessage({ id: 'jan' }),
+        intl.formatMessage({ id: 'fev' })]
     })
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
@@ -113,7 +129,14 @@ const AnalyticsView = () => {
             setAdsPerMonth({
                 adsPerMonth:transform,
                 loading:false,
-                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+                labels: [intl.formatMessage({ id: 'jul' }),
+        intl.formatMessage({ id: 'aug' }),
+        intl.formatMessage({ id: 'sep' }),
+        intl.formatMessage({ id: 'oct' }),
+        intl.formatMessage({ id: 'nov' }),
+        intl.formatMessage({ id: 'dec' }),
+        intl.formatMessage({ id: 'jan' }),
+        intl.formatMessage({ id: 'fev' })]
 
             })
         
@@ -136,7 +159,14 @@ const AnalyticsView = () => {
         setSpentOfMoneyPerMonth({
             adsPerMonth:transform,
             loading:false,
-            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+            labels: [intl.formatMessage({ id: 'jul' }),
+        intl.formatMessage({ id: 'aug' }),
+        intl.formatMessage({ id: 'sep' }),
+        intl.formatMessage({ id: 'oct' }),
+        intl.formatMessage({ id: 'nov' }),
+        intl.formatMessage({ id: 'dec' }),
+        intl.formatMessage({ id: 'jan' }),
+        intl.formatMessage({ id: 'fev' })]
 
         })
     })
@@ -498,15 +528,15 @@ const AnalyticsView = () => {
         <Container className="analytics">
             
             <Row style={{minHeight:"300px", padding:"30px"}}>     
-            <h4> Detailed statistics </h4>    <br/> 
-            <h6> Overview of ads in the ad library  </h6>         
+            <h4> {intl.formatMessage({ id: 'analyticsTitle' })}  </h4>    <br/> 
+            <h6> {intl.formatMessage({ id: 'analyticsSubTitle' })}  </h6>         
                     <Col xl="6" sm="12" >  
                     {
                      adsPerMonth.loading ?  
                         <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <LineChart 
-                     title="Ads published during the last months" 
+                     title= {intl.formatMessage({ id: 'plotTitle1' })}  
                      labels = {spentOfMoneyPerMonth.labels} 
                      dataset={adsPerMonth.adsPerMonth}
                      currency = ""
@@ -514,7 +544,7 @@ const AnalyticsView = () => {
                      color ="#383874"
                      color="rgba(56, 56, 116, 1)"
                      colorOpacity="rgba(56, 56, 116, 0.1)"
-                     source="Source: Facebook Ad Library. Total of french ads published on Facebook ads since July 1, 2021 targeting french regions"
+                     source={intl.formatMessage({ id: 'plotSource1' })} 
                      />  
                      }
                     </Col>  
@@ -524,7 +554,7 @@ const AnalyticsView = () => {
                         <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <LineChart 
-                     title="Total of money spent to show ads the last months" 
+                     title={intl.formatMessage({ id: 'plotTitle2' })}  
                      labels = {spentOfMoneyPerMonth.labels} 
                      dataset={spentOfMoneyPerMonth.adsPerMonth}
                      currency = " €"
@@ -532,72 +562,65 @@ const AnalyticsView = () => {
                      color = "#8675FF"
                      color="rgba(255, 186, 105, 1)"
                      colorOpacity="rgba(255, 186, 105, 0.1)"
-                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
+                     source={intl.formatMessage({ id: 'plotSource1' })} 
                      />  }
                     </Col>  
             </Row>  <br/>  
-             {/*
-            <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
-               
-              
-                 <Col>     
-                     {
-                     currencies.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                     : 
-                     <PieChart 
-                     icon={<BiEuro size="1.5em"/> } 
-                     value={244}  
-                     title="The main advert payment currencies" 
-                     labels={currencies.currency} 
-                     dataset={currencies.countAds}/> }
-                   </Col> 
-           </Row> */
-               }
+            
            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
-             <h6> Rankings</h6>  
- 
+             <h6>  {intl.formatMessage({ id: 'analyticsSubTitle1' })}</h6>  
+                 <Col xl="12"  sm="12" >  
+
                 {
                      adsPerAdvertiser.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <HorizontalBarChart 
-                     title="Pages running the highest number of ads" 
+                     title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
                      labels = {adsPerAdvertiser.labels} 
                      dataset={adsPerAdvertiser.data}
                     // color="rgba(255, 186, 105, 1)"
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
-                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
-                     />  }       
-            </Row>
+                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                     />  } 
+                 </Col>    
+            </Row> 
               
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
+                <Col xl="12"  sm="12" >  
+
                 {
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
-                     title="Pages that generated the most expenditure (in euro)" 
+                     title={intl.formatMessage({ id: 'analyticsPlotTitle3' })}
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
                    //color="rgba(255, 186, 105, 1)"
                    //colorOpacity="rgba(255, 186, 105, 0.1)"
-                     source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
+                     source={intl.formatMessage({ id: 'plotSource2' })} 
                      />  
-                    }       
+                    }  
+                 </Col>       
             </Row>
               
             <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
+                 <Col xl="12"  sm="12" >  
+
 
            {
                      impressionsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
-                     title="Pages with the highest number of impressions" 
+                     title={intl.formatMessage({ id: 'analyticsPlotTitle2' })} 
                      labels = {impressionsPerAdvertiser.labels} 
                      dataset={impressionsPerAdvertiser.data}
                     // color="rgba(255, 186, 105, 1)"
                     // colorOpacity="rgba(255, 186, 105, 0.1)"
-                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 using french language"
-                     />  }       
+                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                     />  }   
+                 </Col>    
+    
             </Row>
             {
                 /*
@@ -630,18 +653,21 @@ const AnalyticsView = () => {
             }
           
 
-            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
-            <h6> Audience demographics </h6>     
-                    {
-                     demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                     : 
-                     <TwoBarChart 
-                     loadAds={toggleModal}
-                     title="Breakdown of the population reached by the ads by gender and age Percentage" 
-                     labels={demographicBreakdown.labels}
-                     dataset1={demographicBreakdown.femaleGender}
-                     dataset2={demographicBreakdown.maleGender}
-                     /> }
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
+                <Col xl="12"  sm="12" >  
+                <h6> {intl.formatMessage({ id: 'analyticsSubTitle2' })}  </h6>  
+                        {
+                         demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                         : 
+                         <TwoBarChart 
+                         loadAds={toggleModal}
+                         title={intl.formatMessage({ id: 'analyticsPlotTitle4' })} 
+                         labels={demographicBreakdown.labels}
+                         dataset1={demographicBreakdown.femaleGender}
+                         dataset2={demographicBreakdown.maleGender}
+                         /> }
+                </Col>  
+                
             </Row>
 
             <div>            
@@ -649,7 +675,7 @@ const AnalyticsView = () => {
 
               <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo} toggle={toggleModal}>
                 <ModalHeader
-                    toggle={toggleModal}>We are searching for ads that targeted the age and gender selected</ModalHeader>
+                    toggle={toggleModal}>{intl.formatMessage({ id: 'analyticsSubTitle3' })}</ModalHeader>
                 <ModalBody>
                     {
                         adsTargetingAgeGender.loading ?  
@@ -671,44 +697,34 @@ const AnalyticsView = () => {
                 </ModalFooter>
             </Modal>
             </div>
-            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
-            <h6> Regions statistics </h6>     
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
+            <Col xl="12"  sm="12" >  
+       
+            <h6> {intl.formatMessage({ id: 'analyticsSubTitle4' })} </h6>     
                     
                    
                     <select value={regionName} onChange={(event) => loadDateLocationRegion(event.target.value)}>
-                            <option value="Alsace">Alsace</option>
-                            <option value="Aquitaine">Aquitaine</option>
-                            <option value="Auvergne">Auvergne</option>
-                            <option value="Basse-Normandie">Basse-Normandie</option>
-                            <option value="Bourgogne">Bourgogne</option>
+                            <option value="Auvergne">Auvergne Rhône Alpes</option>
+                            <option value="Bourgogne">Bourgogne Franche Comté</option>
                             <option value="Bretagne">Bretagne</option>
-                            <option value="Centre">Centre</option>
-                            <option value="Champagne-Ardenne">Champagne-Ardenne</option>
+                            <option value="Centre">Centre Val de Loire</option>
                             <option value="Corse">Corse</option>
-                            <option value="Franche-Comté">Franche-Comté</option>
-                            <option value="Haute-Normandie">French Polynesia </option>
-                            <option value="Languedoc-Roussillon"> Languedoc-Roussillon </option>
-                            <option value="Limousin">Limousin</option>
-                            <option value="Lorraine">Lorraine</option>
-                            <option value="Midi-Pyrénées">Midi-Pyrénées</option>
-                            <option value="Nord-Pas-de-Calais">Nord-Pas-de-Calais</option>
+                            <option value="Alsace">Grand Est</option>
+                            <option value="Picardie">Hauts de France</option>
+                            <option value="Île-de-France">Île de France</option>
+                            <option value="Haute-Normandie">Normandie </option>
+                            <option value="Limousin">Nouvelle Aquitaine</option>
+                            <option value="Midi-Pyrénées">Occitanie</option>
                             <option value="Pays de la Loire">Pays de la Loire</option>
-                            <option value="Picardie">Picardie</option>
-                            <option value="Poitou-Charentes">Poitou-Charentes</option>
-                            <option value="Provence-Alpes-Côte d'Azur">Provence-Alpes-Côte d'Azur </option>
-                            <option value="Reunion Island">Reunion Island</option>
-                            <option value="Rhône-Alpes">Rhône-Alpes</option>
-                            <option value="Saint-Barthelemy">Saint-Barthelemy</option>
-                            <option value="Île-de-France">Île-de-France</option>
-                            <option value="French Southern Territories">French Southern Territories</option>
+                            <option value="Provence-Alpes-Côte d'Azur">Provence Alpes Côte d'Azur </option>
 
 
-		            </select>
+                    </select>
                         {
                         dateLocationRegion.loading
                         ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                         : <LineChart 
-                        title="Total spent in the last months per day" 
+                        title={intl.formatMessage({ id: 'plotTitle2' })} 
                         labels = {dateLocationRegion.labels} 
                         dataset={dateLocationRegion.data}
                         color = "#8675FF"
@@ -716,11 +732,12 @@ const AnalyticsView = () => {
                         total="true"
                         color="rgba(56, 56, 116, 1)"
                         colorOpacity="rgba(56, 56, 116, 0.1)"
-                        source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions"
+                        source={intl.formatMessage({ id: 'plotSource1' })} 
 
                         />
                         
                         }
+                </Col>  
             </Row>
        
 

@@ -9,7 +9,7 @@ import {
     Title,
     Tooltip,
     Legend,
-    Filler
+    Filler 
   } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 import { Card,CardTitle, CardBody,Row,Col,Button} from "reactstrap";
@@ -67,7 +67,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
     };
     return (
         <>
-        <Card className="shadow">
+        <Card  className="shadow">
             <CardTitle >
                 <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)'}} >
                   <Col xl="8" sm="8">

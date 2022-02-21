@@ -43,7 +43,7 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
           display:true,
           // stacked: true,
           ticks: {
-            padding:10,
+            padding:2,
             mirror: true,
             z:10,
             color:'white',
@@ -84,7 +84,8 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
            display: true,
            color: 'black',
            anchor:'end', 
-           align:'end',
+           align:'start',
+           clamp:true,
            font: {
             size: 14,
             family: 'Gotham',
@@ -126,9 +127,9 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
   return(
        
   <>      
-    <div className="BarChart" >
+    <div style={{width:"100%"}} className="BarChart" >
               <h6 >{title}</h6>  
-              <Bar options={options} data={data} />
+              <Bar options={options} data={data} style={{width:"100%", margin:'0px'}} />
     </div>
   </>)
   

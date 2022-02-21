@@ -7865,6 +7865,13 @@ react-svgmt@^1.1.9:
     react-motion "^0.5.2"
     react-move "^2.7.0"
 
+react-switch@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/react-switch/-/react-switch-6.0.0.tgz#bd4a2dea08f211b8a32e55e8314fd44bc1ec947e"
+  integrity sha512-QV3/6eRK5/5epdQzIqvDAHRoGLbCv/wDpHUi6yBMXY1Xco5XGuIZxvB49PHoV1v/SpEgOCJLD/Zo43iic+aEIw==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-to-print@^2.8.0:
   version "2.14.3"
   resolved "https://registry.npmjs.org/react-to-print/-/react-to-print-2.14.3.tgz"

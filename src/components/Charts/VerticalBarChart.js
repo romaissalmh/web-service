@@ -25,6 +25,8 @@ ChartJS.register(
 
 const options = {
   responsive: true,
+  //maintainAspectRatio:false,
+
   layout: {
     padding: 0
   },

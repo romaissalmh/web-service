@@ -1,5 +1,7 @@
 //import useState hook to create menu collapse state
 import React, { useState } from "react"
+import { useIntl } from 'react-intl';
+import Switch from 'react-switch';
 
 //import react pro sidebar components
 import {
@@ -15,7 +17,7 @@ import {
 import { Link } from 'react-router-dom'
 //import icons from react icons
 import { BiBarChartAlt2, BiWorld, BiSearch,BiPieChart } from "react-icons/bi"
-import {FaInstagram,FaFacebookF,FaLinkedinIn,FaTwitter} from 'react-icons/fa';
+import {FaLinkedinIn,FaTwitter} from 'react-icons/fa';
 import { VscMail } from "react-icons/vsc";
 import logo from '../../assets/img/logo bleu.svg'
 
@@ -23,8 +25,8 @@ import logo from '../../assets/img/logo bleu.svg'
 import "react-pro-sidebar/dist/css/styles.css"
 import "./Header.css"
 
-const Header = ({toggled, handleToggleSidebar }) => {
-    const t = ["intro","car"]
+const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
+    const intl = useIntl()
 
     //create variable for active menus
     const [activeIntro, setActiveIntro] = useState(true)
@@ -116,40 +118,45 @@ const Header = ({toggled, handleToggleSidebar }) => {
           <ProSidebar 
                 toggled={toggled}
                 breakPoint="md"
-                onToggle={handleToggleSidebar}
-          
-                >
+                onToggle={handleToggleSidebar} >
                 <SidebarHeader>
-
                   <div className="logotext">
                     <img alt="logo" src={logo} height="100%" width="100%" />               
                   </div>
-                
                 </SidebarHeader>
                 <SidebarContent>
                   <Menu iconShape="square">
                  
-                  <MenuItem style={{width:'100%', height:"100%"}} icon={<BiWorld />} active={activeIntro} onClick={introClick} > <span> Introduction </span> <Link to="/intro" />    
-                    </MenuItem>
+                  <MenuItem style={{width:'100%', height:"100%"}} icon={<BiWorld />} active={activeIntro} onClick={introClick} > <span> Introduction </span> <Link to="/intro" />  </MenuItem>
                 
-                   
-                    <MenuItem  style={{width:'100%', height:"100%"}} icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} > <span> Dashboard </span>     <Link to="/dashboard"/>
-                    </MenuItem>
+                  <MenuItem  style={{width:'100%', height:"100%"}} icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} > <span>  {intl.formatMessage({ id: 'menuItem1' })} </span> <Link to="/dashboard"/> </MenuItem>
                
-                    <SubMenu title="Analytics" icon={<BiPieChart />}  >
+                  <SubMenu title={intl.formatMessage({ id: 'menuItem2' })} icon={<BiPieChart />}  >
                        
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span> General </span> <Link to="/analytics" /> </MenuItem>
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span> Advertisers </span> <Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span> Regions </span> <Link to="/analytics/regions" />  </MenuItem>
-                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> Demographics </span> <Link to="/analytics/demographics" /> </MenuItem>
-                      
-                    </SubMenu>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span>  {intl.formatMessage({ id: 'menuItem3' })} </span> <Link to="/analytics" /> </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span>  {intl.formatMessage({ id: 'menuItem4' })} </span> <Link to="/analytics/advertisers" />  </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span>  {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/regions" />  </MenuItem>
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> {intl.formatMessage({ id: 'menuItem6' })} </span> <Link to="/analytics/demographics" /> </MenuItem>
+                  </SubMenu>
 
-                     <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} ><span> Explore </span><Link to="/explore" />
-                    </MenuItem>
+                  <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} ><span> {intl.formatMessage({ id: 'menuItem7' })} </span><Link to="/explore" /></MenuItem>
                   </Menu>
                 </SidebarContent>
                 <SidebarFooter style={{ textAlign: 'center' }}>
+                <div style={{marginTop:'20px'}}  className="block">
+                    <Switch
+                      height={16}
+                      width={30}
+                      checkedIcon={false}
+                      uncheckedIcon={false}
+                      onChange={handleRtlChange}
+                      checked={rtl}
+                      onColor="#383874"
+                      offColor="#8675FF"
+                      offHandleColor = "#fff"
+                    />
+                    <span style={{FontWeight:'bold', color:'#000'}}> {intl.formatMessage({ id: 'rtl' })}</span>
+                </div>
                     <div
                       className="sidebar-btn-wrapper"
                       style={{

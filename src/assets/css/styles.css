@@ -55,7 +55,7 @@
     height: 100vh;
   }
   .container{
-    margin: 0;
+    margin: 0px !important;
     padding: 0;
     margin-top:20px;
     margin-right: 0px !important;
@@ -78,9 +78,11 @@
     font-size: 18px;
   }
   .card{
-    padding: 10px;
+    margin: 4px;
+    padding: 8px;
     border-color: transparent;
     border: none;
+    width: 95%;
   }
   .btn{
     margin-left: 10px;
@@ -153,25 +155,11 @@
     /* ---------------------------------------------------
       INTRO STYLE
   ----------------------------------------------------- */
- /*.intro{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  //min-height: 100vh;
- }*//*
- .intro .row{
-  padding-left: 15%;
-  padding-right: 15%;
-
- }*/
   .intro{
     position: relative !important;
     
   }
-  span{
-    color: black;
-  }
+
   .intro p  {
   line-height: 1.8;
   display: block;
@@ -224,7 +212,6 @@
   position: relative;
 }
 .analytics h4{
-  /*margin-left: 30px;*/
   color: var(--night-blue);
   font-weight: 900;
 }
@@ -257,12 +244,6 @@
      cursor:pointer;
 }
 
-/*
- .analytics select:focus,  .analytics select:active, .analytics option:focus {
-pointer-events: none;
-  border: none  !important;
-  border-color: transparent  !important;
-}*/
 
 /*------------ table ------------*/
 .summary {
@@ -288,7 +269,9 @@ pointer-events: none;
 }
 
 .BarChart{
-  width: 100%;
+  width: 100% !important;
+  padding: 10px;
+  height: 100%;
 
 }
 .svg-map {
@@ -352,7 +335,6 @@ pointer-events: none;
 }
 .legendeMap td{
   text-align: center; 
- /* background-color: black; */
   color: black; 
   font-size: 70%; 
   padding: 5px;
@@ -362,7 +344,9 @@ pointer-events: none;
     body {
       overflow: hidden;
     }
-  
+  .container{
+    overflow: scroll;
+  }
     .content.is-open {
       margin-left: 100%;
     }
