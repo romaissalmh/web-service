@@ -125,15 +125,15 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 	const getLocationClassName = (location, index) => {
 		// Generate random heat map
 		console.log(spentLocation[location.id])
-		if(spentLocation[location.id]<20000000) {
+		if(spentLocation[location.id]<1000000) {
 			let i = 0
 		}
 		else{
-			if (spentLocation[location.id]>20000000 && spentLocation[location.id]>30000000 ) {
+			if (spentLocation[location.id]>1000000 && spentLocation[location.id]>2000000 ) {
 				let i = 1
 			}
 			else{
-				if (spentLocation[location.id]>40000000) {
+				if (spentLocation[location.id]>2000000) {
 					let i = 2
 				}
 			}
@@ -163,19 +163,15 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 			</tr>
 
 			<tr>
-				<td style={{background:"#bbc6da"}} >20000000
+				<td style={{background:"#bbc6da"}} >1000000
 				</td>
 			</tr>
 
 			<tr>
-				<td style={{background:"#92a0bc"}}>30000000
+				<td style={{background:"#92a0bc"}}>2000000
 				</td>
 			</tr>
 
-			<tr>
-				<td style={{background:"#728bbc"}} >40000000
-				</td>
-			</tr>
 
 
 		</tbody>
