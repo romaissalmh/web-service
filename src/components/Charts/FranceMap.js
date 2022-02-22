@@ -48,16 +48,16 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 	useEffect(() => {
 		
 		var result = dataAds.reduce(function(map, obj) {
-			map[obj.region] =  parseInt(obj.countAds) ;
+			map[obj.region] =  parseInt(obj.number_of_ads) ;
 			return map;
 		}, {});
 		
 		var resultt = dataSpent.reduce(function(map, obj) {
-			map[obj.region] = parseInt(obj.money) ;
+			map[obj.region] = parseInt(obj.mean_spend) ;
 			return map;
 		}, {});
 		setDataLocation({
-			ara: result["Auvergne"],
+			ara: result["Auvergne"] + result["Rhône-Alpes"],
 			bfc: result["Bourgogne"] + result["Franche-Comté"],
 			bre: result["Bretagne"],
 			cvl: result["Centre"],
@@ -73,7 +73,7 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 		})
 
 		setSpentLocation({
-			ara: resultt["Auvergne"],
+			ara: resultt["Auvergne"]  + resultt["Rhône-Alpes"],
 			bfc: resultt["Bourgogne"] + resultt["Franche-Comté"],
 			bre: resultt["Bretagne"],
 			cvl: resultt["Centre"],

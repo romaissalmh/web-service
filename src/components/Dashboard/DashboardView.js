@@ -138,7 +138,7 @@ const DashboardView= () =>  {
     const fetchAdsByRegion = async () => {
         let stats = []
 
-       await api.get(`api/regionDistribution/entitiesByRegion/`)
+       await api.get(`api/regionMap/entitiesByRegion/`)
         .then ( res => {
             stats = res
 
@@ -153,7 +153,7 @@ const DashboardView= () =>  {
     const fetchSpentByRegion = async () => {
         let stats = []
 
-       await api.get(`api/regionDistribution/spentByRegion/`)
+       await api.get(`api/regionMap/spentByRegion/`)
         .then ( res => {
             stats = res
 
