@@ -24,23 +24,17 @@ const CandidatesView = () => {
 
     })
  	const [adsPerCandidate,setAdsCandidate] = useState({
-          data : [
-           {"label":"Emmanuel Macron","data":[62,62,95,128,67,48]},
-           {"label":"Valérie Pécresse","data":[0,0,1,2,0,8]},
-           {"label":"Anne Hidalgo","data":[0,1,6,2,2,7]},
-           {"label":"Marine Le Pen","data":[62,0,95,50,47,39]},
-           {"label":"Eric Zemmour","data":[7,0,27,54,33,31]}
-           ],
+        data : [],
         loading:true,
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+
 
     })
 
 
 
     useEffect(() => {
-        //loadAdsPerOfficialCandidate()
-        //loadAdsPerCandidate()
+        loadAdsPerCandidate()
       
     }, [])
  
@@ -55,15 +49,15 @@ const CandidatesView = () => {
         
         for (const d of data)
         {
-        	let transform = [0,0,0,0,0,0,0,0,0,0,0,0]
+        	let transform = []
         	let element = {
         		"label":d.candidate,
         		"data":[]
         	}
-        	d.map((ad)=>(
-                transform[ad.month - 1]= parseInt(ad.countAds)
+        	d.countAds.map((ad)=>(
+                 element.data.push(parseInt(ad.countAds)) 
             ))
-            element.data = transform.slice(6,12)
+            
 			candidates.push(element)
         }
             
@@ -72,30 +66,18 @@ const CandidatesView = () => {
         setAdsCandidate({
             data:candidates,
             loading:false,
-            labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
         })
         console.log(adsPerCandidate)
     })
 
 
-    // fetching data from the server
-
-    const fetchAdsPerOfficialCandidate =  async () => {
-        let stats 
-        await api.get(`api/advertiser/`)
-         .then ( res => {
-             stats = res
-         })
-         .catch(
-             err => console.log(err)
-         )
-         return stats 
-     }
+  
 
 
     const fetchAdsPerCandidate = async () => {
         let stats 
-        await api.get(`api/ad/numberOfAdsOfCandidatesByMonth`)
+        await api.get(`api/general/numberOfEntitiesOfCandidatesByMonth`)
          .then ( res => {
              stats = res
          })
@@ -105,24 +87,16 @@ const CandidatesView = () => {
          return stats 
      }
 
-    const fetchSpendingPerAdvertiser= async () => {
-            let stats 
-            await api.get(`api/ad/numberOfAdsOfCandidatesByMonth`)
-             .then ( res => {
-                 stats = res
-             })
-             .catch(
-                 err => console.log(err)
-             )
-             return stats 
-         }
-
+   
 	return (
 
 		 <Container className="analytics">
             <br/> 
             <Row style={{ padding:"30px"}}>     
                 <h6>  </h6>   {
+                    adsPerCandidate.loading ? 
+                     <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+                     : 
                 <LineChartMultipleDatasets
                     title={intl.formatMessage({ id: 'candidatesPlot' })}
                     labels = {adsPerCandidate.labels} 

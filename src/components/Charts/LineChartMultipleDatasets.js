@@ -143,6 +143,22 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
           tension: 0.2,
        
         },
+        {
+          label:datasets[5].label,
+          data: datasets[5].data,
+          borderColor: "rgba(56, 56, 116, 1)",
+          fill: line ? true : false,
+          backgroundColor: line ? "rgba(56, 56, 116, 0.2)" :"rgba(56, 56, 116, 1)",
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: "rgba(56, 56, 116, 1)",
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
       ],
     };
     return (
