@@ -13,12 +13,11 @@ function IntroductionView({rtl}) {
     const [adsPerMonth,setAdsPerMonth] = useState({ 
         data : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022','Mar2022']
     })
 
     useEffect(() => {
         loadAdsPerMonth()
-        //setInterval(() => {},10000)
     }, [])
 
     const loadAdsPerMonth = useCallback(async () => {
@@ -26,7 +25,7 @@ function IntroductionView({rtl}) {
             loading:true
         })
         const result = await fetchAdsPerMonth()
-        if(result != undefined){
+        if(result !== undefined){
             let transform = []
             result.map((ad)=>(
                 transform.push(parseInt(ad.countAds))
@@ -34,7 +33,7 @@ function IntroductionView({rtl}) {
             setAdsPerMonth({
                 data:transform,
                 loading:false,
-                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+                labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022','Mar2022']
 
             })
         }
@@ -77,7 +76,6 @@ function IntroductionView({rtl}) {
                      dataset={adsPerMonth.data}
                      currency = ""
                      total = "false"
-                     color ="#383874"
                      color="rgba(255, 112, 139, 1)"
                      colorOpacity="rgba(255, 112, 139, 0.1)"
                      source={intl.formatMessage({ id: 'plotSource1' })}

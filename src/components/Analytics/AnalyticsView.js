@@ -1,10 +1,8 @@
 import React, {useEffect, useState, useCallback} from 'react'
 import { Modal, ModalFooter,
-    ModalHeader, ModalBody,Button,Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,DropdownToggle} from 'reactstrap'
-import PieChart from '../Charts/PieChart'
+    ModalHeader, ModalBody,Button,Container,Row, Col, Spinner} from 'reactstrap'
 import LineChart from '../Charts/LineChart'
 import TwoBarChart from '../Charts/TwoBarChart'
-import { BiEuro } from "react-icons/bi" 
 //apis call 
 import {api} from '../../scripts/network'
 import MUIDataTable from "mui-datatables"
@@ -15,7 +13,6 @@ const AnalyticsView = () => {
     const intl = useIntl();
 
   
-    const [isOpen, setIsOpen] = useState(false);
     const [regionName, setRegionName] = useState("Alsace");
      
     // Modal open state
@@ -27,7 +24,7 @@ const AnalyticsView = () => {
         adsTargetingAgeGender.gender = gender
         setModalDemo(!modalDemo);
        
-        if(gender != undefined & age != undefined)
+        if(gender !== undefined & age !== undefined)
             loadAdsTargetingAgeGender(age,gender)
     }
 
@@ -41,7 +38,8 @@ const AnalyticsView = () => {
         intl.formatMessage({ id: 'nov' }),
         intl.formatMessage({ id: 'dec' }),
         intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' })]
+        intl.formatMessage({ id: 'fev' }),
+        intl.formatMessage({ id: 'mar' })]
     })
     const [spentOfMoneyPerMonth, setSpentOfMoneyPerMonth] = useState({
         adsPerMonth : [],
@@ -53,7 +51,8 @@ const AnalyticsView = () => {
         intl.formatMessage({ id: 'nov' }),
         intl.formatMessage({ id: 'dec' }),
         intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' })]
+        intl.formatMessage({ id: 'fev' }),
+        intl.formatMessage({ id: 'mar' })]
     })
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
@@ -63,17 +62,8 @@ const AnalyticsView = () => {
         labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     })
 
-    const [currencies,setCurrencies] = useState({
-        currency:[],
-        countAds: [],
-        loading:true
-    })
-
-    const [dateLocationTime,setDateLocationTime] = useState({
-        data:[],
-        loading:true,
-        labels:[]
-    })
+ 
+  
     const [dateLocationRegion,setDateLocationRegion] = useState({
         data:[],
         loading:true,
@@ -105,13 +95,10 @@ const AnalyticsView = () => {
         loadAdsPerMonth()
         loadSpentOfMoneyPerMonth()
         loadDemographicBreakdown()
-        loadCurrenciesPercentage()
         loadAdsPerAdvertiser()
         loadImpressionsPerAdvertiser()
         loadSpentPerAdvertiser()
-        loadDateLocationTime()
         loadDateLocationRegion(regionName)
-        //setInterval(() => {},10000)
     }, [])
      
 
@@ -136,7 +123,8 @@ const AnalyticsView = () => {
         intl.formatMessage({ id: 'nov' }),
         intl.formatMessage({ id: 'dec' }),
         intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' })]
+        intl.formatMessage({ id: 'fev' }),
+        intl.formatMessage({ id: 'mar' })]
 
             })
         
@@ -166,54 +154,17 @@ const AnalyticsView = () => {
         intl.formatMessage({ id: 'nov' }),
         intl.formatMessage({ id: 'dec' }),
         intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' })]
+        intl.formatMessage({ id: 'fev' }),
+        intl.formatMessage({ id: 'mar' })]
 
         })
     })
 
    
 
-    const loadCurrenciesPercentage = useCallback(async () => {
-        setCurrencies({
-            loading:true,
-        })
-        const data = await fetchCurrenciesPercentage()
-        let currenciesData = data.map(
-            a => a.currency 
-        )
-        let countAds = data.map(
-            a => a.countAds 
-        )
-       
-        setCurrencies({
-            currency:currenciesData.slice(0,4),
-            countAds:countAds.slice(0,4),
-            loading:false
-        })
-    })
+    
 
-    const loadDateLocationTime = useCallback(async () => {
-        setDateLocationTime({
-            loading:true,
-        })
-        const data = await fetchDateLocationTime()
-        
-        let dates = data.map(
-
-            a => a.date.slice(0, 10)
-        )
-        let countAds = data.map(
-            a => parseInt(a.totalSpent )
-        )
-       
-        setDateLocationTime({
-            data: countAds,
-            labels: dates ,
-            loading:false
-        })
-    })
-
-
+   
     const loadDemographicBreakdown = useCallback(async () => {
         setDemographicBreakdown({
             femaleGender:[],
@@ -225,26 +176,24 @@ const AnalyticsView = () => {
 
       
         let data1 =  data.map(
-            a => a.gender =="female" ?  Math.floor(a.reach) :null
+            a => a.gender === "female" ?  Math.floor(a.reach) :null
         )
         let data2 = data.map(
-            a => a.gender =="male" ?  Math.floor(a.reach) :null
+            a => a.gender === "male" ?  Math.floor(a.reach) :null
         )
         data1 = data1.filter(function (value, index, arr){
-            return value != null
+            return value !== null
         })
         data2 = data2.filter(function (value, index, arr){
-            return value != null
+            return value !== null
         })
         setDemographicBreakdown({
             femaleGender: data1,
             maleGender: data2,
-            //demographicBreakdown:transform.slice(6,12),
             loading:false,
             labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
 
         })
-        // add getting detailed data
 
     })
 
@@ -391,19 +340,7 @@ const AnalyticsView = () => {
      }
      
 
-     const fetchCurrenciesPercentage = async () => {
-         //change the api url
-        let stats 
-        await api.get(`api/general/numberOfEntitiesByCurrency`)
-         .then ( res => {
-             stats = res
-             //console.log(stats)
-         }) 
-         .catch(
-             err => console.log(err)
-         )
-         return stats 
-     }
+     
      
 
      const fetchDemographicBreakdown = async () => {
@@ -419,18 +356,7 @@ const AnalyticsView = () => {
         return stats 
     }
     
-    const fetchDateLocationTime = async () => {
-       let stats 
-       await api.get(`api/dateLocationTime/dateLocationTimeByDay`)
-        .then ( res => {
-            stats = res; 
-           // console.log(stats)
-        })
-        .catch(
-            err => console.log(err)
-        )
-        return stats 
-    }
+    
     const fetchDateLocationRegion = async (region) => {
         let stats 
         await api.get(`api/dateLocationTime/dateLocationTimeByRegion/${region}`)
@@ -541,7 +467,6 @@ const AnalyticsView = () => {
                      dataset={adsPerMonth.adsPerMonth}
                      currency = ""
                      total="true"
-                     color ="#383874"
                      color="rgba(56, 56, 116, 1)"
                      colorOpacity="rgba(56, 56, 116, 0.1)"
                      source={intl.formatMessage({ id: 'plotSource1' })} 
@@ -559,7 +484,6 @@ const AnalyticsView = () => {
                      dataset={spentOfMoneyPerMonth.adsPerMonth}
                      currency = " €"
                      total="true"
-                     color = "#8675FF"
                      color="rgba(255, 186, 105, 1)"
                      colorOpacity="rgba(255, 186, 105, 0.1)"
                      source={intl.formatMessage({ id: 'plotSource1' })} 
@@ -579,8 +503,6 @@ const AnalyticsView = () => {
                      title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
                      labels = {adsPerAdvertiser.labels} 
                      dataset={adsPerAdvertiser.data}
-                    // color="rgba(255, 186, 105, 1)"
-                    // colorOpacity="rgba(255, 186, 105, 0.1)"
                       source={intl.formatMessage({ id: 'plotSource1' })} 
                      />  } 
                  </Col>    
@@ -596,8 +518,6 @@ const AnalyticsView = () => {
                      title={intl.formatMessage({ id: 'analyticsPlotTitle3' })}
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
-                   //color="rgba(255, 186, 105, 1)"
-                   //colorOpacity="rgba(255, 186, 105, 0.1)"
                      source={intl.formatMessage({ id: 'plotSource2' })} 
                      />  
                     }  
@@ -615,42 +535,12 @@ const AnalyticsView = () => {
                      title={intl.formatMessage({ id: 'analyticsPlotTitle2' })} 
                      labels = {impressionsPerAdvertiser.labels} 
                      dataset={impressionsPerAdvertiser.data}
-                    // color="rgba(255, 186, 105, 1)"
-                    // colorOpacity="rgba(255, 186, 105, 0.1)"
                       source={intl.formatMessage({ id: 'plotSource1' })} 
                      />  }   
                  </Col>    
     
             </Row>
-            {
-                /*
-
-              <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>            
-                               
-                               <Col xl="12"  sm="12" >  
-
-                               {
-                                dateLocationTime.loading
-                                ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                                : <LineChart 
-                                title="Total spent in the last month per day" 
-                                labels = {dateLocationTime.labels} 
-                                dataset={dateLocationTime.data}
-                                color = "#8675FF"
-                                currency="€"
-                                total="true"
-                                color="rgba(56, 56, 116, 1)"
-                                colorOpacity="rgba(56, 56, 116, 0.1)"
-                                source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021"
-
-                               />
-                                
-                                }
-
-                       </Col>  
-               </Row>
-                */
-            }
+          
           
 
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
@@ -727,7 +617,6 @@ const AnalyticsView = () => {
                         title={intl.formatMessage({ id: 'plotTitle2' })} 
                         labels = {dateLocationRegion.labels} 
                         dataset={dateLocationRegion.data}
-                        color = "#8675FF"
                         currency=" €" 
                         total="true"
                         color="rgba(56, 56, 116, 1)"

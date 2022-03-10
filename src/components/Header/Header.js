@@ -19,7 +19,7 @@ import { Link } from 'react-router-dom'
 import { BiBarChartAlt2, BiWorld, BiSearch,BiPieChart } from "react-icons/bi"
 import {FaLinkedinIn,FaTwitter} from 'react-icons/fa';
 import { VscMail } from "react-icons/vsc";
-import logo from '../../assets/img/logo bleu.svg'
+import logo from '../../assets/img/logo.svg'
 
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css"

@@ -32,7 +32,7 @@ ChartJS.register(
 
   const calcSum = (arr) => {
     try{
-      return arr.filter((a) => a !== NaN).reduce((a, b) => a + b, 0)
+      return arr.filter((a) => !isNaN(a)).reduce((a, b) => a + b, 0)
     }
     catch(e){
 
@@ -123,7 +123,7 @@ function LineChart({chartOptions,dataset,labels,title, currency,color, colorOpac
                 </Row>
                 
                 {
-                  total=="true" ? 
+                  total === "true" ? 
                   <Row  style={{marginTop:"10px", flex:"display", justifyContent:"space-between", alignItems:"center"}} >
                   <Col  >
                   {<StatsCard

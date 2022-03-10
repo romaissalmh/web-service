@@ -47,14 +47,15 @@ export default {
     demoPlotTitle2:" ans ",
     demoPlotTitle3:" le plus",
     jul:'Jui2021',
-    aug: 'Août2021',
+    aug:'Août2021',
     sep:'Sep2021', 
     oct:'Oct2021', 
     nov:'Nov2021',
-    dec: 'Dec2021',
+    dec:'Dec2021',
     jan:'Jan2022',
     fev:'Fev2022',
-
+    mar:'Mar2022',
+    candidatesTitle:'Statistiques des annonceurs'
 
   },
   en: {
@@ -112,5 +113,8 @@ export default {
     dec: 'Dec2021',
     jan:'Jan2022',
     fev:'Feb2022',
+    mar:'Mar2022',
+    candidatesTitle:'Advertisers statistics'
+
   },
 };

@@ -2,10 +2,10 @@ import React, {  useState, useEffect } from 'react'
 import France from "@svg-maps/france.regions";
 import { SVGMap } from "react-svg-map";
 
-import FranceDep from "@svg-maps/france.departments";
+//import FranceDep from "@svg-maps/france.departments";
 
 export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
-	const [locationClassName, setLocationClassName] = useState({})
+	//const [locationClassName, setLocationClassName] = useState({})
 	const [dataLocation, setDataLocation] = useState({
 		    ara: '',
 			bfc: '',
@@ -187,9 +187,9 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 			
             <div className="mapTooltip" style={tooltipStyle}>
                
-				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham", fontWeight:"bold"}}> {pointedLocation } {pointedDataLocation != undefined && pointedDataLocation != "NaN" ?": " + pointedDataLocation + " ads":"" }</p>
+				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham", fontWeight:"bold"}}> {pointedLocation } {pointedDataLocation !== undefined && !isNaN(pointedDataLocation) ?": " + pointedDataLocation + " ads":"" }</p>
 			
-				{pointedSpent != undefined && pointedSpent != NaN ? <h6>{pointedSpent} €</h6>: "" }
+				{pointedSpent !== undefined && !isNaN(pointedSpent) ? <h6>{pointedSpent} €</h6>: "" }
 			  </div>
         </div>
         )

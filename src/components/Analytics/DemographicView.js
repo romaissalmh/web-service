@@ -1,7 +1,6 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,DropdownToggle} from 'reactstrap'
+import {Container,Row, Col, Spinner} from 'reactstrap'
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
-import { BiEuro } from "react-icons/bi" 
 //apis call 
 import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';

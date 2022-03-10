@@ -14,9 +14,7 @@ import {
 import { 
   Bar, 
   Line,
-  getDatasetAtEvent,
-  getElementAtEvent,
-  getElementsAtEvent,} from 'react-chartjs-2';
+  getElementAtEvent} from 'react-chartjs-2';
 import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
 import { lineOptions } from './variables/chart';
 
@@ -38,7 +36,7 @@ function abbreviateNumber(number){
         var tier = Math.log10(Math.abs(number)) / 3 | 0;
 
         // if zero, we don't need a suffix
-        if(tier == 0) return number;
+        if(tier === 0) return number;
 
         // get suffix and determine scale
         var suffix = SI_SYMBOL[tier];
@@ -126,7 +124,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
     let datasetIndex = getElementAtEvent(chartRef.current, event)[0].datasetIndex
     let index = getElementAtEvent(chartRef.current, event)[0].index
 
-    if(datasetIndex ==0){
+    if(datasetIndex === 0){
       loadAds("female",labels[index])
     }
     else{

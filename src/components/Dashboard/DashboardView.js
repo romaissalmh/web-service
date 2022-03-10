@@ -48,7 +48,6 @@ const DashboardView= () =>  {
         loadAdsByRegion()
         loadAdsByAdvertiser()
         loadSpentByRegion()
-        //setInterval(() => {},10000)
     }, [])
 
     const loadAdsByAdvertiser  = useCallback(async () => {
@@ -59,7 +58,7 @@ const DashboardView= () =>  {
         })
         let data = await fetchNumberOfAdsPerAdvertiser()
 
-       if(data != undefined){
+       if(data !== undefined){
 
         let pageNames = data.map(
             a => a.page_name 
@@ -83,7 +82,7 @@ const DashboardView= () =>  {
             loading:true
         })
         let data =  await fetchGeneralStatistics()
-        if(data != undefined){
+        if(data !== undefined){
             // console.log(data)
             setGeneralStatistics({
                 data : data,
@@ -99,7 +98,7 @@ const DashboardView= () =>  {
             loading:true
         })
         let data = await fetchAdsByRegion()
-        if( data != undefined){
+        if( data !== undefined){
             setAdsByRegion({
                 data:data,
                 loading:false
@@ -112,7 +111,7 @@ const DashboardView= () =>  {
             loading:true
         })
         let data = await fetchSpentByRegion()
-        if(data != undefined){
+        if(data !== undefined){
             setSpentByRegion({
                 data:data,
                 loading:false
@@ -195,7 +194,7 @@ const DashboardView= () =>  {
                                     generalStatistics.loading ? <Spinner> Loading </Spinner> 
                                     :   
                                 <> 
-                                 <h1>   {generalStatistics.data.numberAds != undefined ? generalStatistics.data.numberAds.toLocaleString("en-US") : ""} </h1>  
+                                 <h1>   {generalStatistics.data.numberAds !== undefined ? generalStatistics.data.numberAds.toLocaleString("en-US") : ""} </h1>  
                                  <Summary data={generalStatistics.data}/>
                                 </> 
 

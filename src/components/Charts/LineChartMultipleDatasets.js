@@ -15,7 +15,6 @@ import { Line, Bar } from 'react-chartjs-2';
 import { Card,CardTitle, CardBody,Row,Col,Button} from "reactstrap";
 import {lineOptions} from './variables/chart'
 import '../../assets/css/styles.css'
-import StatsCard from './StatsCard'
 import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
 
 ChartJS.register(

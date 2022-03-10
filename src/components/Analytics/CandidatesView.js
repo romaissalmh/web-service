@@ -1,28 +1,14 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container,Row, Col, Spinner, Dropdown,DropdownMenu,DropdownItem,DropdownToggle} from 'reactstrap'
-import PieChart from '../Charts/PieChart'
+import {Container,Row, Spinner} from 'reactstrap'
 import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
-import TwoBarChart from '../Charts/TwoBarChart'
-import { BiEuro } from "react-icons/bi" 
 //apis call 
 import {api} from '../../scripts/network'
-import HorizontalBarChart from '../Charts/HorizontalBarChart'
 import { useIntl } from 'react-intl';
 
 const CandidatesView = () => {
     const intl = useIntl();
 
-	const [adsPerOfficialCandidate,setAdsPerOfficialCandidate] = useState({
-        data : [{"label":"Emmanuel Macron","data":[10,54,100,35,47,48]},
-           {"label":"Jean-Luc Mélenchon","data":[0,9,6,11,1,2]},
-           {"label":"Anne Hidalgo","data":[0,1,6,45,2,7]},
-           {"label":"Marine Le Pen","data":[62,0,80,50,47,78]},
-           {"label":"Eric Zemmour","data":[7,0,20,47,48,38]}],
-        loading:true,
-        labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-       // ['Emmanuel Macron', 'Valérie Pécresse', 'Marine Le Pen', 'Eric Zemmour']
-
-    })
+	
  	const [adsPerCandidate,setAdsCandidate] = useState({
         data : [],
         loading:true,
@@ -37,7 +23,7 @@ const CandidatesView = () => {
         loadAdsPerCandidate()
       
     }, [])
- 
+  
 
      const loadAdsPerCandidate = useCallback(async () => {
         setAdsCandidate({
@@ -49,7 +35,6 @@ const CandidatesView = () => {
         
         for (const d of data)
         {
-        	let transform = []
         	let element = {
         		"label":d.candidate,
         		"data":[]
@@ -93,7 +78,8 @@ const CandidatesView = () => {
 		 <Container className="analytics">
             <br/> 
             <Row style={{ padding:"30px"}}>     
-                <h6>  </h6>   {
+            <h6> {intl.formatMessage({ id: 'candidatesTitle' })}  </h6>    <br/> 
+  {
                     adsPerCandidate.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
@@ -101,7 +87,6 @@ const CandidatesView = () => {
                     title={intl.formatMessage({ id: 'candidatesPlot' })}
                     labels = {adsPerCandidate.labels} 
                     datasets={adsPerCandidate.data}
-                    color = "#8675FF"
                     currency=""
                     total="true"
                     color="rgba(56, 56, 116, 1)"
