@@ -100,7 +100,6 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
       setActiveAnalytics1(false);
       setActiveAnalytics2(false);
       setActiveAnalytics4(false);
-      setActiveAnalytics3(true);
 
     };
      const analyticsClick4 = () => {
@@ -108,7 +107,6 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
       setActiveDashboard(false)
       setActiveExplore(false)
       setActiveAnalytics2(false);
-      setActiveAnalytics3(false);
       setActiveAnalytics1(false);
       setActiveAnalytics4(true);
 
@@ -127,7 +125,6 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                 <SidebarContent>
                   <Menu iconShape="square">
                  
-                  <MenuItem style={{width:'100%', height:"100%"}} icon={<BiWorld />} active={activeIntro} onClick={introClick} > <span> Introduction </span> <Link to="/intro" />  </MenuItem>
                 
                   <MenuItem  style={{width:'100%', height:"100%"}} icon={<BiBarChartAlt2 />} active={activeDashboard} onClick={dashboardClick} > <span>  {intl.formatMessage({ id: 'menuItem1' })} </span> <Link to="/dashboard"/> </MenuItem>
                
@@ -135,12 +132,14 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                        
                           <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span>  {intl.formatMessage({ id: 'menuItem3' })} </span> <Link to="/analytics" /> </MenuItem>
                           <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span>  {intl.formatMessage({ id: 'menuItem4' })} </span> <Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span>  {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/regions" />  </MenuItem>
-                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> {intl.formatMessage({ id: 'menuItem6' })} </span> <Link to="/analytics/demographics" /> </MenuItem>
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/demographics" /> </MenuItem>
                   </SubMenu>
 
                   <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} ><span> {intl.formatMessage({ id: 'menuItem7' })} </span><Link to="/explore" /></MenuItem>
+                  <MenuItem style={{width:'100%', height:"100%"}} icon={<BiWorld />} active={activeIntro} onClick={introClick} > <span>  {intl.formatMessage({ id: 'aboutUs' })}  </span> <Link to="/aboutUs" />  </MenuItem>
+
                   </Menu>
+
                 </SidebarContent>
                 <SidebarFooter style={{ textAlign: 'center' }}>
                 <div style={{marginTop:'20px'}}  className="block">
@@ -167,20 +166,20 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                      <ul className="social-icons">
 
                     <li>
-                        <a className="link" target="_blank"  href="https://www.linkedin.com/company/lig-laboratoire-d-informatique-de-grenoble/" rel="noreferrer">
+                        <a className="link" target="_blank"  href="https://www.linkedin.com/in/kessiromaissa/" rel="noreferrer">
                             <FaLinkedinIn className="social-icon"/>          
                         </a> 
                     </li>
 
                     <li>
-                        <a className="link" target="_blank"  href="lig-contact@univ-grenoble-alpes.fr" rel="noreferrer">
+                        <a className="link" target="_blank"  href="oana.goga@cnrs.fr" rel="noreferrer">
                             <VscMail className="social-icon"/>          
                         </a> 
                     </li>
                     
                    
                     <li>
-                        <a className="link" target="_blank"  href="https://twitter.com/LIGLab" rel="noreferrer">
+                        <a className="link" target="_blank"  href="https://twitter.com/oanagoga" rel="noreferrer">
                             <FaTwitter className="social-icon"/>          
                         </a> 
                     </li>

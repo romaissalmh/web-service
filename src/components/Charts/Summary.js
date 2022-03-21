@@ -14,8 +14,7 @@ function Summary({data}) {
                             <th > {intl.formatMessage({ id: 'dashboardSubTitle1' })} </th>
                             <th >  {intl.formatMessage({ id: 'dashboardSubTitle2' })}</th>
                             <th >  {intl.formatMessage({ id: 'dashboardSubTitle3' })}</th>
-                            <th >  {intl.formatMessage({ id: 'dashboardSubTitle4' })}</th>
-                            <th> {intl.formatMessage({ id: 'dashboardSubTitle5' })}</th>
+                           
 
                         </tr>
                       
@@ -24,10 +23,8 @@ function Summary({data}) {
                            data.lower_bound_impressions !== undefined ? 
                            <tr>
                            <td> {data.numberPages.toLocaleString("en-US")} </td>
-                            <td> {parseInt(data.lower_bound_impressions).toLocaleString("en-US")} </td>
-                            <td> {parseInt(data.upper_bound_impressions).toLocaleString("en-US")}  </td>
-                            <td> {parseInt(data.lower_bound_spend).toLocaleString("en-US")}  €</td>
-                            <td> {parseInt(data.upper_bound_spend).toLocaleString("en-US")}  €</td>
+                            <td> [ {parseInt(data.lower_bound_impressions).toLocaleString("en-US")} ; {parseInt(data.upper_bound_impressions).toLocaleString("en-US")} ] </td>
+                            <td> [ {parseInt(data.lower_bound_spend).toLocaleString("en-US")}  € ; {parseInt(data.upper_bound_spend).toLocaleString("en-US")}  € ] </td>
 
 
                         </tr>

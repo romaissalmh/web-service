@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 
 
 
-export default function HorizontalBarChart({title,dataset,labels, source}) {
+export default function HorizontalBarChart({title,dataset,labels, source, currency}) {
     function abbreviateNumber(number){
        var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
@@ -25,6 +25,54 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
         // format number and add suffix
         return scaled.toFixed(1) + suffix;
     }
+    const images = ['https://i.stack.imgur.com/2RAv2.png', 'https://i.stack.imgur.com/Tq5DA.png', 'https://i.stack.imgur.com/3KRtW.png', 'https://i.stack.imgur.com/iLyVi.png'];
+ 
+    const plugins = { // Accessing labels and making them images
+    labels: {
+      render: 'image',
+      images: [{
+          src: 'https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_book_48px-256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn3.iconfinder.com/data/icons/glypho-free/64/pen-checkbox-256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-glyph-1/32/-_Home-House--256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn1.iconfinder.com/data/icons/social-media-vol-3/24/_google_chrome-256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn0.iconfinder.com/data/icons/google-material-design-3-0/48/ic_book_48px-256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn3.iconfinder.com/data/icons/glypho-free/64/pen-checkbox-256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn1.iconfinder.com/data/icons/jumpicon-basic-ui-glyph-1/32/-_Home-House--256.png',
+          height: 25,
+          width: 25
+        },
+        {
+          src: 'https://cdn1.iconfinder.com/data/icons/social-media-vol-3/24/_google_chrome-256.png',
+          height: 25,
+          width: 25
+        },
+      ]
+    }}
+    
   const options = {    
     responsive: true,
     //maintainAspectRatio: false,
@@ -41,7 +89,7 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
               family: 'Gotham-Light'
           },
           callback: function(value, index, values) {
-                        return abbreviateNumber(value);
+                        return currency !== undefined ? currency + abbreviateNumber(value) : abbreviateNumber(value);
                     }
         },
           grid: {
@@ -69,7 +117,9 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
         }
       
     },
+    
     plugins: {
+      
       legend: {
           display:false,
           labels: {
@@ -101,11 +151,9 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
           
             data: dataset,
             labels:labels,
-            backgroundColor:[ '#383874','#8675FF'],
+            backgroundColor:['#0076BF', '#148DD9','#5CB1E6','#8AC2E6', '#B8D4E6'
+            ],
             borderRadius: 6,
-            //barThickness:40,
-            //borderWidth:5,
-            //borderSkipped:false,
             borderColor: 'rgba(0, 0, 0, 0)',
             maxBarThickness: 50,
             barPercentage: 0.9,
@@ -122,27 +170,19 @@ export default function HorizontalBarChart({title,dataset,labels, source}) {
       
   return(
   <>
-      
         <Card className=" shadow">
-           
           <CardBody>
             <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
             </CardTitle>
             <div>
-          
-             
-                <Bar options={options} data={data} />
-              
-                 
+                <Bar options={options} data={data} plugins={plugins} />
             </div>
           </CardBody>
           <p style={{fontSize:"11px"}}>
                 {source}   
-             </p>
-                    
+          </p>
         </Card>
-    
     </>)
   
   

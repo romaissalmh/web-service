@@ -193,9 +193,7 @@
   /* ---------------------------------------------------
       DAHSHBOARD STYLE
   ----------------------------------------------------- */
-.dashboard{
-    position: relative !important;
-}
+
 .dashboard h6, .dashboard  h1,.dashboard h4{
  margin-left: 0px;
   color: var(--night-blue);
@@ -205,12 +203,16 @@
   font-family: "Gotham";
     font-weight: bold;
 }
+
+.candidates h4{
+  margin-left: 0px;
+  color: var(--night-blue);
+  font-weight: 900;
+}
   /* ---------------------------------------------------
       ANALYTICS STYLE
   ----------------------------------------------------- */
-.analytics{
-  position: relative;
-}
+
 .analytics h4{
   color: var(--night-blue);
   font-weight: 900;
@@ -243,9 +245,22 @@
    font-family: "Gotham";
      cursor:pointer;
 }
+.btn-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.btn-group .btn{
+  background-color:var(--night-blue); 
 
+}
+.btn-group .btn:hover,.btn-group .btn:focus,.btn-group .btn:active {
+  background-color:var(--lavender); 
+  color: var(--night-blue);
 
+}
 /*------------ table ------------*/
+
+
 .summary {
   margin-left: 20px;
   width:100%;
@@ -274,6 +289,22 @@
   height: 100%;
 
 }
+/************* MAP **********************/
+
+.map .btn-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.map .btn-group .btn{
+  background-color: #728bbc; 
+
+}
+.map .btn-group .btn:hover,.btn-group .btn:focus {
+  background-color:var(--lavender); 
+  color: #728bbc
+
+}
+
 .svg-map {
   width: 100%;
   height: auto;
@@ -284,18 +315,54 @@
 .svg-map__location {
   /*  fill: #B5C7EA ;*/
     cursor: pointer; }
-.svg-map__location--int0{
-  fill:#d7dff0;
+
+.svg-map__location--int00{
+  fill:#7696AE;
 }
-.svg-map__location--int1{
-  fill:#bbc6da;
+.svg-map__location--int01{
+  fill:#566A92;
 }
-.svg-map__location--int2{
-  fill:#92a0bc;
+.svg-map__location--int02{
+  fill:#475484;
 }
-.svg-map__location--int3{
-  fill:#728bbc;
+.svg-map__location--int03{
+  fill:#292B68;
 }
+.svg-map__location--int04{
+  fill:#00004D;
+}
+.svg-map__location--int10{
+  fill:#F8C2AF;
+}
+.svg-map__location--int11{
+  fill:#F79792;
+}
+.svg-map__location--int12{
+  fill:#D84560;
+}
+.svg-map__location--int13{
+  fill:#BB1D4B;
+}
+.svg-map__location--int14{
+  fill:#93003A;
+}
+
+.svg-map__location--int20{
+  fill:#B8D4E6;
+}
+.svg-map__location--int21{
+  fill:#8AC2E6;
+}
+.svg-map__location--int22{
+  fill:#5CB1E6;
+}
+.svg-map__location--int23{
+  fill:#148DD9;
+}
+.svg-map__location--int24{
+  fill:#0076BF;
+}
+
 .svg-map__location--int0:hover,.svg-map__location--int3:hover,.svg-map__location--int2:hover,.svg-map__location--int1:hover,
 .svg-map__location--int0:focus,.svg-map__location--int3:focus,.svg-map__location--int2:focus,.svg-map__location--int1:focus
 {
@@ -439,3 +506,49 @@
   background: transparent;
   transition: all 265ms ease-in;
 }
+
+/* ABOUT US PAGE STYLES */
+
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 8px;
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+ 
+  color: var(--night-blue);
+}
+
+.cont {
+  padding: 0 16px;
+}
+
+.cont::after, .row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.title {
+  color: grey;
+}
+
+.button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #555;
+}
+

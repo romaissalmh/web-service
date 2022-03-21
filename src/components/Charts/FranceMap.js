@@ -1,95 +1,66 @@
 import React, {  useState, useEffect } from 'react'
 import France from "@svg-maps/france.regions";
 import { SVGMap } from "react-svg-map";
+import {Button, ButtonGroup} from 'reactstrap';
+import { useIntl } from 'react-intl';
 
 //import FranceDep from "@svg-maps/france.departments";
+const { quantileSeq } = require('mathjs')
 
-export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
+export const FranceMap = ({data,limits, colors }) => {
 	//const [locationClassName, setLocationClassName] = useState({})
-	const [dataLocation, setDataLocation] = useState({
-		    ara: '',
-			bfc: '',
-			bre: '',
-			cvl: '',
-			cor: '',
-			ges: '',
-			hdf: '',
-			idf: '',
-			nor: '',
-			naq: '',
-			occ: '',
-			pdl: '',
-			pac: ''
-	})
-	const [spentLocation, setSpentLocation] = useState({
-		ara: '',
-		bfc: '',
-		bre: '',
-		cvl: '',
-		cor: '',
-		ges: '',
-		hdf: '',
-		idf: '',
-		nor: '',
-		naq: '',
-		occ: '',
-		pdl: '',
-		pac: ''
-})
+
+	const [showBy, setShowBy] = useState('ads');
+	const [dataInList, setDataInList] = useState()
+
+	const intl = useIntl();
+
 	const [pointedLocation,setPointedLocation]= useState(null)
 	const [pointedDataLocation, setPointedDataLocation] = useState(null)
 	const [pointedSpent,setPointedSpent]= useState(null)
+	const [pointedImpressions,setPointedImpressions]= useState(null)
+	const [adsQuantile, setAdsQuantile]= useState()
+	const [spendingQuantile, setSpendingQuantile]= useState()
+    const [mapLegend, setMapLegend] = useState({
+		ads:{
+			grades: [48000, 52000, 94000, 120000],
+			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
+		},
+		spending:{
+			grades: [3000000, 6000000, 9000000, 11000000],
+			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
+		},
+		impressions:{
+			grades: [50000000,90000000,160000000,180000000],
+			colors:['#B8D4E6','#8AC2E6','#5CB1E6', '#148DD9','#0076BF',]
 
+		}
+	})
 	const [tooltipStyle,setTooltipStyle]= useState({
 		display: 'none'
 
 	})
 
+	function roundUp(number,near){
+		if(number%near===0) return number;
+		  return  parseInt(number / near) * near+near;
+		
+	  }
 	useEffect(() => {
-		
-		var result = dataAds.reduce(function(map, obj) {
-			map[obj.region] =  parseInt(obj.number_of_ads) ;
-			return map;
-		}, {});
-		
-		var resultt = dataSpent.reduce(function(map, obj) {
-			map[obj.region] = parseInt(obj.mean_spend) ;
-			return map;
-		}, {});
-		setDataLocation({
-			ara: result["Auvergne"] + result["Rhône-Alpes"],
-			bfc: result["Bourgogne"] + result["Franche-Comté"],
-			bre: result["Bretagne"],
-			cvl: result["Centre"],
-			cor: result["Corse"],
-			ges: result["Alsace"]+ result["Lorraine"]+result["Champagne-Ardenne"],
-			hdf: result["Picardie"] + result["Nord-Pas-de-Calais"],
-			idf: result["Île-de-France"],
-			nor: result["Haute-Normandie"] + result["Basse-Normandie"],
-			naq: result["Limousin"]+result["Aquitaine"]+result["Poitou-Charentes"],
-			occ: result["Midi-Pyrénées"] + result["Languedoc-Roussillon"],
-			pdl: result["Pays de la Loire"],
-			pac: result["Provence-Alpes-Côte d'Azur"]
+				
+		let qSeq = quantileSeq(data.impressionsValues, [1/5, 2/5,3/5,4/5])
+		console.log(qSeq)
+		let result = []
+		qSeq.forEach(t => {
+			result.push(roundUp(t,1000))
 		})
-
-		setSpentLocation({
-			ara: resultt["Auvergne"]  + resultt["Rhône-Alpes"],
-			bfc: resultt["Bourgogne"] + resultt["Franche-Comté"],
-			bre: resultt["Bretagne"],
-			cvl: resultt["Centre"],
-			cor: resultt["Corse"],
-			ges: resultt["Alsace"]+ resultt["Lorraine"]+resultt["Champagne-Ardenne"],
-			hdf: resultt["Picardie"] + resultt["Nord-Pas-de-Calais"],
-			idf: resultt["Île-de-France"],
-			nor: resultt["Haute-Normandie"] + resultt["Basse-Normandie"],
-			naq: resultt["Limousin"]+resultt["Aquitaine"]+resultt["Poitou-Charentes"],
-			occ: resultt["Midi-Pyrénées"] + resultt["Languedoc-Roussillon"],
-			pdl: resultt["Pays de la Loire"],
-			pac: resultt["Provence-Alpes-Côte d'Azur"]
+		setAdsQuantile(result)
+		qSeq = quantileSeq(data.spendingValues, [1/5, 2/5,3/5,4/5])
+		result = []
+		qSeq.forEach(t => {
+			result.push(roundUp(t,1000))
 		})
-
-		
-
+		setSpendingQuantile(result)
 
 	}, [])
 	
@@ -101,17 +72,33 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 		return event.target.id
 	}
 */
+	function getColor(table, d){
+		return d > table[3]
+		? 3
+		: d > table[2]
+		? 2
+		: d > table[1]
+		? 1
+		: d > table[0]
+		? 0 : 0;
+
+
+	}
+	
+
     const handleLocationMouseOver= (event) =>  {
 		const pointedLocationId =  event.target.id
 		setPointedLocation(event.target.attributes.name.value)
-		setPointedDataLocation(dataLocation[pointedLocationId])
-		setPointedSpent(spentLocation[pointedLocationId])
+		setPointedDataLocation(data.ads[pointedLocationId])
+		setPointedSpent(data.spending[pointedLocationId])
+		setPointedImpressions(data.impressions[pointedLocationId])
 
 	}
     
 	const handleLocationMouseOut = ()  => {
 		setPointedLocation(null)
 		setPointedSpent(null)
+		setPointedImpressions(null)
 		setTooltipStyle({display: 'none'})
 	}
 
@@ -123,30 +110,20 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 		})
 	}
 	const getLocationClassName = (location, index) => {
-		// Generate random heat map
-		console.log(spentLocation[location.id])
-		let i 
-		if(spentLocation[location.id]>3000000) {
-			 i = 3
-		}
-		else{
-			if (spentLocation[location.id]>2000000 && spentLocation[location.id]<3000000 ) {
-				 i = 2
-			}
-			else{
-				if (spentLocation[location.id]>1000000 && spentLocation[location.id]<2000000 ) {
-					 i = 1
-				}
-				else{
-					i=0
-				}
-			}
-		}
-		return `svg-map__location--int${i}`;
+		return (
+		showBy === 'ads' ? `svg-map__location--int0${getColor(mapLegend.ads.grades,data.ads[location.id])}`
+		:  showBy === 'spending' ?  `svg-map__location--int1${getColor(mapLegend.spending.grades,data.spending[location.id])}`
+		: `svg-map__location--int2${getColor(mapLegend.impressions.grades,data.impressions[location.id])}`)
+	
 	}
 
         return (
-			
+		<div className='map'>
+		<ButtonGroup>
+            <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })} </Button>
+            <Button onClick={() => setShowBy('spending')}>{intl.formatMessage({ id: 'filterType2' })} </Button>
+            <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+        </ButtonGroup>
           <div className="franceMap">
             <SVGMap 
 			map={France} 
@@ -158,40 +135,73 @@ export const FranceMap = ({ dataAds, dataSpent,limits, colors }) => {
 			colors={colors}
             />
          <div className="legendeMap">
-		 <table>
-        <tbody>
 
-			<tr>
-				<td style={{background:"#d7dff0"}}>&gt;
-				</td>
-			</tr>
+			 <table>
+			 <tbody>
+				<tr>
+					{
+						showBy === 'ads' ? 
+						<td style={{background:"#7696AE", color:"white"}}> &lt; </td> 
+						: showBy === 'spending' ? 
+						<td style={{background:"#F8C2AF"}}> &lt; </td> :
+						<td style={{background:"#B8D4E6"}}> &lt; </td> 
+					}
+						
+				</tr>
+		
+				<tr>
+					{
+						showBy === 'ads' ? 
+						<td style={{background:"#566A92", color:"white"}}> 48000 </td> 
+						: showBy === 'spending' ? 
+						<td style={{background:"#F79792"}}> 3000000 </td> :
+						<td style={{background:"#8AC2E6"}}> 50000000 </td> 
+					}
+						
+				</tr>
+				<tr>
+					{
+							showBy === 'ads' ? 
+							<td style={{background:"#475484", color:"white"}}> 52000 </td> 
+							: showBy === 'spending' ? 
+							<td style={{background:"#D84560"}}> 6000000 </td> :
+							<td style={{background:"#5CB1E6"}}> 90000000</td> 
+						}
+				</tr>
+				<tr>
+						{
+							showBy === 'ads' ? 
+							<td style={{background:"#292B68", color:"white"}}> 94000 </td> 
+							: showBy === 'spending' ? 
+							<td style={{background:"#BB1D4B"}}> 9000000 </td> :
+							<td style={{background:"#148DD9"}}> 120000000</td> 
+						}
+				</tr>
 
-			<tr>
-				<td style={{background:"#bbc6da"}} >1000000
-				</td>
-			</tr>
-
-			<tr>
-				<td style={{background:"#92a0bc"}}>2000000
-				</td>
-			</tr>
-
-		<tr>
-				<td style={{background:"#728bbc"}}>3000000
-				</td>
-			</tr>
-
-		</tbody>
-		</table>
+				<tr>
+					{
+							showBy === 'ads' ? 
+							<td style={{background:"#00004D", color:"white"}}> 120000 </td> 
+							: showBy === 'spending' ? 
+							<td style={{background:"#93003A"}}> 11000000 </td> :
+							<td style={{background:"#0076BF"}}> 160000000 </td> 
+						}
+				</tr>
+	 
+			 </tbody>
+			 </table>
 		 </div>
 			
             <div className="mapTooltip" style={tooltipStyle}>
                
-				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham", fontWeight:"bold"}}> {pointedLocation } {pointedDataLocation !== undefined && !isNaN(pointedDataLocation) ?": " + pointedDataLocation + " ads":"" }</p>
-			
-				{pointedSpent !== undefined && !isNaN(pointedSpent) ? <h6>{pointedSpent} €</h6>: "" }
+				<p style={{color:"black", fontSize:"12px", fontFamily:"Gotham", fontWeight:"bold"}}>
+			    {pointedLocation } 
+				
+				{showBy === 'ads' ? ": " + pointedDataLocation + " ads": showBy === 'spending' ? ": " + pointedSpent + " €" : ": " +  pointedImpressions  }
+				</p>
 			  </div>
         </div>
+		</div>
         )
     
 }

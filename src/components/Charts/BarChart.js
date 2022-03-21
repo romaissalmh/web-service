@@ -12,11 +12,12 @@ import {
     Filler 
   } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
-import { Card,CardTitle, CardBody,Row,Col,Button,ButtonGroup} from "reactstrap";
+import { Card,CardTitle, CardBody,Row,Col,Button} from "reactstrap";
 import {lineOptions} from './variables/chart'
 import '../../assets/css/styles.css'
+import StatsCard from './StatsCard'
 import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
-import { useIntl } from 'react-intl';
+import {RiMoneyEuroCircleLine} from "react-icons/ri";
 
 ChartJS.register(
     CategoryScale,
@@ -30,19 +31,26 @@ ChartJS.register(
     Filler
   );
 
+  const calcSum = (arr) => {
+    try{
+      return arr.filter((a) => !isNaN(a)).reduce((a, b) => a + b, 0)
+    }
+    catch(e){
 
+    }
+  }
 
    
   
-function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,shownByMoney, changeShowBy*/}) {
+function BarChart({chartOptions,dataset,labels,title, currency,color, colorOpacity, source, total /*,shownByMoney, changeShowBy*/}) {
   const [line, setLine] = useState(true)
-  const [showBy, setShowBy] = useState('ads');
-  const intl = useIntl();
+   
+
     const data = {
       labels,
       datasets: [ 
         {
-          data: showBy === 'ads' ?  dataset.ads : showBy === 'spending' ? dataset.spending : dataset.impressions,
+          data: dataset,
           borderColor: color,
           fill: line ? true : false,
           backgroundColor: line ? colorOpacity :color,
@@ -60,23 +68,16 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
     };
     return (
         <>
-        <ButtonGroup > 
-                    <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })}</Button>
-                    <Button onClick={() => setShowBy('spending')}> {intl.formatMessage({ id: 'filterType2' })} </Button>
-                    <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
-        </ButtonGroup>
-      
         <Card  className="shadow">
             <CardTitle >
-             
                 <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)'}} >
                   <Col xl="8" sm="8">
-              
                     <h5 style={{fontFamily:"Gotham", fontWeight:"bold"}}>
-                   {showBy === 'ads' ?  dataset.adsTitle : showBy === 'spending' ? dataset.spendingTitle : dataset.impressionsTitle}
+                   {title} 
                     </h5>
                   </Col>
                 
+                    
                        <Col style={{display:"flex", justifyContent:"flex-end",paddingBottom:"10px"}}>
                     {line ? (
                          <div className="flex">
@@ -104,6 +105,23 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
              
                 </Row>
                 
+                {
+                  total === "true" ? 
+                  <Row  style={{marginTop:"10px", flex:"display", justifyContent:"space-between", alignItems:"center"}} >
+                  <Col  >
+                  {<StatsCard
+                                    text={"Total : "}
+                                    value={  calcSum(dataset) + currency}
+                                    percentage={false}
+                                    textColor= {color}
+                                    icon={ <RiMoneyEuroCircleLine size="1.5em"/> }
+                        />
+                    }
+                  </Col>
+                 
+                 </Row>
+                  :""
+                }
              
 
 
@@ -112,7 +130,7 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
 
             </CardTitle>
             <CardBody>
-                
+              
                 <div className="chart">
                   {/* Chart wrapper */}
                   {line ? (
@@ -137,8 +155,6 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
     )
 }
 
-export default LineChart
-
-
+export default BarChart
 
 

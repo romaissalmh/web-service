@@ -1,18 +1,36 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container,Row, Spinner} from 'reactstrap'
+import {Container, Row, Spinner, Col, ButtonGroup, Button} from 'reactstrap'
 import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
+import HorizontalBarChart from '../Charts/HorizontalBarChart'
 //apis call 
 import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';
+import { i } from 'mathjs'
 
 const CandidatesView = () => {
     const intl = useIntl();
+    const [showBy, setShowBy] = useState('overall');
 
 	
- 	const [adsPerCandidate,setAdsCandidate] = useState({
+ 	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
         loading:true,
-        labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+        labels: ['Jan2022','Feb2022','March2022']
+
+
+    })
+    	
+ 	const [spendPerCandidate,setSpendPerCandidate] = useState({
+        data : [],
+        loading:true,
+        labels: ['Jan2022','Feb2022','March2022']
+
+
+    })
+
+    const [globalSpedingPerCandidate,setGlobalSpedingPerCandidate] = useState({
+        data : [],
+        loading:true,
 
 
     })
@@ -20,47 +38,133 @@ const CandidatesView = () => {
 
 
     useEffect(() => {
-        loadAdsPerCandidate()
-      
+        loadInfoPerCandidate()
+        loadGlobalSpedingPerCandidate()
     }, [])
   
 
-     const loadAdsPerCandidate = useCallback(async () => {
-        setAdsCandidate({
+     const loadInfoPerCandidate = useCallback(async () => {
+        setAdsPerCandidate({
             loading:true
         })
-        const data = await fetchAdsPerCandidate()
-        console.log(data)
+        const info = await fetchInfoPerCandidate()
+
         let candidates = []
-        
-        for (const d of data)
+        for (const d of info)
         {
+            //console.log(d)
+            if(d.data.length <3){
+                if(d.data.find(element => element.month === 1) === undefined){
+                    d.data.splice(0,0,{
+                        month: 1, countAds: 0, impressions: 0, reach: 0, spend: 0
+                    })
+                }
+                if(d.data.find(element => element.month === 2) === undefined){
+                    d.data.splice(1,0,{
+                        month: 2, countAds: 0, impressions: 0, reach: 0, spend: 0
+                    })
+                }
+                if(d.data.find(element => element.month === 3) === undefined){
+                    d.data.splice(2,0,{
+                        month: 3, countAds: 0, impressions: 0, reach: 0, spend: 0
+                    })
+                }
+            }
+            let countAds = [parseInt(d.data[0].countAds),parseInt(d.data[1].countAds),parseInt(d.data[2].countAds)]
+            let impressions = [parseInt(d.data[0].impressions),parseInt(d.data[1].impressions),parseInt(d.data[2].impressions)]
+            let spending = [parseInt(d.data[0].spend),parseInt(d.data[1].spend),parseInt(d.data[2].spend)]
+            let reach =  [parseInt(d.data[0].reach),parseInt(d.data[1].reach),parseInt(d.data[2].reach)]
         	let element = {
         		"label":d.candidate,
-        		"data":[]
+        		"data":{
+                    countAds:countAds,
+                    impressions:impressions,
+                    spending:spending,
+                    reach:reach
+                }
         	}
-        	d.countAds.map((ad)=>(
-                 element.data.push(parseInt(ad.countAds)) 
-            ))
+      
             
-			candidates.push(element)
+		   candidates.push(element)
         }
-            
-    
+        console.log("afff")    
+        console.log(candidates)
        
-        setAdsCandidate({
+        setAdsPerCandidate({
             data:candidates,
             loading:false,
-            labels: ['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022']
+            labels: ['Jan2022','Feb2022','March2022']
         })
+        console.log("ava apres")    
+        console.log(candidates)
+        console.log("apres")    
         console.log(adsPerCandidate)
+       
+        
     })
+ 
+     function compare_lname( a, b )
+            {
+               
+            if( a.data[0] === undefined)
+                a.data.push({spend:0})
+
+                if( b.data[0] === undefined)
+                b.data.push({spend:0})
+            if ( parseInt(a.data[0].spend) < parseInt(b.data[0].spend)){
+                return 1;
+            }
+            if (parseInt(a.data[0].spend)> parseInt(b.data[0].spend)){
+                return -1;
+            }
+            return 0;
+            }
+
+    const loadGlobalSpedingPerCandidate = useCallback(async () => {
+        setGlobalSpedingPerCandidate({
+            loading:true
+        })
+        const result = await fetchGlobalSpedingPerCandidate()
+        result.sort(compare_lname)
+        let spending = []
+        let labels = []
+        for (const d of result)
+        {
+            labels.push(d.candidate)
+            if(d.data[0] !== undefined){
+                spending.push(parseInt(d.data[0].spend))
+            }
+            else  spending.push(0)
+           
+        
+        }
+     
+        setGlobalSpedingPerCandidate({
+            data:spending,
+            loading:false,
+            labels:labels
+        })
+    
+    }, [])
+
+    /**
+     * 
+     * Fetching data from the REST APIIII 
+     */
+    const fetchInfoPerCandidate = async () => {
+        let stats 
+        await api.get(`api/general/infoCandidatesByMonth`)
+         .then ( res => {
+             stats = res
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+    }
 
 
-  
-
-
-    const fetchAdsPerCandidate = async () => {
+    const fetchSpendPerCandidate = async () => {
         let stats 
         await api.get(`api/general/numberOfEntitiesOfCandidatesByMonth`)
          .then ( res => {
@@ -70,19 +174,52 @@ const CandidatesView = () => {
              err => console.log(err)
          )
          return stats 
-     }
+    }
+
+    const fetchGlobalSpedingPerCandidate = async () => {
+        let stats 
+        await api.get(`api/general/spendCandidates`)
+         .then ( res => {
+             stats = res
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+    }
 
    
 	return (
 
-		 <Container className="analytics">
-            <br/> 
-            <Row style={{ padding:"30px"}}>     
-            <h6> {intl.formatMessage({ id: 'candidatesTitle' })}  </h6>    <br/> 
-  {
-                    adsPerCandidate.loading ? 
-                     <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
-                     : 
+		 <Container className="candidates">
+            <Row style={{ marginTop:"40px"}}>     
+            <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/> <br/> <br/> 
+            <ButtonGroup >
+                    <Button onClick={() => setShowBy('overall')}>Overall</Button>
+                    <Button onClick={() => setShowBy('overtime')}>Overt time</Button>
+                    <Button onClick={() => setShowBy('demographics')}>Demographics</Button>
+                    <Button onClick={() => setShowBy('topics')}>Topics</Button>
+
+            </ButtonGroup>
+                <Col xl="12"  sm="12" >  
+                {showBy === 'overall' 
+                ? 
+                globalSpedingPerCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                : 
+                <HorizontalBarChart 
+                title={intl.formatMessage({ id: 'candidatesPlotTitle1' })}
+                labels = {globalSpedingPerCandidate.labels} 
+                dataset={globalSpedingPerCandidate.data}
+                currency= "€ "
+                source={intl.formatMessage({ id: 'plotSource2' })} 
+                /> 
+
+                : showBy === 'overtime' 
+                ? 
+                adsPerCandidate.loading 
+                ? 
+                    <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+                : 
                 <LineChartMultipleDatasets
                     title={intl.formatMessage({ id: 'candidatesPlot' })}
                     labels = {adsPerCandidate.labels} 
@@ -92,7 +229,18 @@ const CandidatesView = () => {
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
                     source={intl.formatMessage({ id: 'plotSource1' })}
-                   />}
+                />
+                : 
+                
+               <h6 style={{margin:"20px"}}>
+                   This part is under working !
+               </h6>
+
+               
+               }
+                
+               
+                </Col>
             </Row>
             <br/>  
         </Container> 

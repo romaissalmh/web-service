@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useCallback} from 'react'
 import { Modal, ModalFooter,
-    ModalHeader, ModalBody,Button,Container,Row, Col, Spinner} from 'reactstrap'
-import LineChart from '../Charts/LineChart'
+    ModalHeader, ModalBody,Button,Container,Row, Col, Spinner, ButtonGroup} from 'reactstrap'
+import BarChart from '../Charts/BarChart'
 import TwoBarChart from '../Charts/TwoBarChart'
 //apis call 
 import {api} from '../../scripts/network'
@@ -28,32 +28,9 @@ const AnalyticsView = () => {
             loadAdsTargetingAgeGender(age,gender)
     }
 
-    const [adsPerMonth,setAdsPerMonth] = useState({
-        adsPerMonth : [],
-        loading:true,
-        labels: [intl.formatMessage({ id: 'jul' }),
-        intl.formatMessage({ id: 'aug' }),
-        intl.formatMessage({ id: 'sep' }),
-        intl.formatMessage({ id: 'oct' }),
-        intl.formatMessage({ id: 'nov' }),
-        intl.formatMessage({ id: 'dec' }),
-        intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' }),
-        intl.formatMessage({ id: 'mar' })]
-    })
-    const [spentOfMoneyPerMonth, setSpentOfMoneyPerMonth] = useState({
-        adsPerMonth : [],
-        loading:true,
-        labels: [intl.formatMessage({ id: 'jul' }),
-        intl.formatMessage({ id: 'aug' }),
-        intl.formatMessage({ id: 'sep' }),
-        intl.formatMessage({ id: 'oct' }),
-        intl.formatMessage({ id: 'nov' }),
-        intl.formatMessage({ id: 'dec' }),
-        intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' }),
-        intl.formatMessage({ id: 'mar' })]
-    })
+   
+    const [showBy, setShowBy] = useState('ads');
+
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
         femaleGender:[],
@@ -92,8 +69,6 @@ const AnalyticsView = () => {
         labels: []
     })
     useEffect(() => {
-        loadAdsPerMonth()
-        loadSpentOfMoneyPerMonth()
         loadDemographicBreakdown()
         loadAdsPerAdvertiser()
         loadImpressionsPerAdvertiser()
@@ -102,66 +77,9 @@ const AnalyticsView = () => {
     }, [])
      
 
-    const loadAdsPerMonth = useCallback(async () => {
-            setAdsPerMonth({
-                loading:true
-            })
-            const adsPerMonth = await fetchAdsPerMonth()
-            
-            let transform = []
-            adsPerMonth.map((ad)=>(
-                transform.push(parseInt(ad.countAds))
-            ))
-    
-            setAdsPerMonth({
-                adsPerMonth:transform,
-                loading:false,
-                labels: [intl.formatMessage({ id: 'jul' }),
-        intl.formatMessage({ id: 'aug' }),
-        intl.formatMessage({ id: 'sep' }),
-        intl.formatMessage({ id: 'oct' }),
-        intl.formatMessage({ id: 'nov' }),
-        intl.formatMessage({ id: 'dec' }),
-        intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' }),
-        intl.formatMessage({ id: 'mar' })]
-
-            })
-        
-        }, [])
-
-
    
 
-    const loadSpentOfMoneyPerMonth = useCallback(async () => {
-        setSpentOfMoneyPerMonth({
-            loading:true
-        })
-        const adsPerMonth = await fetchSpentOfMoneyPerMonth()
-
-        let transform = []
-        adsPerMonth.map((ad)=>(
-            transform.push(parseInt(ad.countMoney)) 
-        ))
-
-        setSpentOfMoneyPerMonth({
-            adsPerMonth:transform,
-            loading:false,
-            labels: [intl.formatMessage({ id: 'jul' }),
-        intl.formatMessage({ id: 'aug' }),
-        intl.formatMessage({ id: 'sep' }),
-        intl.formatMessage({ id: 'oct' }),
-        intl.formatMessage({ id: 'nov' }),
-        intl.formatMessage({ id: 'dec' }),
-        intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' }),
-        intl.formatMessage({ id: 'mar' })]
-
-        })
-    })
-
    
-
     
 
    
@@ -299,31 +217,6 @@ const AnalyticsView = () => {
 
     // fetching data from the server
 
-    const fetchAdsPerMonth = async () => {
-        let stats 
-        await api.get(`api/general/numberOfEntitiesByMonth`)
-         .then ( res => {
-             stats = res
-         })
-         .catch(
-             err => console.log(err)
-         )
-         return stats  
-     }
-
-           
-    const fetchSpentOfMoneyPerMonth = async () => {
-        let stats 
-        await api.get(`api/general/spentOfMoneyByMonth`)
-         .then ( res => {
-             stats = res
-             //console.log(stats)
-         })
-         .catch(
-             err => console.log(err)
-         )
-         return stats 
-     }
 
       const fetchAdsTargetingAgeGender = async (age,gender) => {
          //change the api url
@@ -453,49 +346,21 @@ const AnalyticsView = () => {
     return (
         <Container className="analytics">
             
-            <Row style={{minHeight:"300px", padding:"30px"}}>     
-            <h4> {intl.formatMessage({ id: 'analyticsTitle' })}  </h4>    <br/> 
-            <h6> {intl.formatMessage({ id: 'analyticsSubTitle' })}  </h6>         
-                    <Col xl="6" sm="12" >  
-                    {
-                     adsPerMonth.loading ?  
-                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
-                     : 
-                     <LineChart 
-                     title= {intl.formatMessage({ id: 'plotTitle1' })}  
-                     labels = {spentOfMoneyPerMonth.labels} 
-                     dataset={adsPerMonth.adsPerMonth}
-                     currency = ""
-                     total="true"
-                     color="rgba(56, 56, 116, 1)"
-                     colorOpacity="rgba(56, 56, 116, 0.1)"
-                     source={intl.formatMessage({ id: 'plotSource1' })} 
-                     />  
-                     }
-                    </Col>  
-                    <Col xl="6"  sm="12" >  
-                    {
-                     spentOfMoneyPerMonth.loading ? 
-                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
-                     : 
-                     <LineChart 
-                     title={intl.formatMessage({ id: 'plotTitle2' })}  
-                     labels = {spentOfMoneyPerMonth.labels} 
-                     dataset={spentOfMoneyPerMonth.adsPerMonth}
-                     currency = " €"
-                     total="true"
-                     color="rgba(255, 186, 105, 1)"
-                     colorOpacity="rgba(255, 186, 105, 0.1)"
-                     source={intl.formatMessage({ id: 'plotSource1' })} 
-                     />  }
-                    </Col>  
-            </Row>  <br/>  
-            
+           
            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
+           <h4> {intl.formatMessage({ id: 'analyticsTitle' })}  </h4>    <br/> 
+
              <h6>  {intl.formatMessage({ id: 'analyticsSubTitle1' })}</h6>  
                  <Col xl="12"  sm="12" >  
+                 <ButtonGroup >
+                    <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })}</Button>
+                    <Button onClick={() => setShowBy('spending')}> {intl.formatMessage({ id: 'filterType2' })} </Button>
+                    <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+                </ButtonGroup>
 
                 {
+                    showBy === "ads" ?
+                   
                      adsPerAdvertiser.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
@@ -504,31 +369,18 @@ const AnalyticsView = () => {
                      labels = {adsPerAdvertiser.labels} 
                      dataset={adsPerAdvertiser.data}
                       source={intl.formatMessage({ id: 'plotSource1' })} 
-                     />  } 
-                 </Col>    
-            </Row> 
-              
-            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
-                <Col xl="12"  sm="12" >  
-
-                {
+                     /> 
+                     : showBy === "spending" ? 
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
                      title={intl.formatMessage({ id: 'analyticsPlotTitle3' })}
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
+                     currency= "€ "
                      source={intl.formatMessage({ id: 'plotSource2' })} 
-                     />  
-                    }  
-                 </Col>       
-            </Row>
-              
-            <Row style={{ marginTop:"20px", minHeight:"300px", padding:"30px"}}>   
-                 <Col xl="12"  sm="12" >  
-
-
-           {
+                     /> 
+                     :
                      impressionsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
                      <HorizontalBarChart 
@@ -536,11 +388,13 @@ const AnalyticsView = () => {
                      labels = {impressionsPerAdvertiser.labels} 
                      dataset={impressionsPerAdvertiser.data}
                       source={intl.formatMessage({ id: 'plotSource1' })} 
-                     />  }   
+                     /> 
+
+                     
+                     } 
                  </Col>    
-    
-            </Row>
-          
+            </Row> 
+                
           
 
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
@@ -613,7 +467,7 @@ const AnalyticsView = () => {
                         {
                         dateLocationRegion.loading
                         ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                        : <LineChart 
+                        : <BarChart 
                         title={intl.formatMessage({ id: 'plotTitle2' })} 
                         labels = {dateLocationRegion.labels} 
                         dataset={dateLocationRegion.data}

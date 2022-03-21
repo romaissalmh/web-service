@@ -11,11 +11,14 @@ import {
     Legend,
     Filler
   } from 'chart.js';
-import { Line, Bar } from 'react-chartjs-2';
+
+import { default as ReactSelect } from "react-select";
+
+import { Line } from 'react-chartjs-2';
 import { Card,CardTitle, CardBody,Row,Col,Button} from "reactstrap";
-import {lineOptions} from './variables/chart'
 import '../../assets/css/styles.css'
-import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
+import { components } from "react-select";
+
 
 ChartJS.register(
     CategoryScale,
@@ -30,11 +33,113 @@ ChartJS.register(
   );
 
 
-  
-function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency,color, colorOpacity, source, total}) {
-  const [line, setLine] = useState(true)
-      const options = {    
-   
+  const Option = (props) => {
+    return (
+      <div>
+        <components.Option {...props}>
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+  };
+   const candidatesOptions = [
+    { value: 0, label: "Emmanuel Macron", color:"#ff2d2e" },
+    { value: 1, label: "Jean-Luc Mélenchon", color:"#8675FF" },
+    { value: 2, label: "Marine Le Pen", color:"#5eff5a" },
+    { value: 3, label: "Eric Zemmour", color:"#ffba69" },
+    { value: 4, label: "Fabien Roussel", color:"#7C4733" },
+    { value: 5, label: "Anne Hidalgo" , color:"#5541D8"},
+    { value: 6, label: "Nathalie Arthaud" , color:"#292B68"},
+    { value: 7, label: "Nicolas Dupont-Aignan", color:"#BB1D4B" },
+    { value: 8, label: "Jean Lassalle", color:"#D8B46F" },
+    { value: 9, label: "Philippe Poutou" , color:"#D84560"},
+    { value: 10, label: "Yannick Jadot", color:"black" },
+    {value:11, label:"Valérie Pécresse", color:"#dbdff1"}
+  ];
+function LineChartMultipleDatasets({datasets,labels,title, currency,color, colorOpacity, source, total}) {
+  const [optionSelected, setOptionSelected] = useState([
+    {value: 0, label: 'Emmanuel Macron'},
+    {value: 1, label: 'Jean-Luc Mélenchon'},
+    {value: 2, label: 'Marine Le Pen'},
+    {value: 3, label: 'Eric Zemmour'}
+  ])
+  const [dataList, setDataList] = useState([
+      {
+        label:datasets[0].label,
+        data: datasets[0].data.spending,
+        borderColor: candidatesOptions[0].color,
+        fill: true,
+        backgroundColor:"transparent",
+        borderRadius: 1,
+        BarThickness: 40,
+        pointBorderWidth:3,
+        pointBorderColor: "#fff",
+        pointBackgroundColor: candidatesOptions[0].color,
+        pointStyle: 'circle',
+        pointRadius:6,
+        tension: 0.2,
+     
+      },
+       {
+        label:datasets[1].label,
+        data: datasets[1].data.spending,
+        borderColor: candidatesOptions[1].color,
+        fill:  true ,
+        backgroundColor:  "transparent" ,
+        borderRadius: 1,
+        BarThickness: 40,
+        pointBorderWidth:3,
+        pointBorderColor: "#fff",
+        pointBackgroundColor: candidatesOptions[1].color,
+        pointStyle: 'circle',
+        pointRadius:6,
+        tension: 0.2,
+      },
+       {
+        label:datasets[2].label,
+        data: datasets[2].data.spending,
+        borderColor: candidatesOptions[2].color,
+        fill: true,
+        backgroundColor: "transparent",
+        borderRadius: 1,
+        BarThickness: 40,
+        pointBorderWidth:3,
+        pointBorderColor: "#fff",
+        pointBackgroundColor: candidatesOptions[2].color,
+        pointStyle: 'circle',
+        pointRadius:6,
+        tension: 0.2,
+     
+      },
+       {
+        label:datasets[3].label,
+        data: datasets[3].data.spending,
+        borderColor:candidatesOptions[3].color,
+        fill: true,
+        backgroundColor: "transparent" ,
+        borderRadius: 2,
+        BarThickness: 40,
+        pointBorderWidth:3,
+        pointBorderColor: "#fff",
+        pointBackgroundColor: candidatesOptions[3].color,
+        pointStyle: 'circle',
+        pointRadius:6,
+        tension: 0.2,
+     
+      },
+    
+    ],)
+  const options = {    
+    scales:{
+      y:{
+        ticks: {beginAtZero: true,}
+      }
+    },
     plugins: {
       legend: {
           display:true,
@@ -59,110 +164,39 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
     
    
   };
-    console.log(datasets[0].label)
+
+  const onChangeSelected = (selected) => {
+    setOptionSelected(selected)
+    let list = []
+      for(let s in selected) {
+        console.log(selected[s])
+        list.push({
+          label:datasets[selected[s].value].label,
+          data: datasets[selected[s].value].data.spending,
+          borderColor: candidatesOptions[selected[s].value].color,
+          fill: true,
+          backgroundColor: "transparent",
+          borderRadius: 1,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: candidatesOptions[selected[s].value].color,
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+        })
+      }
+      setDataList(list)
+  }
+    let l = ['Jan2022','Feb2022','March2022']
     const data = {
       labels,
-      datasets: [ 
-        {
-          label:datasets[0].label,
-          data: datasets[0].data,
-          borderColor: "#8675FF",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgba(134, 117, 255, 0.2)" :"#8675FF",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "#8675FF",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-       
-        },
-         {
-          label:datasets[1].label,
-          data: datasets[1].data,
-          borderColor: "#ff2d2e",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgba(255, 45, 46, 0.2)" :"#ff2d2e",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "#ff2d2e",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-        },
-         {
-          label:datasets[2].label,
-          data: datasets[2].data,
-          borderColor: "#5eff5a",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgba(94, 255, 90, 0.2)" :"#5eff5a",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "#5eff5a",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-       
-        },
-         {
-          label:datasets[3].label,
-          data: datasets[3].data,
-          borderColor: "#ffba69",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgba(255, 186, 105, 0.2)" :"#ffba69",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "#ffba69",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-       
-        },
-         {
-          label:datasets[4].label,
-          data: datasets[4].data,
-          borderColor: "rgb(255, 112, 139)",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgb(255, 112, 139,0.2)" :"rgb(255, 112, 139)",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "rgb(255, 112, 139)",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-       
-        },
-        {
-          label:datasets[5].label,
-          data: datasets[5].data,
-          borderColor: "rgba(56, 56, 116, 1)",
-          fill: line ? true : false,
-          backgroundColor: line ? "rgba(56, 56, 116, 0.2)" :"rgba(56, 56, 116, 1)",
-          borderRadius: 2,
-          BarThickness: 40,
-          pointBorderWidth:3,
-          pointBorderColor: "#fff",
-          pointBackgroundColor: "rgba(56, 56, 116, 1)",
-          pointStyle: 'circle',
-          pointRadius:6,
-          tension: 0.2,
-       
-        },
-      ],
+      datasets: dataList,
     };
     return (
         <>
-        <Card className="shadow">
+       
+          <Card className="shadow">
             <CardTitle >
                 <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)'}} >
                   <Col xl="8" sm="8">
@@ -171,29 +205,7 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
                     </h5>
                   </Col>
                 
-                       <Col style={{display:"flex", justifyContent:"flex-end",paddingBottom:"10px"}}>
-                    {line ? (
-                         <div className="flex">
-                         <Button style={{backgroundColor:color, borderStyle:'none'}}  type="button" onClick={() => setLine(true)}>
-                            <BiLineChart size="22" />
-                         </Button>
-                         <Button style={{ backgroundColor:colorOpacity,  color:color, borderStyle:'none'}} type="button" onClick={() => setLine(false)}>
-                            <BiBarChartAlt2 size="22"/> 
-                         </Button>
-                       </div>
-                      )
-                      :
-                      <div className="flex">
-                        <Button style={{backgroundColor:colorOpacity,  color:color, borderStyle:'none'}}  type="button" onClick={() => setLine(true)}>
-                            <BiLineChart size="22"/>
-
-                        </Button>
-                        <Button style={{ backgroundColor:color, borderStyle:'none'}} className="shadow"   type="button" onClick={() => setLine(false)}>
-                             <BiBarChartAlt2 size="22"/> 
-                        </Button>
-                    </div>    
-                    }
-                </Col>
+                      
               
              
                 </Row>
@@ -207,19 +219,22 @@ function LineChartMultipleDatasets({chartOptions,datasets,labels,title, currency
 
             </CardTitle>
             <CardBody>
-              
+                      <ReactSelect
+                      options={candidatesOptions}
+                      isMulti
+                      closeMenuOnSelect={false}
+                      hideSelectedOptions={false}
+                      components={{
+                        Option
+                      }}
+                      onChange={ (selected ) => {onChangeSelected(selected)}}
+                      allowSelectAll={true}
+                      value={optionSelected}
+                    />
                 <div className="chart">
-                  {/* Chart wrapper */}
-                  {line ? (
+                  
                      <Line options={options} data={data} />
 
-                  
-                  ) :
-                  (
-                    <Bar options={lineOptions} data={data} />
-
-                  )
-                  }   
                 </div>
                
             </CardBody>

@@ -7,7 +7,6 @@ import AnalyticsView from './components/Analytics/AnalyticsView'
 import CandidatesView from './components/Analytics/CandidatesView'
 import DemographicView from './components/Analytics/DemographicView'
 import RegionsView from './components/Analytics/RegionsView'
-import IntroductionView from './components/Introduction/IntroductionView'
 import ExploreView from './components/Explore/ExploreView'
 //styling sheets
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +15,7 @@ import {  FaBars } from 'react-icons/fa';
 import { IntlProvider } from 'react-intl';
 import messages from './components/messages';
 import { install } from "resize-observer";
+import AboutUsView from './components/AboutUs/AboutUsView';
 
 
 function App() {
@@ -55,8 +55,8 @@ function App() {
                 </div>
               
                 <Routes>
-                      <Route path="/"  element={<IntroductionView rtl={rtl} />} />
-                      <Route path="/intro" element={<IntroductionView rtl={rtl} />}/>
+                      <Route path="/"  element={<DashboardView rtl={rtl} />} />
+                      <Route path="/aboutUs" element={<AboutUsView rtl={rtl} />}/>
                       <Route path="/dashboard" element={<DashboardView  rtl={rtl}/>}/>
                       <Route path="/analytics"  element={<AnalyticsView rtl={rtl} />}/>
                       <Route path="/analytics/advertisers"  element={<CandidatesView rtl={rtl} />}/>
