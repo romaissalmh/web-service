@@ -12,7 +12,10 @@ import { useIntl } from 'react-intl';
 const AnalyticsView = () => {
     const intl = useIntl();
 
-  
+    const [activeB1, setActiveB1] = useState(true)
+    const [activeB2, setActiveB2] = useState(false)
+    const [activeB3, setActiveB3] = useState(false)
+   
     const [regionName, setRegionName] = useState("Alsace");
      
     // Modal open state
@@ -335,7 +338,6 @@ const AnalyticsView = () => {
        ];
 
        const optionsTargetingTable = {
-        // filterType: 'checkbox',
          filter: false,
          download: false,
          print: false,
@@ -353,9 +355,24 @@ const AnalyticsView = () => {
              <h6>  {intl.formatMessage({ id: 'analyticsSubTitle1' })}</h6>  
                  <Col xl="12"  sm="12" >  
                  <ButtonGroup >
-                    <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })}</Button>
-                    <Button onClick={() => setShowBy('spending')}> {intl.formatMessage({ id: 'filterType2' })} </Button>
-                    <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+                    <Button active={activeB1} onClick={() => {
+                        setShowBy('ads')
+                        setActiveB2(false)
+                        setActiveB3(false)
+                        setActiveB1(true)
+                    }}>{intl.formatMessage({ id: 'filterType1' })}</Button>
+                    <Button active={activeB2} onClick={() => {
+                        setShowBy('spending')
+                        setActiveB3(false)
+                        setActiveB1(false)
+                        setActiveB2(true)
+                    }}> {intl.formatMessage({ id: 'filterType2' })} </Button>
+                    <Button active={activeB3} onClick={() => {
+                        setShowBy('impressions')
+                        setActiveB1(false)
+                        setActiveB2(false)
+                        setActiveB3(true)
+                    }}>{intl.formatMessage({ id: 'filterType3' })} </Button>
                 </ButtonGroup>
 
                 {

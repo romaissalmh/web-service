@@ -37,6 +37,9 @@ ChartJS.register(
 function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,shownByMoney, changeShowBy*/}) {
   const [line, setLine] = useState(true)
   const [showBy, setShowBy] = useState('ads');
+  const [activeB1, setActiveB1] = useState(true)
+  const [activeB2, setActiveB2] = useState(false)
+  const [activeB3, setActiveB3] = useState(false)
   const intl = useIntl();
     const data = {
       labels,
@@ -61,9 +64,24 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
     return (
         <>
         <ButtonGroup > 
-                    <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })}</Button>
-                    <Button onClick={() => setShowBy('spending')}> {intl.formatMessage({ id: 'filterType2' })} </Button>
-                    <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+                    <Button active={activeB1} onClick={() => {
+                            setShowBy('ads') 
+                            setActiveB2(false)
+                            setActiveB3(false)
+                            setActiveB1(true)
+                    } }>{intl.formatMessage({ id: 'filterType1' })}</Button>
+                    <Button active={activeB2} onClick={() => {
+                            setShowBy('spending')
+                            setActiveB3(false)
+                            setActiveB1(false)
+                            setActiveB2(true)
+                    }}> {intl.formatMessage({ id: 'filterType2' })} </Button>
+                    <Button active={activeB3} onClick={() => {
+                            setShowBy('impressions')
+                            setActiveB1(false)
+                            setActiveB2(false)
+                            setActiveB3(true)
+                    }}>{intl.formatMessage({ id: 'filterType3' })} </Button>
         </ButtonGroup>
       
         <Card  className="shadow">

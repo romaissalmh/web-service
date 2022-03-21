@@ -14,13 +14,17 @@ export const FranceMap = ({data,limits, colors }) => {
 	const [dataInList, setDataInList] = useState()
 
 	const intl = useIntl();
-
+	const [activeB1, setActiveB1] = useState(true)
+	const [activeB2, setActiveB2] = useState(false)
+	const [activeB3, setActiveB3] = useState(false)
 	const [pointedLocation,setPointedLocation]= useState(null)
 	const [pointedDataLocation, setPointedDataLocation] = useState(null)
 	const [pointedSpent,setPointedSpent]= useState(null)
 	const [pointedImpressions,setPointedImpressions]= useState(null)
 	const [adsQuantile, setAdsQuantile]= useState()
 	const [spendingQuantile, setSpendingQuantile]= useState()
+
+
     const [mapLegend, setMapLegend] = useState({
 		ads:{
 			grades: [48000, 52000, 94000, 120000],
@@ -120,9 +124,24 @@ export const FranceMap = ({data,limits, colors }) => {
         return (
 		<div className='map'>
 		<ButtonGroup>
-            <Button onClick={() => setShowBy('ads')}>{intl.formatMessage({ id: 'filterType1' })} </Button>
-            <Button onClick={() => setShowBy('spending')}>{intl.formatMessage({ id: 'filterType2' })} </Button>
-            <Button onClick={() => setShowBy('impressions')}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+            <Button active={activeB1} onClick={() => {
+				setShowBy('ads')
+				setActiveB2(false)
+                setActiveB3(false)
+                setActiveB1(true)
+			}}>{intl.formatMessage({ id: 'filterType1' })} </Button>
+            <Button active={activeB2} onClick={() => {
+				setShowBy('spending')
+				setActiveB3(false)
+				setActiveB1(false)
+				setActiveB2(true)
+			}}>{intl.formatMessage({ id: 'filterType2' })} </Button>
+            <Button active={activeB3} onClick={() => {
+				setShowBy('impressions')
+				setActiveB1(false)
+                setActiveB2(false)
+                setActiveB3(true)
+			}}>{intl.formatMessage({ id: 'filterType3' })} </Button>
         </ButtonGroup>
           <div className="franceMap">
             <SVGMap 
