@@ -1,4 +1,4 @@
-import {useState,React} from 'react'
+import React, {useEffect, useState} from 'react'
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -61,17 +61,19 @@ ChartJS.register(
     { value: 10, label: "Yannick Jadot", color:"black" },
     {value:11, label:"Valérie Pécresse", color:"#dbdff1"}
   ];
-function LineChartMultipleDatasets({datasets,labels,title, currency,color, colorOpacity, source, total}) {
+function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color, colorOpacity, source, total}) {
+  console.log(showBy)
   const [optionSelected, setOptionSelected] = useState([
     {value: 0, label: 'Emmanuel Macron'},
     {value: 1, label: 'Jean-Luc Mélenchon'},
     {value: 2, label: 'Marine Le Pen'},
     {value: 3, label: 'Eric Zemmour'}
   ])
+ console.log(datasets)
   const [dataList, setDataList] = useState([
       {
         label:datasets[0].label,
-        data: datasets[0].data.spending,
+        data: datasets[0].data,
         borderColor: candidatesOptions[0].color,
         fill: true,
         backgroundColor:"transparent",
@@ -87,7 +89,7 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
       },
        {
         label:datasets[1].label,
-        data: datasets[1].data.spending,
+        data:datasets[1].data,
         borderColor: candidatesOptions[1].color,
         fill:  true ,
         backgroundColor:  "transparent" ,
@@ -102,7 +104,7 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
       },
        {
         label:datasets[2].label,
-        data: datasets[2].data.spending,
+        data: datasets[2].data,
         borderColor: candidatesOptions[2].color,
         fill: true,
         backgroundColor: "transparent",
@@ -118,7 +120,7 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
       },
        {
         label:datasets[3].label,
-        data: datasets[3].data.spending,
+        data: datasets[3].data,
         borderColor:candidatesOptions[3].color,
         fill: true,
         backgroundColor: "transparent" ,
@@ -134,6 +136,77 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
       },
     
     ],)
+    console.log(dataList)
+
+    React.useEffect(() => {
+      setDataList([
+        {
+          label:datasets[0].label,
+          data: datasets[0].data,
+          borderColor: candidatesOptions[0].color,
+          fill: true,
+          backgroundColor:"transparent",
+          borderRadius: 1,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: candidatesOptions[0].color,
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+         {
+          label:datasets[1].label,
+          data:datasets[1].data,
+          borderColor: candidatesOptions[1].color,
+          fill:  true ,
+          backgroundColor:  "transparent" ,
+          borderRadius: 1,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: candidatesOptions[1].color,
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+        },
+         {
+          label:datasets[2].label,
+          data: datasets[2].data,
+          borderColor: candidatesOptions[2].color,
+          fill: true,
+          backgroundColor: "transparent",
+          borderRadius: 1,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: candidatesOptions[2].color,
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+         {
+          label:datasets[3].label,
+          data: datasets[3].data,
+          borderColor:candidatesOptions[3].color,
+          fill: true,
+          backgroundColor: "transparent" ,
+          borderRadius: 2,
+          BarThickness: 40,
+          pointBorderWidth:3,
+          pointBorderColor: "#fff",
+          pointBackgroundColor: candidatesOptions[3].color,
+          pointStyle: 'circle',
+          pointRadius:6,
+          tension: 0.2,
+       
+        },
+      
+      ])
+    }, [datasets]);
+
   const options = {    
     scales:{
       y:{
@@ -161,18 +234,18 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
         }
      }
     },
-    
-   
+
   };
+
+
 
   const onChangeSelected = (selected) => {
     setOptionSelected(selected)
     let list = []
       for(let s in selected) {
-        console.log(selected[s])
         list.push({
-          label:datasets[selected[s].value].label,
-          data: datasets[selected[s].value].data.spending,
+          label: datasets[selected[s].value].label,
+          data:  datasets[selected[s].value].data,
           borderColor: candidatesOptions[selected[s].value].color,
           fill: true,
           backgroundColor: "transparent",
@@ -188,7 +261,6 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
       }
       setDataList(list)
   }
-    let l = ['Jan2022','Feb2022','March2022']
     const data = {
       labels,
       datasets: dataList,
@@ -204,21 +276,9 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
                    {title} 
                     </h5>
                   </Col>
-                
-                      
-              
-             
-                </Row>
-                
-             
-             
-
-
-
-
-
+                </Row>       
             </CardTitle>
-            <CardBody>
+             <CardBody>
                       <ReactSelect
                       options={candidatesOptions}
                       isMulti
@@ -231,12 +291,11 @@ function LineChartMultipleDatasets({datasets,labels,title, currency,color, color
                       allowSelectAll={true}
                       value={optionSelected}
                     />
-                <div className="chart">
-                  
-                     <Line options={options} data={data} />
+                    <br/>
+                    <div className="chart">
+                        <Line options={options} data={data} />
+                    </div>
 
-                </div>
-               
             </CardBody>
              <p style={{fontSize:"11px"}}>
                 {source}   

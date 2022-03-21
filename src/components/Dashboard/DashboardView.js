@@ -44,11 +44,6 @@ const DashboardView= () =>  {
         impressions:[],
         loading:true,
         labels: [
-        intl.formatMessage({ id: 'aug' }),
-        intl.formatMessage({ id: 'sep' }),
-        intl.formatMessage({ id: 'oct' }),
-        intl.formatMessage({ id: 'nov' }),
-        intl.formatMessage({ id: 'dec' }),
         intl.formatMessage({ id: 'jan' }),
         intl.formatMessage({ id: 'fev' }),
         intl.formatMessage({ id: 'mar' })]
@@ -104,11 +99,7 @@ const DashboardView= () =>  {
             impressions : transform3,
             loading:false,
             labels: [
-            intl.formatMessage({ id: 'aug' }),
-            intl.formatMessage({ id: 'sep' }),
-            intl.formatMessage({ id: 'oct' }),
-            intl.formatMessage({ id: 'nov' }),
-            intl.formatMessage({ id: 'dec' }),
+        
             intl.formatMessage({ id: 'jan' }),
             intl.formatMessage({ id: 'fev' }),
             intl.formatMessage({ id: 'mar' })],

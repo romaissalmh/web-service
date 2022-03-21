@@ -31,7 +31,6 @@ function App() {
   }, []);
 
   const handleRtlChange = (checked) => {
-    console.log(checked)
     setRtl(checked);
     setLocale(checked ? 'en' : 'fr');
   };

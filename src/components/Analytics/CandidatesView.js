@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container, Row, Spinner, Col, ButtonGroup, Button} from 'reactstrap'
+import {Container, Row, Spinner, Col, ButtonGroup, Button, DropdownToggle,DropdownItem, ButtonDropdown, DropdownMenu} from 'reactstrap'
 import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
 //apis call 
@@ -10,7 +10,11 @@ import { i } from 'mathjs'
 const CandidatesView = () => {
     const intl = useIntl();
     const [showBy, setShowBy] = useState('overall');
+    const [showByTime, setShowByTime] = useState('ads');
 
+    const [activeB1, setActiveB1] = useState(true)
+	const [activeB2, setActiveB2] = useState(false)
+	const [activeB3, setActiveB3] = useState(false)
 	
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
@@ -49,7 +53,9 @@ const CandidatesView = () => {
         })
         const info = await fetchInfoPerCandidate()
 
-        let candidates = []
+        let candidatesAds = []
+        let candidatesSpending = []
+        let candidatesImpressions = []
         for (const d of info)
         {
             //console.log(d)
@@ -76,29 +82,29 @@ const CandidatesView = () => {
             let reach =  [parseInt(d.data[0].reach),parseInt(d.data[1].reach),parseInt(d.data[2].reach)]
         	let element = {
         		"label":d.candidate,
-        		"data":{
-                    countAds:countAds,
-                    impressions:impressions,
-                    spending:spending,
-                    reach:reach
-                }
-        	}
-      
-            
-		   candidates.push(element)
+        		"data":countAds }
+		   candidatesAds.push(element)
+           element = {
+            "label":d.candidate,
+            "data":spending }
+           candidatesSpending.push(element)
+           element = {
+            "label":d.candidate,
+            "data":impressions }
+           candidatesImpressions.push(element)
+
+
         }
-        console.log("afff")    
-        console.log(candidates)
+    
        
         setAdsPerCandidate({
-            data:candidates,
+            candidatesAds:candidatesAds,
+            candidatesSpending:candidatesSpending,
+            candidatesImpressions:candidatesImpressions,
             loading:false,
             labels: ['Jan2022','Feb2022','March2022']
         })
-        console.log("ava apres")    
-        console.log(candidates)
-        console.log("apres")    
-        console.log(adsPerCandidate)
+       
        
         
     })
@@ -195,10 +201,38 @@ const CandidatesView = () => {
             <Row style={{ marginTop:"40px"}}>     
             <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/> <br/> <br/> 
             <ButtonGroup >
-                    <Button onClick={() => setShowBy('overall')}>Overall</Button>
-                    <Button onClick={() => setShowBy('overtime')}>Overt time</Button>
-                    <Button onClick={() => setShowBy('demographics')}>Demographics</Button>
-                    <Button onClick={() => setShowBy('topics')}>Topics</Button>
+                    <Button active={activeB1}  onClick={() => {
+                        setShowBy('overall')
+                        setActiveB2(false)
+                        setActiveB3(false)
+                        setActiveB1(true)
+                    }}>{intl.formatMessage({ id: 'candidatesMenuItem1' })}</Button>
+                   
+                    <Button active={activeB2}  onClick={() => {
+                        setShowBy('overtime')
+                        setActiveB3(false)
+                        setActiveB1(false)
+                        setActiveB2(true)
+                    }}> 
+                      <select value={showByTime} onChange={(event) => {
+                          console.log(event.target.value)
+                          setShowBy('overtime')
+                          setShowByTime(event.target.value)
+                      }} >
+                            <option value="ads">{intl.formatMessage({ id: 'candidatesMenuItem21' })}</option>
+                            <option value="spending">{intl.formatMessage({ id: 'candidatesMenuItem22' })}</option>
+                            <option value="impressions">{intl.formatMessage({ id: 'candidatesMenuItem23' })}</option>
+                        
+                    </select>
+                    </Button>
+                 
+
+                    <Button active={activeB3}  onClick={() => {
+                        setShowBy('demographics')
+                        setActiveB1(false)
+                        setActiveB2(false)
+                        setActiveB3(true)
+                    }}>{intl.formatMessage({ id: 'candidatesMenuItem3' })}</Button>
 
             </ButtonGroup>
                 <Col xl="12"  sm="12" >  
@@ -214,23 +248,56 @@ const CandidatesView = () => {
                 source={intl.formatMessage({ id: 'plotSource2' })} 
                 /> 
 
-                : showBy === 'overtime' 
+                : (showBy === 'overtime' &&  adsPerCandidate.loading )
                 ? 
-                adsPerCandidate.loading 
-                ? 
-                    <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
-                : 
-                <LineChartMultipleDatasets
+                <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+
+                :  (showBy === 'overtime' && showByTime === "ads")? 
+                <div>
+                 
+                    <LineChartMultipleDatasets
                     title={intl.formatMessage({ id: 'candidatesPlot' })}
                     labels = {adsPerCandidate.labels} 
-                    datasets={adsPerCandidate.data}
+                    showBy = "ads"
+                    datasets={adsPerCandidate.candidatesAds}
                     currency=""
                     total="true"
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
                     source={intl.formatMessage({ id: 'plotSource1' })}
                 />
+                </div>
+               
                 : 
+               ( showBy === 'overtime' && showByTime === "spending")? 
+                <div>
+                <LineChartMultipleDatasets
+                    title={intl.formatMessage({ id: 'candidatesPlot2' })}
+                    labels = {adsPerCandidate.labels} 
+                    showBy = "spending"
+                    datasets={adsPerCandidate.candidatesSpending}
+                    currency=""
+                    total="true"
+                    color="rgba(56, 56, 116, 1)"
+                    colorOpacity="rgba(56, 56, 116, 0.1)"
+                    source={intl.formatMessage({ id: 'plotSource1' })}
+                />
+                </div>
+           
+                :  ( showBy === 'overtime' && showByTime === "impressions")? 
+                <div>
+                <LineChartMultipleDatasets
+                    title={intl.formatMessage({ id: 'candidatesPlot3' })}
+                    labels = {adsPerCandidate.labels} 
+                    showBy = "impressions"
+                    datasets={adsPerCandidate.candidatesImpressions}
+                    currency=""
+                    total="true"
+                    color="rgba(56, 56, 116, 1)"
+                    colorOpacity="rgba(56, 56, 116, 0.1)"
+                    source={intl.formatMessage({ id: 'plotSource1' })}
+                />
+                </div> :
                 
                <h6 style={{margin:"20px"}}>
                    This part is under working !
@@ -249,3 +316,15 @@ const CandidatesView = () => {
 
 
 export default CandidatesView ;
+
+/*
+                    <Button onClick={() => setShowBy('topics')}>Topics</Button>
+
+    <Button active={activeB2}  onClick={() => {
+                        setShowBy('overtime')
+                        setActiveB3(false)
+                        setActiveB1(false)
+                        setActiveB2(true)
+                    }}>{intl.formatMessage({ id: 'candidatesMenuItem2' })}
+                    </Button>
+*/

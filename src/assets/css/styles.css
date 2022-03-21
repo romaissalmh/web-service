@@ -209,6 +209,24 @@
   color: var(--night-blue);
   font-weight: 900;
 }
+
+.candidates .btn-group .btn select {
+ width: 100%;
+ background-color: transparent;
+ border: none !important;
+ color:white;
+}
+.candidates .btn-group .btn:hover,.btn-group select:focus , .candidates .btn-group .btn.active select {
+  background-color:var(--lavender); 
+  color: #728bbc;
+  border: none !important;
+  border-color: transparent;
+
+}
+.candidates .btn-group .btn:hover,.btn-group select::selection{
+  border: none !important;
+
+}
   /* ---------------------------------------------------
       ANALYTICS STYLE
   ----------------------------------------------------- */
