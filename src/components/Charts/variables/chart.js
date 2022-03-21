@@ -47,8 +47,10 @@ const lineOptions = {
     y: 
       {
         display:true,
+        beginAtZero: true , 
         ticks: {
-          beginAtZero: true,
+         
+          min:0,
            font: {
             size: 14,
             family: 'Gotham-Light'

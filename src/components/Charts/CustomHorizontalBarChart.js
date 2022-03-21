@@ -43,6 +43,7 @@ export default function CustomHorizontalBarChart({title,dataset,labels}) {
           display:true,
           // stacked: true,
           ticks: {
+           
             padding:2,
             mirror: true,
             z:10,
