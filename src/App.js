@@ -31,8 +31,9 @@ function App() {
   }, []);
 
   const handleRtlChange = (checked) => {
+    console.log(checked)
     setRtl(checked);
-    setLocale(checked ? 'fr' : 'en');
+    setLocale(checked ? 'en' : 'fr');
   };
 
   const handleToggleSidebar = (value) => {
