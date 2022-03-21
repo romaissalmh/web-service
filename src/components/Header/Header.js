@@ -14,7 +14,7 @@ import {
   SubMenu
 } from "react-pro-sidebar"
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom' 
 //import icons from react icons
 import { BiBarChartAlt2, BiWorld, BiSearch,BiPieChart } from "react-icons/bi"
 import {FaLinkedinIn,FaTwitter} from 'react-icons/fa';
@@ -119,7 +119,7 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                 onToggle={handleToggleSidebar} >
                 <SidebarHeader>
                   <div className="logotext">
-                    <img alt="logo" src={logo} height="100%" width="100%" />               
+                    <img alt="logo" src={logo} height="90%" width="90%" />               
                   </div>
                 </SidebarHeader>
                 <SidebarContent>
