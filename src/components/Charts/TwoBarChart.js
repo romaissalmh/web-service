@@ -117,7 +117,7 @@ export const options = {
   
 };
 
-export default function TwoBarChart({title,dataset1,dataset2,labels, source, loadAds}) {
+export default function TwoBarChart({title,dataset1,dataset2,labels, source, loadAds,disclaimer}) {
    const chartRef = useRef();
   const onClick = (event) => {
 
@@ -209,6 +209,10 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
             }
             
           </CardBody>
+          <h6 style={{fontSize:"16px"}}>
+                {disclaimer}   
+             </h6>
+                    
           <p style={{fontSize:"11px"}}>
                 {source}   
              </p>

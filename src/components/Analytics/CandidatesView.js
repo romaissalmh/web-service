@@ -15,6 +15,13 @@ const CandidatesView = () => {
     const [activeB1, setActiveB1] = useState(true)
 	const [activeB2, setActiveB2] = useState(false)
 	const [activeB3, setActiveB3] = useState(false)
+
+    const [showOfBy, setShowOfBy] = useState('ads');
+
+
+    const [activeOfB1, setActiveOfB1] = useState(true)
+	const [activeOfB2, setActiveOfB2] = useState(false)
+	const [activeOfB3, setActiveOfB3] = useState(false)
 	
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
@@ -23,7 +30,15 @@ const CandidatesView = () => {
 
 
     })
-    	
+    const [adsPerOfficialCandidate,setAdsPerOfficialCandidate] = useState({
+        candidatesAds:[],
+        candidatesSpending:[],
+        candidatesImpressions:[],
+        loading:true,
+        labels: []
+
+
+    })
  	const [spendPerCandidate,setSpendPerCandidate] = useState({
         data : [],
         loading:true,
@@ -44,6 +59,7 @@ const CandidatesView = () => {
     useEffect(() => {
         loadInfoPerCandidate()
         loadGlobalSpedingPerCandidate()
+        loadInfoPerOfficialCandidatePages()
     }, [])
   
 
@@ -92,11 +108,7 @@ const CandidatesView = () => {
             "label":d.candidate,
             "data":impressions }
            candidatesImpressions.push(element)
-
-
         }
-    
-       
         setAdsPerCandidate({
             candidatesAds:candidatesAds,
             candidatesSpending:candidatesSpending,
@@ -104,7 +116,35 @@ const CandidatesView = () => {
             loading:false,
             labels: ['Jan2022','Feb2022','March2022']
         })
-       
+    })
+ 
+    const loadInfoPerOfficialCandidatePages = useCallback(async () => {
+        setAdsPerOfficialCandidate({
+            loading:true
+        })
+        const info = await fetchInfoPerOfficialCandidatePages()
+        let candidates = []
+        let candidatesAds = []
+        let candidatesSpending = []
+        let candidatesImpressions = []
+        for (const d of info)
+        {
+           candidates.push(d.candidate)
+		   candidatesAds.push(d.data[0].countAds)
+           d.data[0].impressions !== null ? candidatesImpressions.push(parseInt(d.data[0].impressions)) : candidatesImpressions.push(0)
+           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0)
+        }
+
+        setAdsPerOfficialCandidate({
+
+            candidatesAds:candidatesAds,
+            candidatesSpending:candidatesSpending,
+            candidatesImpressions:candidatesImpressions,
+            loading:false,
+            labels: candidates
+        })
+        console.log(adsPerOfficialCandidate)
+
        
         
     })
@@ -169,7 +209,17 @@ const CandidatesView = () => {
          return stats 
     }
 
-
+    const fetchInfoPerOfficialCandidatePages = async () => {
+        let stats 
+        await api.get(`api/pages/infosOfAdsByCandidateOfficialPages`)
+         .then ( res => {
+             stats = res
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+    }
     const fetchSpendPerCandidate = async () => {
         let stats 
         await api.get(`api/general/numberOfEntitiesOfCandidatesByMonth`)
@@ -264,7 +314,7 @@ const CandidatesView = () => {
                     total="true"
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source={intl.formatMessage({ id: 'plotSource1' })}
+                    source={intl.formatMessage({ id: 'plotSource3' })}
                 />
                 </div>
                
@@ -280,7 +330,7 @@ const CandidatesView = () => {
                     total="true"
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source={intl.formatMessage({ id: 'plotSource1' })}
+                    source={intl.formatMessage({ id: 'plotSource3' })}
                 />
                 </div>
            
@@ -295,7 +345,7 @@ const CandidatesView = () => {
                     total="true"
                     color="rgba(56, 56, 116, 1)"
                     colorOpacity="rgba(56, 56, 116, 0.1)"
-                    source={intl.formatMessage({ id: 'plotSource1' })}
+                    source={intl.formatMessage({ id: 'plotSource3' })}
                 />
                 </div> :
                 
@@ -309,22 +359,71 @@ const CandidatesView = () => {
                
                 </Col>
             </Row>
-            <br/>  
+            <br/> 
+
+             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
+
+                 <Col xl="12"  sm="12" >  
+                 <ButtonGroup >
+                    <Button active={activeOfB1} onClick={() => {
+                        setShowOfBy('ads')
+                        setActiveOfB2(false)
+                        setActiveOfB3(false)
+                        setActiveOfB1(true)
+                    }}>{intl.formatMessage({ id: 'filterType1' })}</Button>
+                    <Button active={activeOfB2} onClick={() => {
+                        setShowOfBy('spending')
+                        setActiveOfB3(false)
+                        setActiveOfB1(false)
+                        setActiveOfB2(true)
+                    }}> {intl.formatMessage({ id: 'filterType2' })} </Button>
+                    <Button active={activeOfB3} onClick={() => {
+                        setShowOfBy('impressions')
+                        setActiveOfB1(false)
+                        setActiveOfB2(false)
+                        setActiveOfB3(true)
+                    }}>{intl.formatMessage({ id: 'filterType3' })} </Button>
+                </ButtonGroup>
+
+                {
+                    showOfBy === "ads" ?
+                   
+                     adsPerOfficialCandidate.loading ? 
+                     <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+                     : 
+                     <HorizontalBarChart 
+                     title={intl.formatMessage({ id: 'candidatesPlot11' })} 
+                     labels = {adsPerOfficialCandidate.labels} 
+                     dataset={adsPerOfficialCandidate.candidatesAds}
+                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                     /> 
+                     : showOfBy === "spending" ? 
+                     adsPerOfficialCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                     : 
+                     <HorizontalBarChart 
+                     title={intl.formatMessage({ id: 'candidatesPlot12' })}
+                     labels = {adsPerOfficialCandidate.labels} 
+                     dataset={adsPerOfficialCandidate.candidatesSpending}
+                     currency= "€ "
+                     source={intl.formatMessage({ id: 'plotSource2' })} 
+                     /> 
+                     :
+                     adsPerOfficialCandidate.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                     : 
+                     <HorizontalBarChart 
+                     title={intl.formatMessage({ id: 'candidatesPlot13' })} 
+                     labels = {adsPerOfficialCandidate.labels} 
+                     dataset={adsPerOfficialCandidate.candidatesImpressions}
+                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                     /> 
+
+                     
+                     } 
+                 </Col>    
+            </Row>  
         </Container> 
         )
 }
 
 
 export default CandidatesView ;
-
-/*
-                    <Button onClick={() => setShowBy('topics')}>Topics</Button>
-
-    <Button active={activeB2}  onClick={() => {
-                        setShowBy('overtime')
-                        setActiveB3(false)
-                        setActiveB1(false)
-                        setActiveB2(true)
-                    }}>{intl.formatMessage({ id: 'candidatesMenuItem2' })}
-                    </Button>
-*/

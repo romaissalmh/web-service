@@ -43,10 +43,7 @@ const DashboardView= () =>  {
         spending:[],
         impressions:[],
         loading:true,
-        labels: [
-        intl.formatMessage({ id: 'jan' }),
-        intl.formatMessage({ id: 'fev' }),
-        intl.formatMessage({ id: 'mar' })]
+        labels: []
     })
     useEffect(() => {
         loadGeneralStatistics()
@@ -79,10 +76,11 @@ const DashboardView= () =>  {
         const adsPerMonth = await fetchAdsPerMonth()
         const spendingPerMonth = await fetchSpentOfMoneyPerMonth()
         const impressionsPerMonth = await fetchImpressionsPerMonth()
+        console.log(adsPerMonth)
         let transform1 = []
         let transform2 = []
         let transform3 = []
-
+        let labels = ['Jan 01-15','Jan 16-31','Feb 01-15','Feb 16-28','Mar 01-15','Mar 16-31']
         adsPerMonth.map((ad)=>(
             transform1.push(parseInt(ad.countAds)) 
         ))
@@ -92,22 +90,18 @@ const DashboardView= () =>  {
         impressionsPerMonth.map((ad)=>(
             transform3.push(parseInt(ad.countImpressions)) 
         ))
-
         setDataPerMonth({
             ads:transform1,
             spending: transform2,
             impressions : transform3,
             loading:false,
-            labels: [
-        
-            intl.formatMessage({ id: 'jan' }),
-            intl.formatMessage({ id: 'fev' }),
-            intl.formatMessage({ id: 'mar' })],
+            labels: labels,
             adsTitle : intl.formatMessage({ id: 'plotTitle1' }),
             spendingTitle:  intl.formatMessage({ id: 'plotTitle2' }),
             impressionsTitle:  intl.formatMessage({ id: 'plotTitle3' }),
 
         })
+        console.log(dataPerMonth)
     })
 
     const loadDataByRegion = useCallback(async () => {
@@ -218,7 +212,7 @@ const DashboardView= () =>  {
 
     const fetchSpentOfMoneyPerMonth = async () => {
         let stats 
-        await api.get(`api/general/spentOfMoneyByMonth`)
+        await api.get(`api/general/spentOfMoneyByMonthTest`)
          .then ( res => {
              stats = res
              //console.log(stats)
@@ -231,7 +225,7 @@ const DashboardView= () =>  {
  
     const fetchAdsPerMonth = async () => {
         let stats 
-        await api.get(`api/general/numberOfEntitiesByMonth`)
+        await api.get(`api/general/numberOfEntitiesByMonthTest`)
          .then ( res => {
              stats = res
          })
@@ -243,7 +237,7 @@ const DashboardView= () =>  {
 
      const fetchImpressionsPerMonth = async () => {
         let stats 
-        await api.get(`api/general/numberOfImpressionsByMonth`)
+        await api.get(`api/general/numberOfImpressionsByMonthTest`)
          .then ( res => {
              stats = res
          })
@@ -335,7 +329,7 @@ const DashboardView= () =>  {
                                 total="true"
                                 color="rgba(56, 56, 116, 1)"
                                 colorOpacity="rgba(56, 56, 116, 0.1)"
-                                source={intl.formatMessage({ id: 'plotSource1' })} 
+                                source={intl.formatMessage({ id: 'plotSource3' })} 
                                 /> 
 
                               }

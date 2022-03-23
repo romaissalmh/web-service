@@ -8,6 +8,8 @@ import {api} from '../../scripts/network'
 import MUIDataTable from "mui-datatables"
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
 import { useIntl } from 'react-intl';
+import AdCard from '../Charts/AdCard'
+
 
 const AnalyticsView = () => {
     const intl = useIntl();
@@ -426,6 +428,8 @@ const AnalyticsView = () => {
                          labels={demographicBreakdown.labels}
                          dataset1={demographicBreakdown.femaleGender}
                          dataset2={demographicBreakdown.maleGender}
+                         source  = {intl.formatMessage({ id: 'plotSource1' })}
+                         disclaimer = {intl.formatMessage({ id: 'disclaimer' })}
                          /> }
                 </Col>  
                 
@@ -442,20 +446,23 @@ const AnalyticsView = () => {
                         adsTargetingAgeGender.loading ?  
                         <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
                         <>
-                       <h6 style={{fontWeight:"bold"}}>{ "Samples of ads that are targeting "+ adsTargetingAgeGender.age +" years-old " +adsTargetingAgeGender.gender} </h6>
+                        <h6 style={{fontWeight:"bold"}}>{ "Age: "+ adsTargetingAgeGender.age + intl.formatMessage({ id: 'genre' }) +adsTargetingAgeGender.gender} </h6>
                         <br/>
-                     <MUIDataTable 
-                        data={adsTargetingAgeGender.data}
-                        columns={columnsTargetingTable}
-                        options={optionsTargetingTable}
-                    />
+                        <>
+                               <AdCard ad={adsTargetingAgeGender.data[0].ad_creative_body} advertiser={adsTargetingAgeGender.data[0].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[1].ad_creative_body} advertiser={adsTargetingAgeGender.data[1].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[2].ad_creative_body} advertiser={adsTargetingAgeGender.data[2].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[3].ad_creative_body} advertiser={adsTargetingAgeGender.data[3].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[4].ad_creative_body} advertiser={adsTargetingAgeGender.data[4].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[5].ad_creative_body} advertiser={adsTargetingAgeGender.data[5].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[6].ad_creative_body} advertiser={adsTargetingAgeGender.data[6].page_name} /> 
+                               <AdCard ad={adsTargetingAgeGender.data[7].ad_creative_body} advertiser={adsTargetingAgeGender.data[7].page_name} /> 
+                            </>
                       </>  
                     }
                       
                 </ModalBody>
-                <ModalFooter>
-                    <Button style={{backgroundColor:"#8675FF"}} color="#8675FF" onClick={toggleModal}>Okay</Button>
-                </ModalFooter>
+            
             </Modal>
             </div>
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
@@ -492,14 +499,17 @@ const AnalyticsView = () => {
                         total="true"
                         color="rgba(56, 56, 116, 1)"
                         colorOpacity="rgba(56, 56, 116, 0.1)"
-                        source={intl.formatMessage({ id: 'plotSource1' })} 
+                        source={intl.formatMessage({ id: 'plotSource3' })} 
 
                         />
                         
                         }
+
+                      
+
                 </Col>  
             </Row>
-       
+        
 
         </Container>
     )

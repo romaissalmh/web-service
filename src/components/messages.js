@@ -4,6 +4,8 @@ export default {
     description:"Ce site web vous permet de découvrir toutes les publicités politiques Facebook qui sont publiées en France afin d'avoir une meilleure vue d'ensemble et une veille détaillée sur l'utilisation de Facebook comme outil de ciblage pendant la période des élections présidentielles françaises.",
     plotSource1: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er juillet 2021 ciblant des régions françaises.",
     plotSource2: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er juillet 2021.",
+    plotSource3: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er janvier 2022 ciblant des régions françaises.",
+    disclaimer: "Pour inspecter quelques publicités politiques visant un certain age et genre veuillez cliquer sur la colonne qui convient.",
     plotTitle1:"Nombre de publicités politiques publiées par mois",
     plotTitle2:"Dépenses mensuelles générées par les publicités politiques",
     plotTitle3:"Nombre de visualisations sur les publicités politiques par mois",
@@ -33,6 +35,10 @@ export default {
     candidatesPlot:"Nombre d'annonces mentionant les candidats éléctoraux",
     candidatesPlot2:"Dépenses sur les annonces mentionant les candidats éléctoraux",
     candidatesPlot3:"Visualisations des annonces mentionant les candidats éléctoraux",
+    candidatesPlot11:"Nombre d'annonces publiées par les candidats éléctoraux",
+    candidatesPlot12:"Dépenses sur les annonces publiées par les candidats éléctoraux",
+    candidatesPlot13:"Visualisations des annonces publiées par les candidats éléctoraux",
+    
     candidatesPlotTitle1:"Total des dépenses publicitaires mentionnant les candidates à la présidentielle",
     candidatesMenuItem1:"Total",
     candidatesMenuItem21:"Derniers Chiffres des publicités",
@@ -74,6 +80,7 @@ export default {
     teamMember2Title:"Doctorante au CNRS",
     teamMember3Title:"Stagiaire au CNRS",
     aboutUsSub:"Notre équipe",
+    genre:"   Genre: ",
     
   },
   en: {
@@ -81,6 +88,8 @@ export default {
     description:'This web portal is your way to discover all the Facebook political ads that are being published in France and have a better overview and detailed watch on the use of Facebook as a targeting tool during the period of the French presidential elections.',
     plotSource1: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021 targeting french regions.",
     plotSource2: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021.",
+    plotSource3: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022 targeting french regions.",
+
     plotTitle1:"Ads published during the last months",
     plotTitle2:"Total of money spent to show ads the last months",
     plotTitle3:"Impressions on ads during the last months",
@@ -110,6 +119,10 @@ export default {
     candidatesPlot:"Ads mentionning electoral candidates",
     candidatesPlot2:"Spending on ads mentionning electoral candidates",
     candidatesPlot3:"Impressions on ads mentionning electoral candidates",
+    candidatesPlot11:"Number of ads published by electoral candidates",
+    candidatesPlot12:"Spending on ads published by electoral candidates",
+    candidatesPlot13:"Impressions on ads by electoral candidates",
+    disclaimer: "In order to display some political ads targeting a certain age and gender choose the appropriate column.",
 
     candidatesPlotTitle1:"Spend on ads talking about presidential candidates",
     candidatesMenuItem1:"Over all",
@@ -153,5 +166,7 @@ export default {
     teamMember2Title:"PhD student at CNRS",
     teamMember3Title:"M2 intern at CNRS",
     aboutUsSub:'Our team',
+    genre:"   Gender: ",
+
   },
 };
