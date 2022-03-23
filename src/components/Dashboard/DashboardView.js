@@ -174,6 +174,9 @@ const DashboardView= () =>  {
 			pac: impressions["Provence-Alpes-Côte d'Azur"]
         }
         console.log(Object.values(transform1))
+        console.log(Object.values(transform2))
+        console.log(Object.values(transform3))
+
        setDataByRegion({
         ads:transform1,
         spending:transform2,
