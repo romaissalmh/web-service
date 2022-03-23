@@ -387,7 +387,7 @@ const AnalyticsView = () => {
                      title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
                      labels = {adsPerAdvertiser.labels} 
                      dataset={adsPerAdvertiser.data}
-                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                      source={intl.formatMessage({ id: 'plotSource3' })} 
                      /> 
                      : showBy === "spending" ? 
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -397,7 +397,7 @@ const AnalyticsView = () => {
                      labels = {spentPerAdvertiser.labels} 
                      dataset={spentPerAdvertiser.data}
                      currency= "€ "
-                     source={intl.formatMessage({ id: 'plotSource2' })} 
+                     source={intl.formatMessage({ id: 'plotSource4' })} 
                      /> 
                      :
                      impressionsPerAdvertiser.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -406,7 +406,7 @@ const AnalyticsView = () => {
                      title={intl.formatMessage({ id: 'analyticsPlotTitle2' })} 
                      labels = {impressionsPerAdvertiser.labels} 
                      dataset={impressionsPerAdvertiser.data}
-                      source={intl.formatMessage({ id: 'plotSource1' })} 
+                      source={intl.formatMessage({ id: 'plotSource3' })} 
                      /> 
 
                      

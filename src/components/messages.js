@@ -5,6 +5,8 @@ export default {
     plotSource1: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er juillet 2021 ciblant des régions françaises.",
     plotSource2: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er juillet 2021.",
     plotSource3: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er janvier 2022 ciblant des régions françaises.",
+    plotSource4: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er janvier 2022.",
+
     disclaimer: "Pour inspecter quelques publicités politiques visant un certain age et genre veuillez cliquer sur la colonne qui convient.",
     plotTitle1:"Nombre de publicités politiques publiées par mois",
     plotTitle2:"Dépenses mensuelles générées par les publicités politiques",
@@ -89,6 +91,7 @@ export default {
     plotSource1: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021 targeting french regions.",
     plotSource2: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021.",
     plotSource3: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022 targeting french regions.",
+    plotSource2: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022.",
 
     plotTitle1:"Ads published during the last months",
     plotTitle2:"Total of money spent to show ads the last months",
