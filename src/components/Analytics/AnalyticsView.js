@@ -420,7 +420,7 @@ const AnalyticsView = () => {
                 <Col xl="12"  sm="12" >  
                 <h6> {intl.formatMessage({ id: 'analyticsSubTitle2' })}  </h6>  
                         {
-                         demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
+                         demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: '300PX'}}>  <Spinner>  </Spinner> </div> 
                          : 
                          <TwoBarChart 
                          loadAds={toggleModal}

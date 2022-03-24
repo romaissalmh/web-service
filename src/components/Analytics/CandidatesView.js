@@ -6,22 +6,24 @@ import HorizontalBarChart from '../Charts/HorizontalBarChart'
 import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';
 import { i } from 'mathjs'
+import TwoBarChart from '../Charts/TwoBarChart'
 
 const CandidatesView = () => {
     const intl = useIntl();
+
     const [showBy, setShowBy] = useState('overall');
     const [showByTime, setShowByTime] = useState('ads');
+    const [showOfBy, setShowOfBy] = useState('ads');
 
     const [activeB1, setActiveB1] = useState(true)
 	const [activeB2, setActiveB2] = useState(false)
 	const [activeB3, setActiveB3] = useState(false)
 
-    const [showOfBy, setShowOfBy] = useState('ads');
-
-
     const [activeOfB1, setActiveOfB1] = useState(true)
 	const [activeOfB2, setActiveOfB2] = useState(false)
 	const [activeOfB3, setActiveOfB3] = useState(false)
+
+    const [candidateName, setCandidateName] = useState("macron");
 	
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
@@ -39,13 +41,7 @@ const CandidatesView = () => {
 
 
     })
- 	const [spendPerCandidate,setSpendPerCandidate] = useState({
-        data : [],
-        loading:true,
-        labels: ['Jan2022','Feb2022','March2022']
-
-
-    })
+ 
 
     const [globalSpedingPerCandidate,setGlobalSpedingPerCandidate] = useState({
         data : [],
@@ -54,12 +50,20 @@ const CandidatesView = () => {
 
     })
 
+    const [demographicBreakdown,setDemographicBreakdown] = useState({
+        femaleGender:[],
+        maleGender:[],
+        loading:true,
+        labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+    })
 
 
     useEffect(() => {
         loadInfoPerCandidate()
         loadGlobalSpedingPerCandidate()
+        loadDemographicBreakdown(candidateName)
         loadInfoPerOfficialCandidatePages()
+        
     }, [])
   
 
@@ -74,7 +78,6 @@ const CandidatesView = () => {
         let candidatesImpressions = []
         for (const d of info)
         {
-            //console.log(d)
             if(d.data.length <3){
                 if(d.data.find(element => element.month === 1) === undefined){
                     d.data.splice(0,0,{
@@ -143,7 +146,6 @@ const CandidatesView = () => {
             loading:false,
             labels: candidates
         })
-        console.log(adsPerOfficialCandidate)
 
        
         
@@ -193,6 +195,39 @@ const CandidatesView = () => {
     
     }, [])
 
+    const loadDemographicBreakdown = useCallback(async (value) => {
+        setCandidateName(value)
+        console.log(value)
+        setDemographicBreakdown({
+            femaleGender:[],
+            maleGender:[],
+            loading:true,
+            labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+        })
+        const data = await fetchDemographicBreakdown(value)
+        console.log(data)
+      
+        let data1 =  data.map(
+            a => a.gender === "female" ?  Math.floor(a.reach) :null
+        )
+        let data2 = data.map(
+            a => a.gender === "male" ?  Math.floor(a.reach) :null
+        )
+        data1 = data1.filter(function (value, index, arr){
+            return value !== null
+        })
+        data2 = data2.filter(function (value, index, arr){
+            return value !== null
+        })
+        setDemographicBreakdown({
+            femaleGender: data1,
+            maleGender: data2,
+            loading:false,
+            labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+
+        })
+
+    })
     /**
      * 
      * Fetching data from the REST APIIII 
@@ -220,18 +255,20 @@ const CandidatesView = () => {
          )
          return stats 
     }
-    const fetchSpendPerCandidate = async () => {
+    
+    const fetchDemographicBreakdown = async (candidate) => {
         let stats 
-        await api.get(`api/general/numberOfEntitiesOfCandidatesByMonth`)
+        await api.get(`api/demographicDistribution/demographicBreakdownOfAdsMentioningCandidates/${candidate}`)
          .then ( res => {
              stats = res
+            // console.log(stats)
          })
          .catch(
              err => console.log(err)
          )
          return stats 
-    }
-
+     }
+     
     const fetchGlobalSpedingPerCandidate = async () => {
         let stats 
         await api.get(`api/general/spendCandidates`)
@@ -248,7 +285,8 @@ const CandidatesView = () => {
 	return (
 
 		 <Container className="candidates">
-            <Row style={{ marginTop:"40px"}}>     
+           <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
+                
             <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/> <br/> <br/> 
             <ButtonGroup >
                     <Button active={activeB1}  onClick={() => {
@@ -265,7 +303,6 @@ const CandidatesView = () => {
                         setActiveB2(true)
                     }}> 
                       <select value={showByTime} onChange={(event) => {
-                          console.log(event.target.value)
                           setShowBy('overtime')
                           setShowByTime(event.target.value)
                       }} >
@@ -339,7 +376,7 @@ const CandidatesView = () => {
                 <LineChartMultipleDatasets
                     title={intl.formatMessage({ id: 'candidatesPlot3' })}
                     labels = {adsPerCandidate.labels} 
-                    showBy = "impressions"
+                    showBy = "impressions" 
                     datasets={adsPerCandidate.candidatesImpressions}
                     currency=""
                     total="true"
@@ -349,9 +386,40 @@ const CandidatesView = () => {
                 />
                 </div> :
                 
-               <h6 style={{margin:"20px"}}>
-                   This part is under working !
-               </h6>
+                       
+                         demographicBreakdown.loading ? 
+                          <div style={{ width:"100%", height:"400px",
+                              display:'flex', justifyContent:"center",alignItems:'center'}}>
+                                <Spinner>  </Spinner> 
+                          </div> 
+                         : 
+                         <>
+                                <select className='candidateSelect' value={candidateName} onChange={(event) => loadDemographicBreakdown(event.target.value)}>
+                                    <option value="Macron">Emmanuel Macron</option>
+                                    <option value="Mélenchon">Jean-Luc Mélenchon</option>
+                                    <option value="Le pen">Marine Le Pen</option>
+                                    <option value="Zemmour">Eric Zemmour</option>
+                                    <option value="Roussel">Fabien Roussel</option>
+                                    <option value="Hidalgo">Anne Hidalgo</option>
+                                    <option value="Arthaud">Nathalie Arthaud</option>
+                                    <option value="Dupont-Aignan">Nicolas Dupont-Aignan</option>
+                                    <option value="Lassalle">Jean Lassalle </option>
+                                    <option value="Poutou">Philippe Poutou</option>
+                                    <option value="Jadot">Yannick Jadot</option>
+                                    <option value="Pécresse">Valérie Pécresse</option>
+
+
+                                </select>
+
+                                <TwoBarChart 
+                                    title={intl.formatMessage({ id: 'candidatesPlo4' })  + candidateName} 
+                                    labels={demographicBreakdown.labels}
+                                    dataset1={demographicBreakdown.femaleGender}
+                                    dataset2={demographicBreakdown.maleGender}
+                                    source  = {intl.formatMessage({ id: 'plotSource3' })}
+                                /> 
+                         
+                       </>
 
                
                }
@@ -359,7 +427,6 @@ const CandidatesView = () => {
                
                 </Col>
             </Row>
-            <br/> 
 
              <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
 

@@ -227,6 +227,27 @@
   border: none !important;
 
 }
+
+.candidates .candidateSelect{
+  margin-left: 10px;
+  margin-top: 10px;
+  border: none;
+  color: #8675FF; 
+  font-family: "Gotham";
+  font-size: 20px;
+  background-color: transparent;
+  border: 1px solid #8675FF !important;
+  padding-top:10px;
+  padding-bottom:10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.candidates .candidateSelect option{
+  margin:10px !important;
+   font-family: "Gotham";
+     cursor:pointer;
+}
   /* ---------------------------------------------------
       ANALYTICS STYLE
   ----------------------------------------------------- */

@@ -40,7 +40,8 @@ export default {
     candidatesPlot11:"Nombre d'annonces publiées par les candidats éléctoraux",
     candidatesPlot12:"Dépenses sur les annonces publiées par les candidats éléctoraux",
     candidatesPlot13:"Visualisations des annonces publiées par les candidats éléctoraux",
-    
+    candidatesPlo4:"Répartition de la population touchée par les publicités mentionnant ",
+
     candidatesPlotTitle1:"Total des dépenses publicitaires mentionnant les candidates à la présidentielle",
     candidatesMenuItem1:"Total",
     candidatesMenuItem21:"Derniers Chiffres des publicités",
@@ -125,6 +126,8 @@ export default {
     candidatesPlot11:"Number of ads published by electoral candidates",
     candidatesPlot12:"Spending on ads published by electoral candidates",
     candidatesPlot13:"Impressions on ads by electoral candidates",
+    candidatesPlo4:"Breakdown of the population reached by the ads mentioning ",
+
     disclaimer: "In order to display some political ads targeting a certain age and gender choose the appropriate column.",
 
     candidatesPlotTitle1:"Spend on ads talking about presidential candidates",
