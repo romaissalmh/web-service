@@ -202,12 +202,17 @@
 .dashboard h6{
   font-family: "Gotham";
     font-weight: bold;
+    
 }
 
 .candidates h4{
   margin-left: 0px;
   color: var(--night-blue);
   font-weight: 900;
+}
+.candidates h5{
+  font-size: 18px;
+  margin-left: 10px;
 }
 
 .candidates .btn-group .btn select {
@@ -241,6 +246,25 @@
   padding-bottom:10px;
   border-radius: 4px;
   margin-bottom: 10px;
+}
+#chart {
+  height: 700px;
+  
+}
+#chart text{
+
+  font-family: "Gotham" !important;
+  font-size: 12px !important;
+  color: var(--night-blue) !important;
+  font-weight: 900 !important;
+  
+}
+.template-text {
+  fill: var(--night-blue);
+  font-weight: bold;
+  font-size: 11px;
+  padding: 0;
+  margin: 0;
 }
 
 .candidates .candidateSelect option{

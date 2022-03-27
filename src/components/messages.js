@@ -41,6 +41,7 @@ export default {
     candidatesPlot12:"Dépenses sur les annonces publiées par les candidats éléctoraux",
     candidatesPlot13:"Visualisations des annonces publiées par les candidats éléctoraux",
     candidatesPlo4:"Répartition de la population touchée par les publicités mentionnant ",
+    spend:"Dépenses",
 
     candidatesPlotTitle1:"Total des dépenses publicitaires mentionnant les candidates à la présidentielle",
     candidatesMenuItem1:"Total",
@@ -173,6 +174,6 @@ export default {
     teamMember3Title:"M2 intern at CNRS",
     aboutUsSub:'Our team',
     genre:"   Gender: ",
-
+    spend:"Spending"
   },
 };

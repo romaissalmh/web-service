@@ -19,6 +19,8 @@
     "chart.js": "^3.6.2",
     "chartjs-plugin-datalabels": "^2.0.0",
     "chartjs-plugin-labels": "^1.1.0",
+    "devextreme": "21.2.6",
+    "devextreme-react": "21.2.6",
     "dotenv": "^14.2.0",
     "emotion": "^11.0.0",
     "fortawesome": "^0.0.1-security",

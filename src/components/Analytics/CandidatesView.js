@@ -7,6 +7,11 @@ import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';
 import { i } from 'mathjs'
 import TwoBarChart from '../Charts/TwoBarChart'
+import {
+    Chart, Series, ValueAxis,ArgumentAxis, Label, CommonSeriesSettings,
+  } from 'devextreme-react/chart';
+
+  import { LabelTemplate } from '../Charts/LabelTemplate';
 
 const CandidatesView = () => {
     const intl = useIntl();
@@ -43,12 +48,11 @@ const CandidatesView = () => {
     })
  
 
-    const [globalSpedingPerCandidate,setGlobalSpedingPerCandidate] = useState({
+    const [globalSpending,setGlobalSpending] = useState([{
         data : [],
         loading:true,
+    }])
 
-
-    })
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
         femaleGender:[],
@@ -56,7 +60,44 @@ const CandidatesView = () => {
         loading:true,
         labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     })
+    const candidateImages = [
+      {
+        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/selon-emmanuel-macron-l-etape-zero-c-etait-la-5651902-removebg-preview.png'
+      }, 
+      {
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/Jean-Luc-MELENCHON-in-the-European-Parliament-in-Strasbourg-2016-cropped-removebg-preview.png'
+    },
+      {
+        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/38h-Mh5b-400x400-removebg-preview.png'
+      }, {
+        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/LiU7-6Z3-400x400-removebg-preview.png'
+      },  {
+        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/J4pidVIB-400x400-removebg-preview.png'
+      },
+    {
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/e-bPnDY6-400x400-removebg-preview.png',
+    },
+    {
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/TN-L-17x-400x400-removebg-preview.png',
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/xRGGJGn1-400x400-removebg-preview.png'
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/taT-x7GV-400x400-removebg-preview.png'
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/yVqvYNcU-400x400-removebg-preview.png'
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/4xEOMZ-E-400x400-removebg-preview.png'
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/4xEOMZ-E-400x400-removebg-preview.png'
+    },{
+        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/UD3loKNE-400x400-removebg-preview.png'
+    },
 
+
+
+
+];
+      
 
     useEffect(() => {
         loadInfoPerCandidate()
@@ -65,7 +106,9 @@ const CandidatesView = () => {
         loadInfoPerOfficialCandidatePages()
         
     }, [])
-  
+    const  customizeLabel = (e) => {
+        return `${e.value} € `;
+      }
 
      const loadInfoPerCandidate = useCallback(async () => {
         setAdsPerCandidate({
@@ -127,27 +170,30 @@ const CandidatesView = () => {
         })
         const info = await fetchInfoPerOfficialCandidatePages()
         let candidates = []
-        let candidatesAds = []
+       /* let candidatesAds = []
         let candidatesSpending = []
-        let candidatesImpressions = []
+        let candidatesImpressions = []*/
         for (const d of info)
         {
-           candidates.push(d.candidate)
+            let element = {
+                candidate: d.candidate,
+                countAds: d.data[0].countAds, 
+                spending:  d.data[0].money !== null ? parseInt(d.data[0].money) : 0,
+                impressions :  d.data[0].impressions !== null ? parseInt(d.data[0].impressions) : 0
+            }
+         /*  candidates.push(d.candidate)
 		   candidatesAds.push(d.data[0].countAds)
            d.data[0].impressions !== null ? candidatesImpressions.push(parseInt(d.data[0].impressions)) : candidatesImpressions.push(0)
-           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0)
+           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0)*/
+           candidates.push(element)
         }
 
         setAdsPerOfficialCandidate({
 
-            candidatesAds:candidatesAds,
-            candidatesSpending:candidatesSpending,
-            candidatesImpressions:candidatesImpressions,
+            data:candidates,
             loading:false,
-            labels: candidates
         })
 
-       
         
     })
  
@@ -160,24 +206,33 @@ const CandidatesView = () => {
                 if( b.data[0] === undefined)
                 b.data.push({spend:0})
             if ( parseInt(a.data[0].spend) < parseInt(b.data[0].spend)){
-                return 1;
+                return -1;
             }
             if (parseInt(a.data[0].spend)> parseInt(b.data[0].spend)){
-                return -1;
+                return 1;
             }
             return 0;
             }
 
     const loadGlobalSpedingPerCandidate = useCallback(async () => {
-        setGlobalSpedingPerCandidate({
+       
+        setGlobalSpending({
+            data:[],
             loading:true
         })
         const result = await fetchGlobalSpedingPerCandidate()
+        console.log(result)
         result.sort(compare_lname)
         let spending = []
         let labels = []
+        let l = []
         for (const d of result)
         {
+
+            l.push({
+                candidate:d.candidate,
+                spend: d.data[0] !== undefined ? d.data[0].spend : 0,
+            })
             labels.push(d.candidate)
             if(d.data[0] !== undefined){
                 spending.push(parseInt(d.data[0].spend))
@@ -186,18 +241,16 @@ const CandidatesView = () => {
            
         
         }
-     
-        setGlobalSpedingPerCandidate({
-            data:spending,
-            loading:false,
-            labels:labels
+        setGlobalSpending({
+            data:l,
+            loading:false
         })
+      
     
     }, [])
 
     const loadDemographicBreakdown = useCallback(async (value) => {
         setCandidateName(value)
-        console.log(value)
         setDemographicBreakdown({
             femaleGender:[],
             maleGender:[],
@@ -205,7 +258,6 @@ const CandidatesView = () => {
             labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
         })
         const data = await fetchDemographicBreakdown(value)
-        console.log(data)
       
         let data1 =  data.map(
             a => a.gender === "female" ?  Math.floor(a.reach) :null
@@ -261,7 +313,6 @@ const CandidatesView = () => {
         await api.get(`api/demographicDistribution/demographicBreakdownOfAdsMentioningCandidates/${candidate}`)
          .then ( res => {
              stats = res
-            // console.log(stats)
          })
          .catch(
              err => console.log(err)
@@ -285,6 +336,7 @@ const CandidatesView = () => {
 	return (
 
 		 <Container className="candidates">
+                
            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
                 
             <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/> <br/> <br/> 
@@ -325,15 +377,39 @@ const CandidatesView = () => {
                 <Col xl="12"  sm="12" >  
                 {showBy === 'overall' 
                 ? 
-                globalSpedingPerCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                : 
-                <HorizontalBarChart 
-                title={intl.formatMessage({ id: 'candidatesPlotTitle1' })}
-                labels = {globalSpedingPerCandidate.labels} 
-                dataset={globalSpedingPerCandidate.data}
-                currency= "€ "
-                source={intl.formatMessage({ id: 'plotSource2' })} 
-                /> 
+                globalSpending.loading ? 
+                       <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+
+                       :
+                       <>
+                       <h5>{intl.formatMessage({ id: 'candidatesPlotTitle1' })}</h5>
+                       <br/>
+                       <Chart id="chart"
+                       rotated={true}
+
+                            
+                            dataSource={globalSpending.data}>
+                            <CommonSeriesSettings 
+                                type="bar" 
+                                argumentField="candidate" 
+                                cornerRadius={5}	
+                                barPadding={0.1} >
+                                <Label visible></Label>
+                            </CommonSeriesSettings>
+                            <Series
+                                name={intl.formatMessage({ id: 'spend' })}
+                                valueField="spend"
+                                color="#8AC2E6" />
+                            <ValueAxis>
+                                    <Label customizeText={customizeLabel} />
+                            </ValueAxis>
+                            <ArgumentAxis>
+                                <Label render={LabelTemplate}></Label>
+                            </ArgumentAxis>
+                        </Chart>
+                       </>
+                       
+              
 
                 : (showBy === 'overtime' &&  adsPerCandidate.loading )
                 ? 
@@ -458,36 +534,93 @@ const CandidatesView = () => {
                      adsPerOfficialCandidate.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
-                     <HorizontalBarChart 
-                     title={intl.formatMessage({ id: 'candidatesPlot11' })} 
-                     labels = {adsPerOfficialCandidate.labels} 
-                     dataset={adsPerOfficialCandidate.candidatesAds}
-                      source={intl.formatMessage({ id: 'plotSource1' })} 
-                     /> 
+                     <>
+                     <h5>{intl.formatMessage({ id: 'candidatesPlotTitle11' })}</h5>
+                     <br/>
+                     <Chart 
+                        id="chart"
+                        rotated={true}
+                        dataSource={adsPerOfficialCandidate.data}>
+                          <CommonSeriesSettings 
+                              type="bar" 
+                              argumentField="candidate" 
+                              cornerRadius={5}	
+                              barPadding={0.1} >
+                              <Label visible></Label>
+                          </CommonSeriesSettings>
+                          <Series
+                              name={intl.formatMessage({ id: 'spend' })}
+                              valueField="countAds"
+                              color="#8AC2E6" />
+                          <ArgumentAxis>
+                              <Label render={LabelTemplate}></Label>
+                          </ArgumentAxis>
+                      </Chart>
+                     </>
                      : showOfBy === "spending" ? 
                      adsPerOfficialCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
-                     <HorizontalBarChart 
-                     title={intl.formatMessage({ id: 'candidatesPlot12' })}
-                     labels = {adsPerOfficialCandidate.labels} 
-                     dataset={adsPerOfficialCandidate.candidatesSpending}
-                     currency= "€ "
-                     source={intl.formatMessage({ id: 'plotSource2' })} 
-                     /> 
+                  
+                     <>
+                     <h5>{intl.formatMessage({ id: 'candidatesPlot12' })}</h5>
+                     <br/>
+                     <Chart 
+                        id="chart"
+                        rotated={true}
+                        dataSource={adsPerOfficialCandidate.data}>
+                          <CommonSeriesSettings 
+                              type="bar" 
+                              argumentField="candidate" 
+                              cornerRadius={5}	
+                              barPadding={0.1} >
+                              <Label visible></Label>
+                          </CommonSeriesSettings>
+                          <Series
+                              name={intl.formatMessage({ id: 'spend' })}
+                              valueField="spending"
+                              color="#8AC2E6" />
+                                                        <ValueAxis>
+                                    <Label customizeText={customizeLabel} />
+                            </ValueAxis>
+                          <ArgumentAxis>
+                              <Label render={LabelTemplate}></Label>
+                          </ArgumentAxis>
+                      </Chart>
+                     </>
                      :
                      adsPerOfficialCandidate.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
-                     <HorizontalBarChart 
-                     title={intl.formatMessage({ id: 'candidatesPlot13' })} 
-                     labels = {adsPerOfficialCandidate.labels} 
-                     dataset={adsPerOfficialCandidate.candidatesImpressions}
-                      source={intl.formatMessage({ id: 'plotSource1' })} 
-                     /> 
+                  
 
-                     
+                     <>
+                     <h5>{intl.formatMessage({ id: 'candidatesPlot13' })}</h5>
+                     <br/>
+                     <Chart 
+                        id="chart"
+                        rotated={true}
+                        dataSource={adsPerOfficialCandidate.data}>
+                          <CommonSeriesSettings 
+                              type="bar" 
+                              argumentField="candidate" 
+                              cornerRadius={5}	
+                              barPadding={0.1} >
+                              <Label visible></Label>
+                          </CommonSeriesSettings>
+                          <Series
+                              name={intl.formatMessage({ id: 'spend' })}
+                              valueField="impressions"
+                              color="#8AC2E6" />
+                                                 
+                          <ArgumentAxis>
+                              <Label render={LabelTemplate}></Label>
+                          </ArgumentAxis>
+                      </Chart>
+                     </>
                      } 
                  </Col>    
-            </Row>  
+            </Row>
+         
+           
         </Container> 
         )
 }
