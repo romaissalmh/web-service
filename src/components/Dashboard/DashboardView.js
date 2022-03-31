@@ -65,7 +65,7 @@ const DashboardView= () =>  {
                 data : data,
                 loading: false
             })
-        }
+        } 
 
 
       }, []);

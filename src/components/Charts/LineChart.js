@@ -91,7 +91,7 @@ function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,sho
                   <Col xl="8" sm="8">
               
                     <h5 style={{fontFamily:"Gotham", fontWeight:"bold"}}>
-                   {showBy === 'ads' ?  dataset.adsTitle : showBy === 'spending' ? dataset.spendingTitle : dataset.impressionsTitle}
+                   {showBy === 'ads' ? intl.formatMessage({ id: 'plotTitle1' }) : showBy === 'spending' ?  intl.formatMessage({ id: 'plotTitle2' }) : intl.formatMessage({ id: 'plotTitle3' })}
                     </h5>
                   </Col>
                 

@@ -535,7 +535,7 @@ const CandidatesView = () => {
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                      <>
-                     <h5>{intl.formatMessage({ id: 'candidatesPlotTitle11' })}</h5>
+                     <h5>{intl.formatMessage({ id: 'candidatesPlot11' })}</h5>
                      <br/>
                      <Chart 
                         id="chart"
