@@ -24,7 +24,7 @@ function Summary({data}) {
                            <tr>
                            <td> {data.numberPages.toLocaleString("en-US")} </td>
                             <td> [ {parseInt(data.lower_bound_impressions).toLocaleString("en-US")} ; {parseInt(data.upper_bound_impressions).toLocaleString("en-US")} ] </td>
-                            <td> [ {parseInt(data.upper_bound_spend).toLocaleString("en-US")}  € ; {parseInt(data.lower_bound_spend).toLocaleString("en-US")}  € ] </td>
+                            <td> [ {parseInt(data.lower_bound_spend).toLocaleString("en-US")}  € ; {parseInt(data.upper_bound_spend).toLocaleString("en-US")}  € ] </td>
 
 
                         </tr>
