@@ -24,7 +24,7 @@ export default {
     menuItem1:"Dashboard",
     menuItem2:"Statistiques",
     menuItem3:"En Général",
-    menuItem4:"Par Candidats ",
+    menuItem4:"Par Candidat",
     menuItem5:"Démographie",
     menuItem7:"Explorer",
     analyticsTitle:"Statistiques détaillées",
