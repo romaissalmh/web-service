@@ -80,7 +80,7 @@ const DashboardView= () =>  {
         let transform1 = []
         let transform2 = []
         let transform3 = []
-        let labels = ['Jan 01-15','Jan 16-31','Feb 01-15','Feb 16-28','Mar 01-15','Mar 16-31']
+        let labels = ['Jan 01-15','Jan 16-31','Feb 01-15','Feb 16-28','Mar 01-15','Mar 16-31','Apr 01-15']
         adsPerMonth.map((ad)=>(
             transform1.push(parseInt(ad.countAds)) 
         ))
