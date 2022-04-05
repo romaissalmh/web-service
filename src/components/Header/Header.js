@@ -132,7 +132,6 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                        
                           <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span>  {intl.formatMessage({ id: 'menuItem3' })} </span> <Link to="/analytics" /> </MenuItem>
                           <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span>  {intl.formatMessage({ id: 'menuItem4' })} </span> <Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/demographics" /> </MenuItem>
                   </SubMenu>
 
                   <MenuItem icon={<BiSearch />} active={activeExplore} onClick={exploreClick} ><span> {intl.formatMessage({ id: 'menuItem7' })} </span><Link to="/explore" /></MenuItem>
@@ -203,6 +202,7 @@ export default Header;
 
 
 
+                          <MenuItem active={activeAnalytics4} onClick={analyticsClick4} ><span> {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/demographics" /> </MenuItem>
 
 
         
