@@ -57,9 +57,14 @@ function ExploreView() {
         {
             name: "page_name",
             label:  intl.formatMessage({ id: 'exploreColumn6' }),
+           
             options: {
              filter: true,
              sort: true,
+             customBodyRenderLite: (dataIndex) => {
+               return <a target="_blank" href={"https://www.facebook.com/"+ads.data[dataIndex].page_id}>{ads.data[dataIndex].page_name}</a>              
+              }
+        
             }
            },
         {
