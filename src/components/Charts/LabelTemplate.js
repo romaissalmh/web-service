@@ -1,7 +1,6 @@
 import React from 'react';
 
 export function LabelTemplate(data) {
-    console.log(data)
   return (<svg style={{display:"flex", flexDirection:"row"}} overflow="visible">
      
       <image  x="70" y="0" width="30" height="30" href={getFilePath(data.valueText)}></image>

@@ -1,17 +1,16 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container, Row, Spinner, Col, ButtonGroup, Button, DropdownToggle,DropdownItem, ButtonDropdown, DropdownMenu} from 'reactstrap'
+import {Modal, ModalHeader, ModalBody,Container, Row, Spinner, Col, ButtonGroup, Button} from 'reactstrap'
 import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
-import HorizontalBarChart from '../Charts/HorizontalBarChart'
 //apis call 
 import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';
-import { i } from 'mathjs'
 import TwoBarChart from '../Charts/TwoBarChart'
 import {
     Chart, Series, ValueAxis,ArgumentAxis, Label, CommonSeriesSettings,
   } from 'devextreme-react/chart';
-
-  import { LabelTemplate } from '../Charts/LabelTemplate';
+import AdCard from '../Charts/AdCard'
+import { LabelTemplate } from '../Charts/LabelTemplate';
+import { MoodSharp } from '@material-ui/icons';
 
 const CandidatesView = () => {
     const intl = useIntl();
@@ -46,13 +45,25 @@ const CandidatesView = () => {
 
 
     })
- 
+    const [adsTargetingCandidates,setAdsTargetingCandidates] = useState({
+        data:[],
+        loading:true,
+        candidate:"",
+        party:""
+    })
+    const [adsMentioningCandidates,setAdsMentioningCandidates] = useState({
+        data:[],
+        loading:true,
+        candidate:"",
+    })
 
     const [globalSpending,setGlobalSpending] = useState([{
         data : [],
         loading:true,
     }])
+    const [modalDemo1, setModalDemo1] = useState(false);
 
+    const [modalDemo2, setModalDemo2] = useState(false);
 
     const [demographicBreakdown,setDemographicBreakdown] = useState({
         femaleGender:[],
@@ -91,26 +102,98 @@ const CandidatesView = () => {
         img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/4xEOMZ-E-400x400-removebg-preview.png'
     },{
         img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/UD3loKNE-400x400-removebg-preview.png'
-    },
-
-
-
-
-];
+    },];
       
 
     useEffect(() => {
         loadInfoPerCandidate()
-        loadGlobalSpedingPerCandidate()
+        loadGlobalSpendingPerCandidate()
         loadDemographicBreakdown(candidateName)
         loadInfoPerOfficialCandidatePages()
         
     }, [])
-    const  customizeLabel = (e) => {
+
+      // Toggle for Modal
+      const toggleModal1 = (candidate) => {
+
+        adsMentioningCandidates.candidate = candidate
+        setModalDemo1(!modalDemo1);
+        
+        if(typeof candidate === 'string' )
+            {
+                loadAdsMentioningCandidates(candidate)
+            }
+    }
+
+      const toggleModal2 = (candidate,party) => {
+        //console.log(candidate)
+
+        adsTargetingCandidates.candidate = candidate
+        adsTargetingCandidates.party = party
+        setModalDemo2(!modalDemo2);
+
+        if(candidate !== undefined & party !== undefined)
+            {
+                loadAdsTargetingCandidates(candidate,party)
+            }
+    }
+
+      const  customizeLabel = (e) => {
         return `${e.value} € `;
       }
 
-     const loadInfoPerCandidate = useCallback(async () => {
+
+      const loadAdsMentioningCandidates = useCallback(async (candidate) => {
+        setAdsMentioningCandidates({
+            loading:true,
+            candidate:candidate,
+        })
+        const data = await fetchAdsMentioningCandidates(candidate)
+        console.log(data)
+        setAdsMentioningCandidates({
+            data:data,
+            loading:false, 
+            candidate:candidate,
+        })
+    
+    }, [])
+      const loadAdsTargetingCandidates = useCallback(async (candidate,party) => {
+        setAdsTargetingCandidates({
+            loading:true,
+            candidate:candidate,
+            party:party,
+        })
+        const data = await fetchAdsTargetingCandidates(candidate,party)
+      
+        setAdsTargetingCandidates({
+            data:data,
+            loading:false, candidate:candidate,
+            party:party,
+        })
+    
+    }, [])
+
+    function onPointClick1 (e) {
+        const series = e.target;
+        if (series.isSelected()) {
+            series.clearSelection();
+        } else {
+            series.select();
+        }
+        toggleModal1(series.getLabel()._data.originalArgument)
+
+    }
+    function onPointClick2 (e) {
+        const series = e.target;
+        if (series.isSelected()) {
+            series.clearSelection();
+        } else {
+            series.select();
+        }
+        toggleModal2(series.getLabel()._data.originalArgument,series.getLabel()._data.point.tag)
+
+    }
+    const loadInfoPerCandidate = useCallback(async () => {
         setAdsPerCandidate({
             loading:true
         })
@@ -177,14 +260,16 @@ const CandidatesView = () => {
         {
             let element = {
                 candidate: d.candidate,
+                party: d.partyPage,
                 countAds: d.data[0].countAds, 
                 spending:  d.data[0].money !== null ? parseInt(d.data[0].money) : 0,
                 impressions :  d.data[0].impressions !== null ? parseInt(d.data[0].impressions) : 0
             }
-         /*  candidates.push(d.candidate)
+           /*
+           candidates.push(d.candidate)
 		   candidatesAds.push(d.data[0].countAds)
            d.data[0].impressions !== null ? candidatesImpressions.push(parseInt(d.data[0].impressions)) : candidatesImpressions.push(0)
-           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0)*/
+           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0) */
            candidates.push(element)
         }
 
@@ -214,31 +299,23 @@ const CandidatesView = () => {
             return 0;
             }
 
-    const loadGlobalSpedingPerCandidate = useCallback(async () => {
+    const loadGlobalSpendingPerCandidate = useCallback(async () => {
        
         setGlobalSpending({
             data:[],
             loading:true
         })
-        const result = await fetchGlobalSpedingPerCandidate()
-        console.log(result)
+        const result = await fetchGlobalSpendingPerCandidate()
         result.sort(compare_lname)
-        let spending = []
-        let labels = []
         let l = []
         for (const d of result)
         {
 
             l.push({
                 candidate:d.candidate,
+                party : d.partyPage,
                 spend: d.data[0] !== undefined ? d.data[0].spend : 0,
             })
-            labels.push(d.candidate)
-            if(d.data[0] !== undefined){
-                spending.push(parseInt(d.data[0].spend))
-            }
-            else  spending.push(0)
-           
         
         }
         setGlobalSpending({
@@ -307,7 +384,32 @@ const CandidatesView = () => {
          )
          return stats 
     }
-    
+    const fetchAdsTargetingCandidates = async (candidate,party) => {
+        //change the api url
+       let stats 
+       await api.get(`api/pages/entitiesByCandidatesOfficialPages/`+candidate+`/`+party)
+        .then ( res => {
+            stats = res
+            //console.log(stats)
+        }) 
+        .catch(
+            err => console.log(err)
+        )
+        return stats 
+    }
+    const fetchAdsMentioningCandidates = async (candidate) => {
+        //change the api url
+       let stats 
+       await api.get(`api/general/adsMentioningCandidates/`+candidate)
+        .then ( res => {
+            stats = res
+            //console.log(stats)
+        }) 
+        .catch(
+            err => console.log(err)
+        )
+        return stats 
+    }
     const fetchDemographicBreakdown = async (candidate) => {
         let stats 
         await api.get(`api/demographicDistribution/demographicBreakdownOfAdsMentioningCandidates/${candidate}`)
@@ -320,7 +422,7 @@ const CandidatesView = () => {
          return stats 
      }
      
-    const fetchGlobalSpedingPerCandidate = async () => {
+    const fetchGlobalSpendingPerCandidate = async () => {
         let stats 
         await api.get(`api/general/spendCandidates`)
          .then ( res => {
@@ -384,10 +486,10 @@ const CandidatesView = () => {
                        <>
                        <h5>{intl.formatMessage({ id: 'candidatesPlotTitle1' })}</h5>
                        <br/>
-                       <Chart id="chart"
-                       rotated={true}
-
-                            
+                       <Chart 
+                            id="chart"
+                            rotated={true}
+                            onPointClick={onPointClick1}
                             dataSource={globalSpending.data}>
                             <CommonSeriesSettings 
                                 type="bar" 
@@ -399,6 +501,7 @@ const CandidatesView = () => {
                             <Series
                                 name={intl.formatMessage({ id: 'spend' })}
                                 valueField="spend"
+
                                 color="#8AC2E6" />
                             <ValueAxis>
                                     <Label customizeText={customizeLabel} />
@@ -407,6 +510,9 @@ const CandidatesView = () => {
                                 <Label render={LabelTemplate}></Label>
                             </ArgumentAxis>
                         </Chart>
+                        <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
+                            {intl.formatMessage({ id: 'disclaimer2' })} 
+                        </h6>
                        </>
                        
               
@@ -499,12 +605,39 @@ const CandidatesView = () => {
 
                
                }
-                
-               
                 </Col>
+           
             </Row>
-
-             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
+            <div>
+                <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo1} toggle={toggleModal1}>
+                    <ModalHeader
+                        toggle={toggleModal1}> {intl.formatMessage({ id: 'modalTitle' })} </ModalHeader>
+                    <ModalBody>
+                        {
+                            adsMentioningCandidates.loading ?  
+                            <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+                            <>
+                            <br/>
+                            <>
+                                <AdCard ad={adsMentioningCandidates.data[0].ad_creative_body} advertiser={adsMentioningCandidates.data[0].page_name} funding = {adsMentioningCandidates.data[0].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[1].ad_creative_body} advertiser={adsMentioningCandidates.data[1].page_name} funding = {adsMentioningCandidates.data[1].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[2].ad_creative_body} advertiser={adsMentioningCandidates.data[2].page_name} funding = {adsMentioningCandidates.data[2].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[3].ad_creative_body} advertiser={adsMentioningCandidates.data[3].page_name} funding = {adsMentioningCandidates.data[3].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[4].ad_creative_body} advertiser={adsMentioningCandidates.data[4].page_name} funding = {adsMentioningCandidates.data[4].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[5].ad_creative_body} advertiser={adsMentioningCandidates.data[5].page_name} funding = {adsMentioningCandidates.data[5].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[6].ad_creative_body} advertiser={adsMentioningCandidates.data[6].page_name} funding = {adsMentioningCandidates.data[6].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[7].ad_creative_body} advertiser={adsMentioningCandidates.data[7].page_name} funding = {adsMentioningCandidates.data[7].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[8].ad_creative_body} advertiser={adsMentioningCandidates.data[8].page_name} funding = {adsMentioningCandidates.data[8].funding_entity}/> 
+                                <AdCard ad={adsMentioningCandidates.data[9].ad_creative_body} advertiser={adsMentioningCandidates.data[9].page_name} funding = {adsMentioningCandidates.data[9].funding_entity}/> 
+                            </>
+                        </>  
+                        }
+                         </ModalBody>
+                    </Modal>
+            </div>
+           
+            
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
 
                  <Col xl="12"  sm="12" >  
                  <ButtonGroup >
@@ -540,6 +673,8 @@ const CandidatesView = () => {
                      <Chart 
                         id="chart"
                         rotated={true}
+                        onPointClick={onPointClick2}
+
                         dataSource={adsPerOfficialCandidate.data}>
                           <CommonSeriesSettings 
                               type="bar" 
@@ -551,11 +686,15 @@ const CandidatesView = () => {
                           <Series
                               name={intl.formatMessage({ id: 'spend' })}
                               valueField="countAds"
+                              tagField = "party"
                               color="#8AC2E6" />
                           <ArgumentAxis>
                               <Label render={LabelTemplate}></Label>
                           </ArgumentAxis>
                       </Chart>
+                      <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
+                            {intl.formatMessage({ id: 'disclaimer3' })} 
+                        </h6>
                      </>
                      : showOfBy === "spending" ? 
                      adsPerOfficialCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
@@ -578,6 +717,7 @@ const CandidatesView = () => {
                           <Series
                               name={intl.formatMessage({ id: 'spend' })}
                               valueField="spending"
+                              
                               color="#8AC2E6" />
                                                         <ValueAxis>
                                     <Label customizeText={customizeLabel} />
@@ -615,11 +755,36 @@ const CandidatesView = () => {
                               <Label render={LabelTemplate}></Label>
                           </ArgumentAxis>
                       </Chart>
+                    
                      </>
                      } 
                  </Col>    
             </Row>
-         
+            <div>
+                <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo2} toggle={toggleModal2}>
+                    <ModalHeader
+                        toggle={toggleModal2}> {intl.formatMessage({ id: 'modalTitle' })} </ModalHeader>
+                    <ModalBody>
+                        {
+                            adsTargetingCandidates.loading ?  
+                            <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+                            <>
+                            <br/>
+                            <>
+                                <AdCard ad={adsTargetingCandidates.data[0].ad_creative_body} advertiser={adsTargetingCandidates.data[0].page_name} funding = {adsTargetingCandidates.data[0].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[1].ad_creative_body} advertiser={adsTargetingCandidates.data[1].page_name} funding = {adsTargetingCandidates.data[1].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[2].ad_creative_body} advertiser={adsTargetingCandidates.data[2].page_name} funding = {adsTargetingCandidates.data[2].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[3].ad_creative_body} advertiser={adsTargetingCandidates.data[3].page_name} funding = {adsTargetingCandidates.data[3].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[4].ad_creative_body} advertiser={adsTargetingCandidates.data[4].page_name} funding = {adsTargetingCandidates.data[4].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[5].ad_creative_body} advertiser={adsTargetingCandidates.data[5].page_name} funding = {adsTargetingCandidates.data[5].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[6].ad_creative_body} advertiser={adsTargetingCandidates.data[6].page_name} funding = {adsTargetingCandidates.data[6].funding_entity}/> 
+                                <AdCard ad={adsTargetingCandidates.data[7].ad_creative_body} advertiser={adsTargetingCandidates.data[7].page_name} funding = {adsTargetingCandidates.data[7].funding_entity}/> 
+                            </>
+                        </>  
+                        }
+                         </ModalBody>
+                    </Modal>
+                    </div>
            
         </Container> 
         )

@@ -8,6 +8,9 @@ export default {
     plotSource4: "Source: Bibliothèque publicitaire de Facebook. Total des publicités publiées sur Facebook depuis le 1er janvier 2022.",
 
     disclaimer: "Pour inspecter quelques publicités politiques visant un certain age et genre veuillez cliquer sur la colonne qui convient.",
+    disclaimer2: "Pour inspecter quelques publicités politiques mentionnant un certain candidat veuillez cliquer sur la colonne qui convient.",
+    disclaimer3: "Pour inspecter quelques publicités politiques publiées où sponsorisées par un certain candidat veuillez cliquer sur la colonne qui convient.",
+
     plotTitle1:"Nombre de publicités politiques publiées par mois",
     plotTitle2:"Dépenses mensuelles générées par les publicités politiques",
     plotTitle3:"Nombre de visualisations sur les publicités politiques par mois",
@@ -56,7 +59,7 @@ export default {
     exploreColumn3:"Nombre d'impressions",
     exploreColumn4:"plateformes de partage",
     exploreColumn5:"Date de début de diffusion",
-    exploreColumn6:"Date de fin de diffusion",
+    exploreColumn6:"Page Facebook",
     male:"Homme",
     female:"Femme",
     demoPlotTitle1:"Pages ayant touché les agés de ",
@@ -85,7 +88,9 @@ export default {
     teamMember3Title:"Stagiaire au CNRS",
     aboutUsSub:"Notre équipe",
     genre:"   Genre: ",
-    
+    by:" par ",    
+    modalTitle:"Quelques publicités politiques"
+
   },
   en: {
     start: 'Let\'s explore',
@@ -128,9 +133,9 @@ export default {
     candidatesPlot12:"Spending on ads published by electoral candidates",
     candidatesPlot13:"Impressions on ads by electoral candidates",
     candidatesPlo4:"Breakdown of the population reached by the ads mentioning ",
-
     disclaimer: "In order to display some political ads targeting a certain age and gender choose the appropriate column.",
-
+    disclaimer2: "In order to display some political ads mentioning a certain candidate click on the appropriate column.",
+    disclaimer3: "In order to display some political ads published or paid by a certain candidate click on the appropriate column.",
     candidatesPlotTitle1:"Spend on ads talking about presidential candidates",
     candidatesMenuItem1:"Over all",
     candidatesMenuItem2:"Over Time",
@@ -149,7 +154,7 @@ export default {
     exploreColumn3:"Numbers of impressions",
     exploreColumn4:"Publisher plateforms",
     exploreColumn5:"Start time",
-    exploreColumn6:"Stop time",
+    exploreColumn6:"Page name",
     monthsLabels:['Jul2021', 'Aug2021', 'Sep2021', 'Oct2021', 'Nov2021', 'Dec2021','Jan2022','Feb2022'],
     jul:'Jul2021',
     aug: 'Aug2021',
@@ -174,6 +179,8 @@ export default {
     teamMember3Title:"M2 intern at CNRS",
     aboutUsSub:'Our team',
     genre:"   Gender: ",
-    spend:"Spending"
+    spend:"Spending",
+    by:" by ",
+    modalTitle:"Some political ads"
   },
 };

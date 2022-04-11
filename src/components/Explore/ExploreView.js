@@ -51,14 +51,22 @@ function ExploreView() {
          label:  intl.formatMessage({ id: 'exploreColumn1' }),
          options: {
           filter: false,
-          sort: true,
+          sort: false,
          }
         },
+        {
+            name: "page_name",
+            label:  intl.formatMessage({ id: 'exploreColumn6' }),
+            options: {
+             filter: true,
+             sort: true,
+            }
+           },
         {
          name: "funding_entity",
          label:  intl.formatMessage({ id: 'exploreColumn2' }),
          options: {
-          filter: true,
+          filter: false,
           sort: false,
          }
         },
@@ -66,34 +74,27 @@ function ExploreView() {
          name: "mean_impressions",
          label:  intl.formatMessage({ id: 'exploreColumn3' }),
          options: {
-          filter: true,
-          sort: false,
+          filter: false,
+          sort: true,
          }
         },
         {
          name: "publisher_platforms",
          label:  intl.formatMessage({ id: 'exploreColumn4' }),
          options: {
-          filter: true,
+          filter: false,
           sort: false,
          }
         },
 {
-         name: "ad_delivery_start_time",
+         name: "FROM_UNIXTIME(a.ad_delivery_start_time)",
          label:  intl.formatMessage({ id: 'exploreColumn5' }),
          options: {
-          filter: true,
-          sort: false,
+          filter: false,
+          sort: true,
          }
         },
-        {
-         name: "ad_delivery_stop_time",
-         label:  intl.formatMessage({ id: 'exploreColumn6' }),
-         options: {
-          filter: true,
-          sort: false,
-         }
-        },
+      
 
 
 
@@ -104,7 +105,11 @@ function ExploreView() {
          filterType: 'checkbox',
        //filter: false,
          download: false,
-         print: false
+         print: false,
+         searchOpen	:true,
+         filter:false,
+         viewColumns:false
+         
         };
 
     return (
