@@ -113,7 +113,9 @@ function ExploreView() {
          print: false,
          searchOpen	:true,
          filter:false,
-         viewColumns:false
+         viewColumns:false,
+         selectableRowsHeader:false,
+         selectableRows:'none'
          
         };
 
