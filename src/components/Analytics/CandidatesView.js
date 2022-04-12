@@ -619,16 +619,16 @@ const CandidatesView = () => {
                             <>
                             <br/>
                             <>
-                                <AdCard ad={adsMentioningCandidates.data[0].ad_creative_body} advertiser={adsMentioningCandidates.data[0].page_name} funding = {adsMentioningCandidates.data[0].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[1].ad_creative_body} advertiser={adsMentioningCandidates.data[1].page_name} funding = {adsMentioningCandidates.data[1].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[2].ad_creative_body} advertiser={adsMentioningCandidates.data[2].page_name} funding = {adsMentioningCandidates.data[2].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[3].ad_creative_body} advertiser={adsMentioningCandidates.data[3].page_name} funding = {adsMentioningCandidates.data[3].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[4].ad_creative_body} advertiser={adsMentioningCandidates.data[4].page_name} funding = {adsMentioningCandidates.data[4].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[5].ad_creative_body} advertiser={adsMentioningCandidates.data[5].page_name} funding = {adsMentioningCandidates.data[5].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[6].ad_creative_body} advertiser={adsMentioningCandidates.data[6].page_name} funding = {adsMentioningCandidates.data[6].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[7].ad_creative_body} advertiser={adsMentioningCandidates.data[7].page_name} funding = {adsMentioningCandidates.data[7].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[8].ad_creative_body} advertiser={adsMentioningCandidates.data[8].page_name} funding = {adsMentioningCandidates.data[8].funding_entity}/> 
-                                <AdCard ad={adsMentioningCandidates.data[9].ad_creative_body} advertiser={adsMentioningCandidates.data[9].page_name} funding = {adsMentioningCandidates.data[9].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[0].ad_delivery_start_time} ad={adsMentioningCandidates.data[0].ad_creative_body} advertiser={adsMentioningCandidates.data[0].page_name} funding = {adsMentioningCandidates.data[0].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[1].ad_delivery_start_time} ad={adsMentioningCandidates.data[1].ad_creative_body} advertiser={adsMentioningCandidates.data[1].page_name} funding = {adsMentioningCandidates.data[1].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[2].ad_delivery_start_time} ad={adsMentioningCandidates.data[2].ad_creative_body} advertiser={adsMentioningCandidates.data[2].page_name} funding = {adsMentioningCandidates.data[2].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[3].ad_delivery_start_time} ad={adsMentioningCandidates.data[3].ad_creative_body} advertiser={adsMentioningCandidates.data[3].page_name} funding = {adsMentioningCandidates.data[3].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[4].ad_delivery_start_time} ad={adsMentioningCandidates.data[4].ad_creative_body} advertiser={adsMentioningCandidates.data[4].page_name} funding = {adsMentioningCandidates.data[4].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[5].ad_delivery_start_time} ad={adsMentioningCandidates.data[5].ad_creative_body} advertiser={adsMentioningCandidates.data[5].page_name} funding = {adsMentioningCandidates.data[5].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[6].ad_delivery_start_time} ad={adsMentioningCandidates.data[6].ad_creative_body} advertiser={adsMentioningCandidates.data[6].page_name} funding = {adsMentioningCandidates.data[6].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[7].ad_delivery_start_time} ad={adsMentioningCandidates.data[7].ad_creative_body} advertiser={adsMentioningCandidates.data[7].page_name} funding = {adsMentioningCandidates.data[7].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[8].ad_delivery_start_time} ad={adsMentioningCandidates.data[8].ad_creative_body} advertiser={adsMentioningCandidates.data[8].page_name} funding = {adsMentioningCandidates.data[8].funding_entity}/> 
+                                <AdCard date={adsMentioningCandidates.data[9].ad_delivery_start_time} ad={adsMentioningCandidates.data[9].ad_creative_body} advertiser={adsMentioningCandidates.data[9].page_name} funding = {adsMentioningCandidates.data[9].funding_entity}/> 
                             </>
                         </>  
                         }
@@ -771,14 +771,17 @@ const CandidatesView = () => {
                             <>
                             <br/>
                             <>
-                                <AdCard ad={adsTargetingCandidates.data[0].ad_creative_body} advertiser={adsTargetingCandidates.data[0].page_name} funding = {adsTargetingCandidates.data[0].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[1].ad_creative_body} advertiser={adsTargetingCandidates.data[1].page_name} funding = {adsTargetingCandidates.data[1].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[2].ad_creative_body} advertiser={adsTargetingCandidates.data[2].page_name} funding = {adsTargetingCandidates.data[2].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[3].ad_creative_body} advertiser={adsTargetingCandidates.data[3].page_name} funding = {adsTargetingCandidates.data[3].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[4].ad_creative_body} advertiser={adsTargetingCandidates.data[4].page_name} funding = {adsTargetingCandidates.data[4].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[5].ad_creative_body} advertiser={adsTargetingCandidates.data[5].page_name} funding = {adsTargetingCandidates.data[5].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[6].ad_creative_body} advertiser={adsTargetingCandidates.data[6].page_name} funding = {adsTargetingCandidates.data[6].funding_entity}/> 
-                                <AdCard ad={adsTargetingCandidates.data[7].ad_creative_body} advertiser={adsTargetingCandidates.data[7].page_name} funding = {adsTargetingCandidates.data[7].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[0].ad_delivery_start_time} ad={adsTargetingCandidates.data[0].ad_creative_body} advertiser={adsTargetingCandidates.data[0].page_name} funding = {adsTargetingCandidates.data[0].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[1].ad_delivery_start_time}  ad={adsTargetingCandidates.data[1].ad_creative_body} advertiser={adsTargetingCandidates.data[1].page_name} funding = {adsTargetingCandidates.data[1].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[2].ad_delivery_start_time}  ad={adsTargetingCandidates.data[2].ad_creative_body} advertiser={adsTargetingCandidates.data[2].page_name} funding = {adsTargetingCandidates.data[2].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[3].ad_delivery_start_time}  ad={adsTargetingCandidates.data[3].ad_creative_body} advertiser={adsTargetingCandidates.data[3].page_name} funding = {adsTargetingCandidates.data[3].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[4].ad_delivery_start_time}  ad={adsTargetingCandidates.data[4].ad_creative_body} advertiser={adsTargetingCandidates.data[4].page_name} funding = {adsTargetingCandidates.data[4].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[5].ad_delivery_start_time}  ad={adsTargetingCandidates.data[5].ad_creative_body} advertiser={adsTargetingCandidates.data[5].page_name} funding = {adsTargetingCandidates.data[5].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[6].ad_delivery_start_time}  ad={adsTargetingCandidates.data[6].ad_creative_body} advertiser={adsTargetingCandidates.data[6].page_name} funding = {adsTargetingCandidates.data[6].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[7].ad_delivery_start_time}  ad={adsTargetingCandidates.data[7].ad_creative_body} advertiser={adsTargetingCandidates.data[7].page_name} funding = {adsTargetingCandidates.data[7].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[8].ad_delivery_start_time}  ad={adsTargetingCandidates.data[8].ad_creative_body} advertiser={adsTargetingCandidates.data[8].page_name} funding = {adsTargetingCandidates.data[8].funding_entity}/> 
+                                <AdCard date={adsTargetingCandidates.data[9].ad_delivery_start_time}  ad={adsTargetingCandidates.data[9].ad_creative_body} advertiser={adsTargetingCandidates.data[9].page_name} funding = {adsTargetingCandidates.data[9].funding_entity}/> 
+
                             </>
                         </>  
                         }

@@ -21,16 +21,24 @@ export default class  AdCard extends React.Component {
            </div>
             <div style={{float:"left"}}>
                  <div> 
-                     <p style= {{color: "#333333", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "0px 0px 10px", fontSize: "14px"}}  >
+                     <p style= {{color: "black", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "0px 0px 10px", fontSize: "14px"}}  >
                         {this.props.ad}
                      </p> 
                  </div>
-            <div style={{marginTop: "10px", verticalAlign: "baseline"}}>
-                <img width={'100%'} src={this.props.img}/>
-            </div> 
+                 <div> 
+                     <p style= {{color: "grey", fontWeight:"bold", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "0px 0px 10px", fontSize: "12px"}}  >
+                        {this.props.date.slice(0,10)}
+                     </p> 
+                 </div>
+           
             </div> 
             </div>
           )
     }
   
 }
+
+/* <div style={{marginTop: "10px", verticalAlign: "baseline"}}>
+                <img width={'100%'} src={this.props.img}/>
+            </div> 
+             */
