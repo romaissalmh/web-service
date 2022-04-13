@@ -400,7 +400,7 @@ const CandidatesView = () => {
     const fetchAdsMentioningCandidates = async (candidate) => {
         //change the api url
        let stats 
-       await api.get(`api/general/adsMentioningCandidates/`+candidate)
+       await api.get(`api/general/entitiesMentioningCandidates/`+candidate)
         .then ( res => {
             stats = res
             //console.log(stats)
@@ -412,7 +412,7 @@ const CandidatesView = () => {
     }
     const fetchDemographicBreakdown = async (candidate) => {
         let stats 
-        await api.get(`api/demographicDistribution/demographicBreakdownOfAdsMentioningCandidates/${candidate}`)
+        await api.get(`api/demographicDistribution/demographicBreakdownOfentitiesMentioningCandidates/${candidate}`)
          .then ( res => {
              stats = res
          })
