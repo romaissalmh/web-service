@@ -228,7 +228,7 @@ const AnalyticsView = () => {
         let stats 
         await api.get(`api/demographicDistribution/entitiesTargetingAgeGender/`+age+`/`+gender)
          .then ( res => {
-             stats = res
+             stats = res 
              //console.log(stats)
          }) 
          .catch(
