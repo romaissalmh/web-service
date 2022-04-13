@@ -27,7 +27,7 @@ export default class  AdCard extends React.Component {
                  </div>
                  <div> 
                      <p style= {{color: "grey", fontWeight:"bold", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "0px 0px 10px", fontSize: "12px"}}  >
-                        {this.props.date.slice(0,10)}
+                        {this.props.date != undefined ? this.props.date.slice(0,10) : ""}
                      </p> 
                  </div>
            

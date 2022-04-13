@@ -171,6 +171,7 @@ const AnalyticsView = () => {
         let labels = adsPerAdvertiser.map(
             a => a.page_name 
         )*/
+        console.log(data)
         setAdsTargetingAgeGender({
             data:data,
             loading:false, age:age,
