@@ -76,7 +76,6 @@ const DashboardView= () =>  {
         const adsPerMonth = await fetchAdsPerMonth()
         const spendingPerMonth = await fetchSpentOfMoneyPerMonth()
         const impressionsPerMonth = await fetchImpressionsPerMonth()
-        console.log(adsPerMonth)
         let transform1 = []
         let transform2 = []
         let transform3 = []
@@ -101,7 +100,6 @@ const DashboardView= () =>  {
             impressionsTitle:  intl.formatMessage({ id: 'plotTitle3' }),
 
         })
-        console.log(dataPerMonth)
     })
 
     const loadDataByRegion = useCallback(async () => {
@@ -173,10 +171,6 @@ const DashboardView= () =>  {
 			pdl: impressions["Pays de la Loire"],
 			pac: impressions["Provence-Alpes-Côte d'Azur"]
         }
-        console.log(Object.values(transform1))
-        console.log(Object.values(transform2))
-        console.log(Object.values(transform3))
-
        setDataByRegion({
         ads:transform1,
         spending:transform2,

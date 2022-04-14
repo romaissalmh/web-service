@@ -1,5 +1,4 @@
 import React from 'react'
-import { useIntl } from 'react-intl';
 
 export default class  AdCard extends React.Component {
        
@@ -21,7 +20,7 @@ export default class  AdCard extends React.Component {
            </div>
             <div style={{float:"left"}}>
                  <div> 
-                     <p style= {{color: "black", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "0px 0px 10px", fontSize: "14px"}}  >
+                     <p style= {{color: "black", fontFamily: "Helvetica Neue, Helvetica, Arial", "margin": "10px 0px 10px", fontSize: "14px"}}  >
                         {this.props.ad}
                      </p> 
                  </div>

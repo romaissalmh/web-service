@@ -1,9 +1,10 @@
 import React, {useEffect, useState, useCallback} from 'react'
-import {Container,Row, Col, Spinner} from 'reactstrap'
-import HorizontalBarChart from '../Charts/HorizontalBarChart'
+import {Container,Row, Col, Spinner, PaginationItem, Pagination, PaginationLink} from 'reactstrap'
+import MUIDataTable from "mui-datatables"
 //apis call 
 import {api} from '../../scripts/network'
 import { useIntl } from 'react-intl';
+import AdCard from '../Charts/AdCard';
 
 const WhoSeesWhat = () => {
     const intl = useIntl();
@@ -14,26 +15,24 @@ const WhoSeesWhat = () => {
         gender:'male',
         candidate:'',
         loading:true,
-        labels: []
 
     })
   
     const [adsPart2,setAdsPart2] = useState({
         data : [],
-        age:'18-24',
+        age:'35-44',
         gender:'female',
         candidate:'',
         loading:true,
-        labels: []
 
     })
   
     useEffect(() => {
         loadAdsPart1('18-24','male')
-        loadAdsPart2('18-24','male')
+        loadAdsPart2('35-44','female')
 
     }, [])
- 
+  
 
      const loadAdsPart1 = useCallback(async (age,gender) => {
         setAdsPart1({
@@ -41,24 +40,37 @@ const WhoSeesWhat = () => {
             loading:true,
             age:age,
             gender:gender,
-            labels:[],
 
         })
         const data = await fetchAdsPart1(age,gender)
-       let pages = data.map(
-            a => a.page_name 
-        )
-        let impressions = data.map(
-            a => Math.round(parseInt(a.reach)) 
-        )
+      
 
         setAdsPart1({
-            data:impressions,
+            data:data,
             loading:false,
             age:age,
             gender:gender,
-            labels:pages,
 
+        })
+
+    })
+
+    const loadAdsPart2 = useCallback(async (age,gender) => {
+        setAdsPart2({
+            data:[],
+            loading:true,
+            age:age,
+            gender:gender,
+
+        })
+        const data = await fetchAdsPart2(age,gender)
+     
+
+        setAdsPart2({
+            data:data,
+            loading:false,
+            age:age,
+            gender:gender,
         })
 
     })
@@ -66,7 +78,7 @@ const WhoSeesWhat = () => {
 
     const fetchAdsPart1 =  async (age,gender) => {
         let stats 
-        await api.get(`api/demographicDistribution/pageReachByGenderAge/`+age+`/`+gender)
+        await api.get(`api/demographicDistribution/entitiesTargetingAgeGender/`+age+`/`+gender)
          .then ( res => {
              stats = res
          })
@@ -78,7 +90,7 @@ const WhoSeesWhat = () => {
 
     const fetchAdsPart2 =  async (age,gender) => {
         let stats 
-        await api.get(`api/demographicDistribution/pageReachByGenderAge/`+age+`/`+gender)
+        await api.get(`api/demographicDistribution/entitiesTargetingAgeGender/`+age+`/`+gender)
          .then ( res => {
              stats = res
          })
@@ -88,18 +100,51 @@ const WhoSeesWhat = () => {
          return stats 
     }
 
-	return (
+    const columns1 = [
+        {
+            name: intl.formatMessage({ id: 'filterType1' }),           
+            options: {
+             filter: false,
+             sort: false,
+             customBodyRenderLite: (dataIndex) => {
+               return <AdCard date={adsPart1.data[dataIndex].ad_delivery_start_time} ad={adsPart1.data[dataIndex].ad_creative_body} advertiser={adsPart1.data[dataIndex].page_name} funding = {adsPart1.data[dataIndex].funding_entity}/> 
+         }  }  }, ];
+        
+    const columns2 = [
+            {
+                name: intl.formatMessage({ id: 'filterType1' }),           
+                options: {
+                 filter: false,
+                 sort: false,
+                 customBodyRenderLite: (dataIndex) => {
+                   return <AdCard date={adsPart2.data[dataIndex].ad_delivery_start_time} ad={adsPart2.data[dataIndex].ad_creative_body} advertiser={adsPart2.data[dataIndex].page_name} funding = {adsPart2.data[dataIndex].funding_entity}/> 
+        }  }  }, ];    
 
-		 <Container className="analytics">
-            <br/> 
-            <Row style={{padding:"30px"}}>     
-            <h6> {intl.formatMessage({ id: 'analyticsSubTitle2' })} </h6>         
-            <div style={{display:"flex","justify-content":"space-around"}}> 
-                    <select value={demographicBreakdown.gender} onChange={(event) => loadDemographicBreakdown(demographicBreakdown.age,event.target.value)}>
-                         <option value="female">{intl.formatMessage({ id: 'female' })} </option>
-                         <option value="male">{intl.formatMessage({ id: 'male' })} </option>
-                    </select>
-                    <select  value={demographicBreakdown.age} onChange={(event) => loadDemographicBreakdown(event.target.value,demographicBreakdown.gender)}>
+    const options = {
+        filterType: 'checkbox',
+      //filter: false,
+        download: false,
+        print: false,
+        search: false,
+        filter:false,
+        viewColumns:false,
+        selectableRowsHeader:false,
+        selectableRows:'none'
+        
+       };
+
+	return (
+		<Container className="analytics">
+            <Row style={{padding:"30px"}}>  
+                <h6 style={{fontSize:"22px"}}> {intl.formatMessage({ id: 'menuItem6' })} </h6>    
+                <br/>      <br/>
+                <Col xl="6" sm="12" >
+                    <div style={{display:"flex", justifyContent:"space-around"}}> 
+                        <select value={adsPart1.gender} onChange={(event) => loadAdsPart1(adsPart1.age,event.target.value)}>
+                            <option value="female">{intl.formatMessage({ id: 'female' })} </option>
+                            <option value="male">{intl.formatMessage({ id: 'male' })} </option>
+                        </select>
+                        <select  value={adsPart1.age} onChange={(event) => loadAdsPart1(event.target.value,adsPart1.gender)}>
                             <option value="13-17">13-17</option>
                             <option value="18-24">18-24</option>
                             <option value="25-34">25-34</option>
@@ -107,28 +152,46 @@ const WhoSeesWhat = () => {
                             <option value="45-54">45-54</option>
                             <option value="55-64">55-64</option>
                             <option value="65+">65+</option>
-                    </select>
-            </div> 
-            <Col xl="12"  sm="12" >  
-                 {
-                     demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                     : 
-                     <HorizontalBarChart 
-                     title= {intl.formatMessage({ id: 'demoPlotTitle1' }) +demographicBreakdown.age+ intl.formatMessage({ id: 'demoPlotTitle2' }) +demographicBreakdown.gender+ intl.formatMessage({ id: 'demoPlotTitle3' })} 
-                    labels = {demographicBreakdown.labels} 
-                    dataset={demographicBreakdown.data}
-
-                    // color="rgba(255, 186, 105, 1)"
-                    // colorOpacity="rgba(255, 186, 105, 0.1)"
-                      source="Source: Facebook Ad Library. Total spent on Facebook ads since July 1, 2021 targeting french regions. This chart is displaying number of people reached by some Facebook pages"
-                     />  
-
-                   }      
-                
-            </Col>              
-            </Row>  
+                        </select>
+                    </div> 
+                    <br/>
+                    <div style={{height:"80vh"}}>
+                    <MUIDataTable style={{maxHeight:'100%'}}
+                        data={adsPart1.data}
+                        columns={columns1}
+                        options={options}
+                        />
+                    </div>
+                   
+                </Col>
+                <Col xl="6" sm="12">
+                    <div style={{display:"flex",justifyContent:"space-around"}}> 
+                        <select value={adsPart2.gender} onChange={(event) => loadAdsPart2(adsPart2.age,event.target.value)}>
+                            <option value="female">{intl.formatMessage({ id: 'female' })} </option>
+                            <option value="male">{intl.formatMessage({ id: 'male' })} </option>
+                        </select>
+                        <select  value={adsPart2.age} onChange={(event) => loadAdsPart2(event.target.value,adsPart2.gender)}>
+                            <option value="13-17">13-17</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45-54">45-54</option>
+                            <option value="55-64">55-64</option>
+                            <option value="65+">65+</option>
+                        </select>
+                    </div> 
+                    <br/>
+                    <div style={{height:"80vh"}}>
+                    <MUIDataTable style={{maxHeight:'100%'}}
+                        data={adsPart2.data}
+                        columns={columns2}
+                        options={options}
+                        />
+                    </div>
+                </Col>
+            </Row>         
         </Container>
-            )
+    )
 }
 
 

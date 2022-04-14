@@ -693,3 +693,9 @@
   background:  var(--night-blue);
   border-radius: 50%;
 }
+
+/**--------- WHO SEES WHAT ---------------**/
+
+.MUIDataTable-responsiveBase-5{
+  height: 75vh !important;
+}

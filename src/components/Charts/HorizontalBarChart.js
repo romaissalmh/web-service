@@ -25,7 +25,6 @@ export default function HorizontalBarChart({title,dataset,labels, source, curren
         // format number and add suffix
         return scaled.toFixed(1) + suffix;
     }
-    const images = ['https://i.stack.imgur.com/2RAv2.png', 'https://i.stack.imgur.com/Tq5DA.png', 'https://i.stack.imgur.com/3KRtW.png', 'https://i.stack.imgur.com/iLyVi.png'];
  
     const plugins = { // Accessing labels and making them images
     labels: {

@@ -11,6 +11,7 @@ import {
 import AdCard from '../Charts/AdCard'
 import { LabelTemplate } from '../Charts/LabelTemplate';
 import { MoodSharp } from '@material-ui/icons';
+import MUIDataTable from "mui-datatables"
 
 const CandidatesView = () => {
     const intl = useIntl();
@@ -149,7 +150,6 @@ const CandidatesView = () => {
             candidate:candidate,
         })
         const data = await fetchAdsMentioningCandidates(candidate)
-        console.log(data)
         setAdsMentioningCandidates({
             data:data,
             loading:false, 
@@ -434,7 +434,38 @@ const CandidatesView = () => {
          return stats 
     }
 
-   
+    const columns1 = [
+        {
+            name: intl.formatMessage({ id: 'filterType1' }),           
+            options: {
+             filter: false,
+             sort: false,
+             customBodyRenderLite: (dataIndex) => {
+               return <AdCard date={adsMentioningCandidates.data[dataIndex].ad_delivery_start_time} ad={adsMentioningCandidates.data[dataIndex].ad_creative_body} advertiser={adsMentioningCandidates.data[dataIndex].page_name} funding = {adsMentioningCandidates.data[dataIndex].funding_entity}/> 
+         }  }  }, ];
+
+    const columns2 = [
+            {
+                name: intl.formatMessage({ id: 'filterType1' }),           
+                options: {
+                 filter: false,
+                 sort: false,
+                 customBodyRenderLite: (dataIndex) => {
+                   return <AdCard date={adsTargetingCandidates.data[dataIndex].ad_delivery_start_time} ad={adsTargetingCandidates.data[dataIndex].ad_creative_body} advertiser={adsTargetingCandidates.data[dataIndex].page_name} funding = {adsTargetingCandidates.data[dataIndex].funding_entity}/> 
+        }  }  }, ];    
+
+    const options = {
+        filterType: 'checkbox',
+      //filter: false,
+        download: false,
+        print: false,
+        search: false,
+        filter:false,
+        viewColumns:false,
+        selectableRowsHeader:false,
+        selectableRows:'none'
+        
+       };
 	return (
 
 		 <Container className="candidates">
@@ -611,25 +642,18 @@ const CandidatesView = () => {
             <div>
                 <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo1} toggle={toggleModal1}>
                     <ModalHeader
-                        toggle={toggleModal1}> {intl.formatMessage({ id: 'modalTitle' })} </ModalHeader>
+                        toggle={toggleModal1}></ModalHeader>
                     <ModalBody>
                         {
                             adsMentioningCandidates.loading ?  
                             <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
                             <>
                             <br/>
-                            <>
-                                <AdCard date={adsMentioningCandidates.data[0].ad_delivery_start_time} ad={adsMentioningCandidates.data[0].ad_creative_body} advertiser={adsMentioningCandidates.data[0].page_name} funding = {adsMentioningCandidates.data[0].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[1].ad_delivery_start_time} ad={adsMentioningCandidates.data[1].ad_creative_body} advertiser={adsMentioningCandidates.data[1].page_name} funding = {adsMentioningCandidates.data[1].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[2].ad_delivery_start_time} ad={adsMentioningCandidates.data[2].ad_creative_body} advertiser={adsMentioningCandidates.data[2].page_name} funding = {adsMentioningCandidates.data[2].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[3].ad_delivery_start_time} ad={adsMentioningCandidates.data[3].ad_creative_body} advertiser={adsMentioningCandidates.data[3].page_name} funding = {adsMentioningCandidates.data[3].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[4].ad_delivery_start_time} ad={adsMentioningCandidates.data[4].ad_creative_body} advertiser={adsMentioningCandidates.data[4].page_name} funding = {adsMentioningCandidates.data[4].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[5].ad_delivery_start_time} ad={adsMentioningCandidates.data[5].ad_creative_body} advertiser={adsMentioningCandidates.data[5].page_name} funding = {adsMentioningCandidates.data[5].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[6].ad_delivery_start_time} ad={adsMentioningCandidates.data[6].ad_creative_body} advertiser={adsMentioningCandidates.data[6].page_name} funding = {adsMentioningCandidates.data[6].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[7].ad_delivery_start_time} ad={adsMentioningCandidates.data[7].ad_creative_body} advertiser={adsMentioningCandidates.data[7].page_name} funding = {adsMentioningCandidates.data[7].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[8].ad_delivery_start_time} ad={adsMentioningCandidates.data[8].ad_creative_body} advertiser={adsMentioningCandidates.data[8].page_name} funding = {adsMentioningCandidates.data[8].funding_entity}/> 
-                                <AdCard date={adsMentioningCandidates.data[9].ad_delivery_start_time} ad={adsMentioningCandidates.data[9].ad_creative_body} advertiser={adsMentioningCandidates.data[9].page_name} funding = {adsMentioningCandidates.data[9].funding_entity}/> 
-                            </>
+                            <MUIDataTable style={{maxHeight:'100%'}}
+                                data={adsMentioningCandidates.data}
+                                columns={columns1}
+                                options={options}
+                            />
                         </>  
                         }
                          </ModalBody>
@@ -763,26 +787,18 @@ const CandidatesView = () => {
             <div>
                 <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo2} toggle={toggleModal2}>
                     <ModalHeader
-                        toggle={toggleModal2}> {intl.formatMessage({ id: 'modalTitle' })} </ModalHeader>
+                        toggle={toggleModal2}>  </ModalHeader>
                     <ModalBody>
                         {
                             adsTargetingCandidates.loading ?  
                             <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
                             <>
                             <br/>
-                            <>
-                                <AdCard date={adsTargetingCandidates.data[0].ad_delivery_start_time} ad={adsTargetingCandidates.data[0].ad_creative_body} advertiser={adsTargetingCandidates.data[0].page_name} funding = {adsTargetingCandidates.data[0].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[1].ad_delivery_start_time}  ad={adsTargetingCandidates.data[1].ad_creative_body} advertiser={adsTargetingCandidates.data[1].page_name} funding = {adsTargetingCandidates.data[1].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[2].ad_delivery_start_time}  ad={adsTargetingCandidates.data[2].ad_creative_body} advertiser={adsTargetingCandidates.data[2].page_name} funding = {adsTargetingCandidates.data[2].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[3].ad_delivery_start_time}  ad={adsTargetingCandidates.data[3].ad_creative_body} advertiser={adsTargetingCandidates.data[3].page_name} funding = {adsTargetingCandidates.data[3].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[4].ad_delivery_start_time}  ad={adsTargetingCandidates.data[4].ad_creative_body} advertiser={adsTargetingCandidates.data[4].page_name} funding = {adsTargetingCandidates.data[4].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[5].ad_delivery_start_time}  ad={adsTargetingCandidates.data[5].ad_creative_body} advertiser={adsTargetingCandidates.data[5].page_name} funding = {adsTargetingCandidates.data[5].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[6].ad_delivery_start_time}  ad={adsTargetingCandidates.data[6].ad_creative_body} advertiser={adsTargetingCandidates.data[6].page_name} funding = {adsTargetingCandidates.data[6].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[7].ad_delivery_start_time}  ad={adsTargetingCandidates.data[7].ad_creative_body} advertiser={adsTargetingCandidates.data[7].page_name} funding = {adsTargetingCandidates.data[7].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[8].ad_delivery_start_time}  ad={adsTargetingCandidates.data[8].ad_creative_body} advertiser={adsTargetingCandidates.data[8].page_name} funding = {adsTargetingCandidates.data[8].funding_entity}/> 
-                                <AdCard date={adsTargetingCandidates.data[9].ad_delivery_start_time}  ad={adsTargetingCandidates.data[9].ad_creative_body} advertiser={adsTargetingCandidates.data[9].page_name} funding = {adsTargetingCandidates.data[9].funding_entity}/> 
-
-                            </>
+                            <MUIDataTable style={{maxHeight:'100%'}}
+                                data={adsTargetingCandidates.data}
+                                columns={columns2}
+                                options={options}
+                            />
                         </>  
                         }
                          </ModalBody>

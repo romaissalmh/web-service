@@ -16,6 +16,7 @@ import { IntlProvider } from 'react-intl';
 import messages from './components/messages';
 import { install } from "resize-observer";
 import AboutUsView from './components/AboutUs/AboutUsView';
+import WhoSeesWhat from './components/Analytics/WhoSeesWhatView';
 
 
 function App() {
@@ -62,8 +63,7 @@ function App() {
                       <Route path="/analytics/advertisers"  element={<CandidatesView rtl={rtl} />}/>
                       <Route path="/analytics/demographics"  element={<DemographicView rtl={rtl} />}/>
                       <Route path="/analytics/regions"  element={<RegionsView rtl={rtl} />}/>
-
-
+                      <Route path="/analytics/whoseeswhat" element={<WhoSeesWhat rtl={rtl}/>} />
                       <Route path="/explore" element={<ExploreView />}/>
                 </Routes>
           </div> 
