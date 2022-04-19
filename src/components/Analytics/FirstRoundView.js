@@ -28,8 +28,9 @@ const CandidatesView = () => {
 	const [activeOfB2, setActiveOfB2] = useState(false)
 	const [activeOfB3, setActiveOfB3] = useState(false)
 
-    const [candidateName, setCandidateName] = useState("macron");
-	
+    const [candidateName1, setCandidateName1] = useState("macron");
+    const [candidateName2, setCandidateName2] = useState("Le pen");
+
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
         loading:true,
@@ -66,7 +67,14 @@ const CandidatesView = () => {
 
     const [modalDemo2, setModalDemo2] = useState(false);
 
-    const [demographicBreakdown,setDemographicBreakdown] = useState({
+    const [demographicBreakdown1,setDemographicBreakdown1] = useState({
+        femaleGender:[],
+        maleGender:[],
+        loading:true,
+        labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+    })
+
+    const [demographicBreakdown2,setDemographicBreakdown2] = useState({
         femaleGender:[],
         maleGender:[],
         loading:true,
@@ -109,7 +117,9 @@ const CandidatesView = () => {
     useEffect(() => {
         loadInfoPerCandidate()
         loadGlobalSpendingPerCandidate()
-        loadDemographicBreakdown(candidateName)
+        loadDemographicBreakdown1(candidateName1)
+        loadDemographicBreakdown2(candidateName2)
+
         loadInfoPerOfficialCandidatePages()
         
     }, [])
@@ -331,9 +341,9 @@ const CandidatesView = () => {
     
     }, [])
 
-    const loadDemographicBreakdown = useCallback(async (value) => {
-        setCandidateName(value)
-        setDemographicBreakdown({
+    const loadDemographicBreakdown1 = useCallback(async (value) => {
+        setCandidateName1(value)
+        setDemographicBreakdown1({
             femaleGender:[],
             maleGender:[],
             loading:true,
@@ -353,7 +363,39 @@ const CandidatesView = () => {
         data2 = data2.filter(function (value, index, arr){
             return value !== null
         })
-        setDemographicBreakdown({
+        setDemographicBreakdown1({
+            femaleGender: data1,
+            maleGender: data2,
+            loading:false,
+            labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+
+        })
+
+    })
+
+    const loadDemographicBreakdown2 = useCallback(async (value) => {
+        setCandidateName2(value)
+        setDemographicBreakdown2({
+            femaleGender:[],
+            maleGender:[],
+            loading:true,
+            labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
+        })
+        const data = await fetchDemographicBreakdown(value)
+      
+        let data1 =  data.map(
+            a => a.gender === "female" ?  Math.floor(a.reach) :null
+        )
+        let data2 = data.map(
+            a => a.gender === "male" ?  Math.floor(a.reach) :null
+        )
+        data1 = data1.filter(function (value, index, arr){
+            return value !== null
+        })
+        data2 = data2.filter(function (value, index, arr){
+            return value !== null
+        })
+        setDemographicBreakdown2({
             femaleGender: data1,
             maleGender: data2,
             loading:false,
@@ -607,14 +649,15 @@ const CandidatesView = () => {
                 </div> :
                 
                        
-                         demographicBreakdown.loading ? 
+                         demographicBreakdown1.loading && demographicBreakdown2.loading ? 
                           <div style={{ width:"100%", height:"400px",
                               display:'flex', justifyContent:"center",alignItems:'center'}}>
                                 <Spinner>  </Spinner> 
                           </div> 
                          : 
-                         <>
-                                <select className='candidateSelect' value={candidateName} onChange={(event) => loadDemographicBreakdown(event.target.value)}>
+                         <Row>
+                             <Col xl="6" sm="12" >
+                                <select className='candidateSelect' value={candidateName1} onChange={(event) => loadDemographicBreakdown1(event.target.value)}>
                                     <option value="Macron">Emmanuel Macron</option>
                                     <option value="Mélenchon">Jean-Luc Mélenchon</option>
                                     <option value="Le pen">Marine Le Pen</option>
@@ -625,21 +668,47 @@ const CandidatesView = () => {
                                     <option value="Dupont-Aignan">Nicolas Dupont-Aignan</option>
                                     <option value="Lassalle">Jean Lassalle </option>
                                     <option value="Poutou">Philippe Poutou</option>
-                                    <option value="Jadot">Yannick Jadot</option>
+                                    <option value="Jadot">Yannick Jadot</option> 
                                     <option value="Pécresse">Valérie Pécresse</option>
 
 
                                 </select>
 
                                 <TwoBarChart 
-                                    title={intl.formatMessage({ id: 'candidatesPlo4' })  + candidateName} 
-                                    labels={demographicBreakdown.labels}
-                                    dataset1={demographicBreakdown.femaleGender}
-                                    dataset2={demographicBreakdown.maleGender}
+                                    title={intl.formatMessage({ id: 'candidatesPlo4' })  + candidateName1} 
+                                    labels={demographicBreakdown1.labels}
+                                    dataset1={demographicBreakdown1.femaleGender}
+                                    dataset2={demographicBreakdown1.maleGender}
                                     source  = {intl.formatMessage({ id: 'plotSource3' })}
-                                /> 
-                         
-                       </>
+                                />
+                            </Col>
+                            <Col xl="6" sm="12" >
+                                <select className='candidateSelect' value={candidateName2} onChange={(event) => loadDemographicBreakdown2(event.target.value)}>
+                                    <option value="Macron">Emmanuel Macron</option>
+                                    <option value="Mélenchon">Jean-Luc Mélenchon</option>
+                                    <option value="Le pen">Marine Le Pen</option>
+                                    <option value="Zemmour">Eric Zemmour</option>
+                                    <option value="Roussel">Fabien Roussel</option>
+                                    <option value="Hidalgo">Anne Hidalgo</option>
+                                    <option value="Arthaud">Nathalie Arthaud</option>
+                                    <option value="Dupont-Aignan">Nicolas Dupont-Aignan</option>
+                                    <option value="Lassalle">Jean Lassalle </option>
+                                    <option value="Poutou">Philippe Poutou</option>
+                                    <option value="Jadot">Yannick Jadot</option> 
+                                    <option value="Pécresse">Valérie Pécresse</option>
+
+
+                                </select>
+
+                                <TwoBarChart 
+                                    title={intl.formatMessage({ id: 'candidatesPlo4' })  + candidateName2} 
+                                    labels={demographicBreakdown2.labels}
+                                    dataset1={demographicBreakdown2.femaleGender}
+                                    dataset2={demographicBreakdown2.maleGender}
+                                    source  = {intl.formatMessage({ id: 'plotSource3' })}
+                                />
+                            </Col>
+                       </Row>
 
                
                }

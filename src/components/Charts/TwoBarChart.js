@@ -145,7 +145,6 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
       fill: bar ? false : true,
       backgroundColor: bar ? 'rgba(255, 112, 139,1)' :'rgba(255, 112, 139,0.1)',
       borderRadius: 6,
-    
       pointBorderColor: "#fff",
       pointBackgroundColor: "rgba(255, 112, 139,1)",
       pointStyle: 'circle',
@@ -169,14 +168,14 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
 
   return(
   
-        <Card className=" shadow">
+        <Card className="shadow">
         <Row style={{borderBottomStyle:"solid", borderBottomWidth:'1px', borderBottomColor:'var(--lavender)', paddingBottom:'10px'}}>
             <Col xl="8" sm="8" >
               <CardTitle tag="h5" style={{fontFamily:"Gotham", fontWeight:"bold"}}>
                 {title}
               </CardTitle>  
             </Col>
-            <Col xl="4"   style={{display:"flex", justifyContent:"flex-end"}}>
+            <Col xl="4" style={{display:"flex", justifyContent:"flex-end"}}>
                     {bar ? (
                          <div className="flex">
                          <Button style={{backgroundColor:'var(--night-blue)', borderStyle:'none'}}  type="button" onClick={() => setBar(true)}>
@@ -200,7 +199,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
                     }
             </Col>
         </Row>
-        <CardBody>
+        <CardBody style={{padding:"6px"}}>
             {
               bar ?   <Bar  onClick={onClick}       ref={chartRef}
 
