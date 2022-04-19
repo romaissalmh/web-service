@@ -1,11 +1,17 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import { Card,CardTitle, CardBody } from "reactstrap";
-import { Bar } from 'react-chartjs-2';
+import { 
+  Bar, 
+  getElementAtEvent} from 'react-chartjs-2';
 
 
-
-
-export default function HorizontalBarChart({title,dataset,labels, source, currency}) {
+export default function HorizontalBarChart({title,dataset,labels, source, currency, loadAds,disclaimer}) {
+    const chartRef = useRef();
+    const onClick = (event) => {
+      let index = getElementAtEvent(chartRef.current, event)[0].index
+      loadAds(labels[index])
+     
+    }
     function abbreviateNumber(number){
        var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
@@ -20,7 +26,7 @@ export default function HorizontalBarChart({title,dataset,labels, source, curren
         var scale = Math.pow(10, tier * 3);
 
         // scale the number
-        var scaled = number / scale;
+        var scaled = number / scale; 
 
         // format number and add suffix
         return scaled.toFixed(1) + suffix;
@@ -175,9 +181,12 @@ export default function HorizontalBarChart({title,dataset,labels, source, curren
                 {title}
             </CardTitle>
             <div>
-                <Bar options={options} data={data} plugins={plugins} />
+                <Bar onClick={onClick} ref={chartRef} options={options} data={data} plugins={plugins} />
             </div>
           </CardBody>
+          <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
+                {disclaimer}   
+             </h6>
           <p style={{fontSize:"11px"}}>
                 {source}   
           </p>

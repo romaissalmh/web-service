@@ -53,7 +53,6 @@ export const FranceMap = ({data,limits, colors }) => {
 	useEffect(() => {
 				
 		let qSeq = quantileSeq(data.impressionsValues, [1/5, 2/5,3/5,4/5])
-		console.log(qSeq)
 		let result = []
 		qSeq.forEach(t => {
 			result.push(roundUp(t,1000))

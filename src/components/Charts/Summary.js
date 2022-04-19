@@ -7,7 +7,7 @@ function Summary({data}) {
 
     return (
         
-                <Table className="summary" borderless="true">
+                <Table className="summary" >
                     <tbody>
                        
                         <tr>

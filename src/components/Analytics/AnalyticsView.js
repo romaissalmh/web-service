@@ -21,13 +21,21 @@ const AnalyticsView = () => {
     const [regionName, setRegionName] = useState("Alsace");
      
     // Modal open state
-    const [modalDemo, setModalDemo] = useState(false);
-  
-    // Toggle for Modal
-    const toggleModal = (gender,age) => {
+    const [modalDemo1, setModalDemo1] = useState(false);
+    const [modalDemo2, setModalDemo2] = useState(false);
+
+    // Toggle for Modals
+    const toggleModal1 = (page) => {
+        adsSamplesByAdvertiser.page = page
+        setModalDemo1(!modalDemo1);
+        if(page !== undefined )
+            loadAdsSamplesByAdvertiser(page)
+    }
+
+    const toggleModal2 = (gender,age) => {
         adsTargetingAgeGender.age = age
         adsTargetingAgeGender.gender = gender
-        setModalDemo(!modalDemo);
+        setModalDemo2(!modalDemo2);
        
         if(gender !== undefined & age !== undefined)
             loadAdsTargetingAgeGender(age,gender)
@@ -58,6 +66,11 @@ const AnalyticsView = () => {
         gender:""
     })
 
+    const [adsSamplesByAdvertiser, setAdsSamplesByAdvertiser] = useState({
+        data:[],
+        loading:true,
+        page:'',
+    })
     const [adsPerAdvertiser,setAdsPerAdvertiser] = useState({
         data : [],
         loading:true,
@@ -80,13 +93,6 @@ const AnalyticsView = () => {
         loadSpentPerAdvertiser()
         loadDateLocationRegion(regionName)
     }, [])
-     
-
-   
-
-   
-    
-
    
     const loadDemographicBreakdown = useCallback(async () => {
         setDemographicBreakdown({
@@ -157,6 +163,21 @@ const AnalyticsView = () => {
         })
     
     }, [])
+    
+    const loadAdsSamplesByAdvertiser = useCallback(async (page) => {
+        setAdsSamplesByAdvertiser ({
+            loading:true,
+            page:page,
+        })
+        const data = await fetchAdsSamplesByAdvertiser(page)
+      
+        setAdsSamplesByAdvertiser ({
+            data:data,
+            loading:false, 
+            page:page,
+        })
+    
+    }, [])
 
      const loadAdsTargetingAgeGender = useCallback(async (age,gender) => {
         setAdsTargetingAgeGender({
@@ -165,12 +186,7 @@ const AnalyticsView = () => {
             gender:gender,
         })
         const data = await fetchAdsTargetingAgeGender(age,gender)
-        /*let data = adsPerAdvertiser.map(
-            a => parseInt(a.countExpenditure)
-        )
-        let labels = adsPerAdvertiser.map(
-            a => a.page_name 
-        )*/
+      
         setAdsTargetingAgeGender({
             data:data,
             loading:false, age:age,
@@ -267,6 +283,18 @@ const AnalyticsView = () => {
          )
          return stats 
      }
+     const fetchAdsSamplesByAdvertiser = async (page) => {
+        let stats 
+        await api.get(`api/pages/entitiesByPages/${page}`)
+         .then ( res => {
+             stats = res; 
+             //console.log(stats)
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+     }
 
     const fetchAdsByAdvertiser = async () => {
         let stats 
@@ -307,45 +335,28 @@ const AnalyticsView = () => {
 
 
 
-    const columnsTargetingTable = [
+     const columns1 = [
         {
-         name: "page_name",
-         label: "Advertiser page name",
-         options: {
-          filter: true,
-          sort: false,
-           delete:false,
-         }
-        },
-        {
-         name: "ad_creative_body",
-         label: "Ad text",
-         options: {
-          filter: true,
-          sort: true,
-          delete:false,
-         }
-        },
-       
-        {
-         name: "reach",
-         label: "Number of people reached",
-         options: {
-          filter: true,
-          sort: false,
-           delete:false,
-         }
-        },
-       
-       ];
+            name: intl.formatMessage({ id: 'filterType1' }),           
+            options: {
+             filter: false,
+             sort: false,
+             customBodyRenderLite: (dataIndex) => {
+               return <AdCard date={adsSamplesByAdvertiser.data[dataIndex].ad_delivery_start_time} ad={adsSamplesByAdvertiser.data[dataIndex].ad_creative_body} advertiser={adsSamplesByAdvertiser.data[dataIndex].page_name} funding = {adsSamplesByAdvertiser.data[dataIndex].funding_entity}/> 
+    }  }  }, ];    
 
-       const optionsTargetingTable = {
-         filter: false,
-         download: false,
-         print: false,
-          delete:false,
-          selectableRowsHideCheckboxes:true
-        };
+    const options = {
+        filterType: 'checkbox',
+    //filter: false,
+        download: false,
+        print: false,
+        search: false,
+        filter:false,
+        viewColumns:false,
+        selectableRowsHeader:false,
+        selectableRows:'none'
+        
+    };
 
     return (
         <Container className="analytics">
@@ -383,12 +394,16 @@ const AnalyticsView = () => {
                      adsPerAdvertiser.loading ? 
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
-                     <HorizontalBarChart 
+                       <HorizontalBarChart 
+                     loadAds={toggleModal1}
                      title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
                      labels = {adsPerAdvertiser.labels} 
                      dataset={adsPerAdvertiser.data}
                       source={intl.formatMessage({ id: 'plotSource3' })} 
+                      disclaimer = {intl.formatMessage({ id: 'disclaimer4' })}
+
                      /> 
+                       
                      : showBy === "spending" ? 
                      spentPerAdvertiser.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
                      : 
@@ -413,7 +428,26 @@ const AnalyticsView = () => {
                      } 
                  </Col>    
             </Row> 
-                
+            <div>
+                <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo1} toggle={toggleModal1}>
+                    <ModalHeader
+                        toggle={toggleModal1}>  </ModalHeader>
+                    <ModalBody>
+                        {
+                            adsSamplesByAdvertiser.loading ?  
+                            <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+                            <>
+                            <br/>
+                            <MUIDataTable style={{maxHeight:'100%'}}
+                                data={adsSamplesByAdvertiser.data}
+                                columns={columns1}
+                                options={options}
+                            />
+                        </>  
+                        }
+                         </ModalBody>
+                </Modal>
+            </div>
           
 
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
@@ -423,7 +457,7 @@ const AnalyticsView = () => {
                          demographicBreakdown.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: '300PX'}}>  <Spinner>  </Spinner> </div> 
                          : 
                          <TwoBarChart 
-                         loadAds={toggleModal}
+                         loadAds={toggleModal2}
                          title={intl.formatMessage({ id: 'analyticsPlotTitle4' })} 
                          labels={demographicBreakdown.labels}
                          dataset1={demographicBreakdown.femaleGender}
@@ -438,9 +472,9 @@ const AnalyticsView = () => {
             <div>            
 
 
-              <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo} toggle={toggleModal}>
+              <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo2} toggle={toggleModal2}>
                 <ModalHeader
-                    toggle={toggleModal}>{intl.formatMessage({ id: 'analyticsSubTitle3' })}</ModalHeader>
+                    toggle={toggleModal2}>{intl.formatMessage({ id: 'analyticsSubTitle3' })}</ModalHeader>
                 <ModalBody>
                     {
                         adsTargetingAgeGender.loading ?  
@@ -485,8 +519,6 @@ const AnalyticsView = () => {
                             <option value="Midi-Pyrénées">Occitanie</option>
                             <option value="Pays de la Loire">Pays de la Loire</option>
                             <option value="Provence-Alpes-Côte d'Azur">Provence Alpes Côte d'Azur </option>
-
-
                     </select>
                         {
                         dateLocationRegion.loading
@@ -500,17 +532,10 @@ const AnalyticsView = () => {
                         color="rgba(56, 56, 116, 1)"
                         colorOpacity="rgba(56, 56, 116, 0.1)"
                         source={intl.formatMessage({ id: 'plotSource3' })} 
-
                         />
-                        
-                        }
-
-                      
-
+                        }  
                 </Col>  
             </Row>
-        
-
         </Container>
     )
 }

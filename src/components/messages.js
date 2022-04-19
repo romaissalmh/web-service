@@ -10,6 +10,7 @@ export default {
     disclaimer: "Pour inspecter quelques publicités politiques visant un certain age et genre veuillez cliquer sur la colonne qui convient.",
     disclaimer2: "Pour inspecter quelques publicités politiques mentionnant un certain candidat veuillez cliquer sur la colonne qui convient.",
     disclaimer3: "Pour inspecter quelques publicités politiques publiées où sponsorisées par un certain candidat veuillez cliquer sur la colonne qui convient.",
+    disclaimer4: "Pour inspecter quelques publicités politiques publiées par une certaine page Facebook veuillez cliquer sur la barre qui convient à la page.",
 
     plotTitle1:"Nombre de publicités politiques publiées par mois",
     plotTitle2:"Dépenses mensuelles générées par les publicités politiques",
@@ -27,8 +28,8 @@ export default {
     menuItem1:"Dashboard",
     menuItem2:"Statistiques",
     menuItem3:"En Général",
-    menuItem4:"Par Candidat",
-    menuItem5:"Démographie",
+    menuItem4:"Premier Tour",
+    menuItem5:"Second Tour",
     menuItem6:"Qui voit quoi ?",
     menuItem7:"Explorer",
     analyticsTitle:"Statistiques détaillées",
@@ -90,7 +91,10 @@ export default {
     aboutUsSub:"Notre équipe",
     genre:"   Genre: ",
     by:" par ",    
-    modalTitle:"Quelques publicités politiques"
+    modalTitle:"Quelques publicités politiques",
+    firstRoundInfo:"Jusqu'au Premier Tour: 10 Avril 2022",
+    SecondRoundInfo:"Second Tour: 10 Avril au 24 Avril 2022",
+    whoseesWhatDesc:"  Visualiser, observer et comparer les publicités politiques par age et genre."
 
   },
   en: {
@@ -117,8 +121,8 @@ export default {
     menuItem1:"Dashboard",
     menuItem2:"Analytics",
     menuItem3:"General",
-    menuItem4:"Per Candidate",
-    menuItem5:"Demographics",
+    menuItem4:"First Round",
+    menuItem5:"Second Round",
     menuItem6:"Who Sees What ?",
     menuItem7:"Explore",
     analyticsTitle:"Detailed statistics",
@@ -138,6 +142,8 @@ export default {
     disclaimer: "In order to display some political ads targeting a certain age and gender choose the appropriate column.",
     disclaimer2: "In order to display some political ads mentioning a certain candidate click on the appropriate column.",
     disclaimer3: "In order to display some political ads published or paid by a certain candidate click on the appropriate column.",
+    disclaimer4: "In order to display some political ads published by a Facebook page click on the appropriate page.",
+
     candidatesPlotTitle1:"Spend on ads talking about presidential candidates",
     candidatesMenuItem1:"Over all",
     candidatesMenuItem2:"Over Time",
@@ -183,6 +189,11 @@ export default {
     genre:"   Gender: ",
     spend:"Spending",
     by:" by ",
-    modalTitle:"Some political ads"
+    modalTitle:"Some political ads",
+    firstRoundInfo:"Before First Round: April, 10th 2022",
+    SecondRoundInfo:"Second Round: April, 10th to April, 24th 2022",
+    whoseesWhatDesc:" View, observe and compare the targeting of political advertisements by age and gender."
+
+
   },
 };

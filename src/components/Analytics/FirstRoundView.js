@@ -33,7 +33,7 @@ const CandidatesView = () => {
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
         loading:true,
-        labels: ['Jan2022','Feb2022','March2022']
+        labels:['Jan2022','Feb2022','Mar2022','Apr2022']
 
 
     })
@@ -204,7 +204,7 @@ const CandidatesView = () => {
         let candidatesImpressions = []
         for (const d of info)
         {
-            if(d.data.length <3){
+            if(d.data.length <4){
                 if(d.data.find(element => element.month === 1) === undefined){
                     d.data.splice(0,0,{
                         month: 1, countAds: 0, impressions: 0, reach: 0, spend: 0
@@ -220,11 +220,16 @@ const CandidatesView = () => {
                         month: 3, countAds: 0, impressions: 0, reach: 0, spend: 0
                     })
                 }
+                if(d.data.find(element => element.month === 4) === undefined){
+                    d.data.splice(3,0,{
+                        month: 4, countAds: 0, impressions: 0, reach: 0, spend: 0
+                    })
+                }
             }
-            let countAds = [parseInt(d.data[0].countAds),parseInt(d.data[1].countAds),parseInt(d.data[2].countAds)]
-            let impressions = [parseInt(d.data[0].impressions),parseInt(d.data[1].impressions),parseInt(d.data[2].impressions)]
-            let spending = [parseInt(d.data[0].spend),parseInt(d.data[1].spend),parseInt(d.data[2].spend)]
-            let reach =  [parseInt(d.data[0].reach),parseInt(d.data[1].reach),parseInt(d.data[2].reach)]
+            let countAds = [parseInt(d.data[0].countAds),parseInt(d.data[1].countAds),parseInt(d.data[2].countAds),parseInt(d.data[3].countAds)]
+            let impressions = [parseInt(d.data[0].impressions),parseInt(d.data[1].impressions),parseInt(d.data[2].impressions),,parseInt(d.data[3].impressions)]
+            let spending = [parseInt(d.data[0].spend),parseInt(d.data[1].spend),parseInt(d.data[2].spend),parseInt(d.data[3].spend)]
+            let reach =  [parseInt(d.data[0].reach),parseInt(d.data[1].reach),parseInt(d.data[2].reach),parseInt(d.data[3].reach)]
         	let element = {
         		"label":d.candidate,
         		"data":countAds }
@@ -243,7 +248,7 @@ const CandidatesView = () => {
             candidatesSpending:candidatesSpending,
             candidatesImpressions:candidatesImpressions,
             loading:false,
-            labels: ['Jan2022','Feb2022','March2022']
+            labels: ['Jan2022','Feb2022','Mar2022','Apr2022']
         })
     })
  
@@ -472,7 +477,9 @@ const CandidatesView = () => {
                 
            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
                 
-            <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/> <br/> <br/> 
+            <h4>  {intl.formatMessage({ id: 'candidatesTitle' })} </h4>  <br/>
+            <h6>  {intl.formatMessage({ id: 'firstRoundInfo' })} </h6>  <br/> <br/>  
+
             <ButtonGroup >
                     <Button active={activeB1}  onClick={() => {
                         setShowBy('overall')
@@ -802,8 +809,8 @@ const CandidatesView = () => {
                         </>  
                         }
                          </ModalBody>
-                    </Modal>
-                    </div>
+                </Modal>
+            </div>
            
         </Container> 
         )

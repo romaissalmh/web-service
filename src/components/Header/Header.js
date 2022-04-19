@@ -131,8 +131,9 @@ const Header = ({toggled, handleToggleSidebar,handleRtlChange,rtl }) => {
                   <SubMenu title={intl.formatMessage({ id: 'menuItem2' })} icon={<BiPieChart />}  >
                        
                           <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics1} onClick={analyticsClick1} ><span>  {intl.formatMessage({ id: 'menuItem3' })} </span> <Link to="/analytics" /> </MenuItem>
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span>  {intl.formatMessage({ id: 'menuItem4' })} </span> <Link to="/analytics/advertisers" />  </MenuItem>
-                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span>  {intl.formatMessage({ id: 'menuItem6' })} </span> <Link to="/analytics/whoseeswhat" />  </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics2} onClick={analyticsClick2} ><span>  {intl.formatMessage({ id: 'menuItem4' })} </span> <Link to="/analytics/firstround" />  </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics3} onClick={analyticsClick3} ><span>  {intl.formatMessage({ id: 'menuItem5' })} </span> <Link to="/analytics/secondround" />  </MenuItem>
+                          <MenuItem style={{width:'100%', height:"100%"}} active={activeAnalytics4} onClick={analyticsClick4} ><span>  {intl.formatMessage({ id: 'menuItem6' })} </span> <Link to="/analytics/whoseeswhat" />  </MenuItem>
 
                   </SubMenu>
 

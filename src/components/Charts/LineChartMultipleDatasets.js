@@ -62,14 +62,12 @@ ChartJS.register(
     {value:11, label:"Valérie Pécresse", color:"#dbdff1"}
   ];
 function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color, colorOpacity, source, total}) {
-  console.log(showBy)
   const [optionSelected, setOptionSelected] = useState([
     {value: 0, label: 'Emmanuel Macron'},
     {value: 1, label: 'Jean-Luc Mélenchon'},
     {value: 2, label: 'Marine Le Pen'},
     {value: 3, label: 'Eric Zemmour'}
   ])
- console.log(datasets)
   const [dataList, setDataList] = useState([
       {
         label:datasets[0].label,
@@ -136,7 +134,6 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
       },
     
     ],)
-    console.log(dataList)
 
     React.useEffect(() => {
       setDataList([

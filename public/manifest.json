@@ -1,6 +1,7 @@
 {
   "short_name": "React App",
   "name": "Create React App Sample",
+  "content_security_policy": "connect-src ws://localhost:3000",
   "icons": [
     {
       "src": "favicon.ico",

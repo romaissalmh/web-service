@@ -136,7 +136,10 @@ const WhoSeesWhat = () => {
 	return (
 		<Container className="analytics">
             <Row style={{padding:"30px"}}>  
-                <h6 style={{fontSize:"22px"}}> {intl.formatMessage({ id: 'menuItem6' })} </h6>    
+                <h6 style={{fontSize:"22px"}}> {intl.formatMessage({ id: 'menuItem6' })}   
+                  <span style={{fontSize:"16px", fontWeight:"lighter"}}>{intl.formatMessage({ id: 'whoseesWhatDesc' })} </span>      </h6>  
+         
+                  
                 <br/>      <br/>
                 <Col xl="6" sm="12" >
                     <div style={{display:"flex", justifyContent:"space-around"}}> 

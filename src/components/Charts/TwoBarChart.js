@@ -209,7 +209,7 @@ export default function TwoBarChart({title,dataset1,dataset2,labels, source, loa
             }
             
           </CardBody>
-          <h6 style={{fontSize:"16px"}}>
+          <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
                 {disclaimer}   
              </h6>
                     

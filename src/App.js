@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Route,Routes } from "react-router-dom"
 //compoenents
 import DashboardView from './components/Dashboard/DashboardView'
 import AnalyticsView from './components/Analytics/AnalyticsView'
-import CandidatesView from './components/Analytics/CandidatesView'
+import FirstRoundView from './components/Analytics/FirstRoundView'
+import SecondRoundView from './components/Analytics/SecondRoundView'
 import DemographicView from './components/Analytics/DemographicView'
 import RegionsView from './components/Analytics/RegionsView'
 import ExploreView from './components/Explore/ExploreView'
@@ -60,7 +61,8 @@ function App() {
                       <Route path="/aboutUs" element={<AboutUsView rtl={rtl} />}/>
                       <Route path="/dashboard" element={<DashboardView  rtl={rtl}/>}/>
                       <Route path="/analytics"  element={<AnalyticsView rtl={rtl} />}/>
-                      <Route path="/analytics/advertisers"  element={<CandidatesView rtl={rtl} />}/>
+                      <Route path="/analytics/firstround"  element={<FirstRoundView rtl={rtl} />}/>
+                      <Route path="/analytics/secondround"  element={<SecondRoundView rtl={rtl} />}/>
                       <Route path="/analytics/demographics"  element={<DemographicView rtl={rtl} />}/>
                       <Route path="/analytics/regions"  element={<RegionsView rtl={rtl} />}/>
                       <Route path="/analytics/whoseeswhat" element={<WhoSeesWhat rtl={rtl}/>} />
