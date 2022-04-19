@@ -368,7 +368,7 @@ const CandidatesView = () => {
      */
     const fetchInfoPerCandidate = async () => {
         let stats 
-        await api.get(`api/general/infoCandidatesByMonth`)
+        await api.get(`api/general/infoCandidatesByMonth/1`)
          .then ( res => {
              stats = res
          })
@@ -380,7 +380,7 @@ const CandidatesView = () => {
 
     const fetchInfoPerOfficialCandidatePages = async () => {
         let stats 
-        await api.get(`api/pages/infosOfAdsByCandidateOfficialPages`)
+        await api.get(`api/pages/infosOfAdsByCandidateOfficialPages/1`)
          .then ( res => {
              stats = res
          })
@@ -392,7 +392,7 @@ const CandidatesView = () => {
     const fetchAdsTargetingCandidates = async (candidate,party) => {
         //change the api url
        let stats 
-       await api.get(`api/pages/entitiesByCandidatesOfficialPages/`+candidate+`/`+party)
+       await api.get(`api/pages/entitiesByCandidatesOfficialPages/`+candidate+`/`+party+`/1`)
         .then ( res => {
             stats = res
             //console.log(stats)
@@ -405,7 +405,7 @@ const CandidatesView = () => {
     const fetchAdsMentioningCandidates = async (candidate) => {
         //change the api url
        let stats 
-       await api.get(`api/general/entitiesMentioningCandidates/`+candidate)
+       await api.get(`api/general/entitiesMentioningCandidates/`+candidate+`/1`)
         .then ( res => {
             stats = res
             //console.log(stats)
@@ -417,7 +417,7 @@ const CandidatesView = () => {
     }
     const fetchDemographicBreakdown = async (candidate) => {
         let stats 
-        await api.get(`api/demographicDistribution/demographicBreakdownOfentitiesMentioningCandidates/${candidate}`)
+        await api.get(`api/demographicDistribution/demographicBreakdownOfentitiesMentioningCandidates/${candidate}/1`)
          .then ( res => {
              stats = res
          })
@@ -429,7 +429,7 @@ const CandidatesView = () => {
      
     const fetchGlobalSpendingPerCandidate = async () => {
         let stats 
-        await api.get(`api/general/spendCandidates`)
+        await api.get(`api/general/spendCandidates/1`)
          .then ( res => {
              stats = res
          })
