@@ -103,7 +103,7 @@ export default {
     plotSource1: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021 targeting french regions.",
     plotSource2: "Source: Facebook Ad Library. Total of ads published on Facebook ads since July 1, 2021.",
     plotSource3: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022 targeting french regions.",
-    plotSource2: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022.",
+    plotSource4: "Source: Facebook Ad Library. Total of ads published on Facebook ads since January 1, 2022.",
 
     plotTitle1:"Ads published during the last months",
     plotTitle2:"Total of money spent to show ads the last months",

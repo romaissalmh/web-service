@@ -370,7 +370,7 @@
 
 .svg-map {
   width: 100%;
-  height: auto;
+  height: 100%;
  /* stroke: var(--purple-Heart);*/
   stroke-width: 1;
   stroke-linecap: round;
