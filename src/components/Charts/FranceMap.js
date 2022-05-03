@@ -27,11 +27,11 @@ export const FranceMap = ({data,limits, colors }) => {
 
     const [mapLegend, setMapLegend] = useState({
 		ads:{
-			grades: [12000, 22000, 28000, 32000],
+			grades: [18000, 28000, 36000, 42000],
 			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
 		},
 		spending:{
-			grades: [1800000, 2900000, 3400000, 5200000],
+			grades: [2400000, 3200000, 3800000, 5200000],
 			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
 		},
 		impressions:{
@@ -167,31 +167,32 @@ export const FranceMap = ({data,limits, colors }) => {
 						
 				</tr>
 		
-				<tr>
-					{
+				<tr> 
+					{ 
 						showBy === 'ads' ? 
-						<td style={{background:"#566A92", color:"white"}}> 12000 </td> 
+						<td style={{background:"#566A92", color:"white"}}> 18000 </td> 
 						: showBy === 'spending' ? 
-						<td style={{background:"#F79792"}}> 1800000 </td> :
+						<td style={{background:"#F79792"}}> 2400000 </td> :
 						<td style={{background:"#8AC2E6"}}> 20000000 </td> 
 					}
+
 						
 				</tr>
 				<tr>
 					{
 							showBy === 'ads' ? 
-							<td style={{background:"#475484", color:"white"}}> 22000 </td> 
+							<td style={{background:"#475484", color:"white"}}> 28000 </td> 
 							: showBy === 'spending' ? 
-							<td style={{background:"#D84560"}}> 2900000 </td> :
+							<td style={{background:"#D84560"}}> 3200000 </td> :
 							<td style={{background:"#5CB1E6"}}> 30000000</td> 
 						}
 				</tr>
 				<tr>
 						{
 							showBy === 'ads' ? 
-							<td style={{background:"#292B68", color:"white"}}> 28000 </td> 
+							<td style={{background:"#292B68", color:"white"}}> 36000 </td> 
 							: showBy === 'spending' ? 
-							<td style={{background:"#BB1D4B"}}> 3400000 </td> :
+							<td style={{background:"#BB1D4B"}}> 3800000 </td> :
 							<td style={{background:"#148DD9"}}> 40000000</td> 
 						}
 				</tr>
@@ -199,7 +200,7 @@ export const FranceMap = ({data,limits, colors }) => {
 				<tr>
 					{
 							showBy === 'ads' ? 
-							<td style={{background:"#00004D", color:"white"}}> 32000 </td> 
+							<td style={{background:"#00004D", color:"white"}}> 42000 </td> 
 							: showBy === 'spending' ? 
 							<td style={{background:"#93003A"}}> 5200000 </td> :
 							<td style={{background:"#0076BF"}}> 60000000 </td> 
