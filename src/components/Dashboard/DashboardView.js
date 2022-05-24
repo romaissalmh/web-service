@@ -79,7 +79,7 @@ const DashboardView= () =>  {
         let transform1 = []
         let transform2 = []
         let transform3 = []
-        let labels = ['Jan 01-15','Jan 16-31','Feb 01-15','Feb 16-28','Mar 01-15','Mar 16-31','Apr 01-15']
+        let labels = []
         adsPerMonth.map((ad)=>(
             transform1.push(parseInt(ad.countAds)) 
         ))
@@ -89,6 +89,10 @@ const DashboardView= () =>  {
         impressionsPerMonth.map((ad)=>(
             transform3.push(parseInt(ad.countImpressions)) 
         ))
+        adsPerMonth.map((ad)=>(
+            labels.push(ad.CharMonth) 
+        ))
+        console.log(labels)
         setDataPerMonth({
             ads:transform1,
             spending: transform2,
