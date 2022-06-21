@@ -184,6 +184,7 @@ const DashboardView= () =>  {
         impressionsValues:Object.values(transform3),
         loading:false
     })
+    console.log(dataByRegion)
       }, []);
 
   

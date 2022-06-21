@@ -11,7 +11,6 @@ export const FranceMap = ({data,limits, colors }) => {
 	//const [locationClassName, setLocationClassName] = useState({})
 
 	const [showBy, setShowBy] = useState('ads');
-	const [dataInList, setDataInList] = useState()
 
 	const intl = useIntl();
 	const [activeB1, setActiveB1] = useState(true)
@@ -23,15 +22,15 @@ export const FranceMap = ({data,limits, colors }) => {
 	const [pointedImpressions,setPointedImpressions]= useState(null)
 	const [adsQuantile, setAdsQuantile]= useState()
 	const [spendingQuantile, setSpendingQuantile]= useState()
-
+	
 
     const [mapLegend, setMapLegend] = useState({
 		ads:{
-			grades: [18000, 28000, 36000, 42000],
+			grades: [20000, 30000, 40000, 50000],
 			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
 		},
 		spending:{
-			grades: [2400000, 3200000, 3800000, 5200000],
+			grades: [3000000, 6000000, 9000000, 15000000],
 			colors:["#d7dff0","#dbdff1","#bbc6da","#92a0bc","#728bbc"]
 		},
 		impressions:{
@@ -170,10 +169,10 @@ export const FranceMap = ({data,limits, colors }) => {
 				<tr> 
 					{ 
 						showBy === 'ads' ? 
-						<td style={{background:"#566A92", color:"white"}}> 18000 </td> 
+						<td style={{background:"#566A92", color:"white"}}> 20K </td> 
 						: showBy === 'spending' ? 
-						<td style={{background:"#F79792"}}> 2400000 </td> :
-						<td style={{background:"#8AC2E6"}}> 20000000 </td> 
+						<td style={{background:"#F79792"}}> 3M </td> :
+						<td style={{background:"#8AC2E6"}}> 20M </td> 
 					}
 
 						
@@ -181,29 +180,29 @@ export const FranceMap = ({data,limits, colors }) => {
 				<tr>
 					{
 							showBy === 'ads' ? 
-							<td style={{background:"#475484", color:"white"}}> 28000 </td> 
+							<td style={{background:"#475484", color:"white"}}> 30K </td> 
 							: showBy === 'spending' ? 
-							<td style={{background:"#D84560"}}> 3200000 </td> :
-							<td style={{background:"#5CB1E6"}}> 30000000</td> 
+							<td style={{background:"#D84560"}}> 6M </td> :
+							<td style={{background:"#5CB1E6"}}> 30M</td> 
 						}
 				</tr>
 				<tr>
 						{
 							showBy === 'ads' ? 
-							<td style={{background:"#292B68", color:"white"}}> 36000 </td> 
+							<td style={{background:"#292B68", color:"white"}}> 40K </td> 
 							: showBy === 'spending' ? 
-							<td style={{background:"#BB1D4B"}}> 3800000 </td> :
-							<td style={{background:"#148DD9"}}> 40000000</td> 
+							<td style={{background:"#BB1D4B"}}> 9M </td> :
+							<td style={{background:"#148DD9"}}> 40M </td> 
 						}
 				</tr>
 
 				<tr>
 					{
 							showBy === 'ads' ? 
-							<td style={{background:"#00004D", color:"white"}}> 42000 </td> 
+							<td style={{background:"#00004D", color:"white"}}> 50K</td> 
 							: showBy === 'spending' ? 
-							<td style={{background:"#93003A"}}> 5200000 </td> :
-							<td style={{background:"#0076BF"}}> 60000000 </td> 
+							<td style={{background:"#93003A"}}> 15M </td> :
+							<td style={{background:"#0076BF"}}> 60M </td> 
 						}
 				</tr>
 	 
