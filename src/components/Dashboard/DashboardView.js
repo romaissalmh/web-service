@@ -92,7 +92,6 @@ const DashboardView= () =>  {
         adsPerMonth.map((ad)=>(
             labels.push(ad.CharMonth) 
         ))
-        console.log(labels)
         setDataPerMonth({
             ads:transform1,
             spending: transform2,
@@ -184,7 +183,6 @@ const DashboardView= () =>  {
         impressionsValues:Object.values(transform3),
         loading:false
     })
-    console.log(dataByRegion)
       }, []);
 
   
