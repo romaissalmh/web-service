@@ -47,26 +47,35 @@ ChartJS.register(
       </div>
     );
   };
-   const candidatesOptions = [
-    { value: 0, label: "Emmanuel Macron", color:"#ff2d2e" },
-    { value: 1, label: "Jean-Luc Mélenchon", color:"#8675FF" },
-    { value: 2, label: "Marine Le Pen", color:"#5eff5a" },
-    { value: 3, label: "Eric Zemmour", color:"#ffba69" },
-    { value: 4, label: "Fabien Roussel", color:"#7C4733" },
-    { value: 5, label: "Anne Hidalgo" , color:"#5541D8"},
-    { value: 6, label: "Nathalie Arthaud" , color:"#292B68"},
-    { value: 7, label: "Nicolas Dupont-Aignan", color:"#BB1D4B" },
-    { value: 8, label: "Jean Lassalle", color:"#D8B46F" },
-    { value: 9, label: "Philippe Poutou" , color:"#D84560"},
-    { value: 10, label: "Yannick Jadot", color:"black" },
-    {value:11, label:"Valérie Pécresse", color:"#dbdff1"}
-  ];
-function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color, colorOpacity, source, total}) {
+
+
+function abbreviateNumber(number){
+    var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
+
+     // what tier? (determines SI symbol)
+     var tier = Math.log10(Math.abs(number)) / 3 | 0;
+
+     // if zero, we don't need a suffix
+     if(tier === 0) return number;
+
+     // get suffix and determine scale
+     var suffix = SI_SYMBOL[tier];
+     var scale = Math.pow(10, tier * 3);
+
+     // scale the number
+     var scaled = number / scale;
+
+     // format number and add suffix
+     return scaled.toFixed(1) + suffix; 
+ }
+   
+function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color, colorOpacity, source, total, candidatesOptions}) {
+
   const [optionSelected, setOptionSelected] = useState([
-    {value: 0, label: 'Emmanuel Macron'},
-    {value: 1, label: 'Jean-Luc Mélenchon'},
-    {value: 2, label: 'Marine Le Pen'},
-    {value: 3, label: 'Eric Zemmour'}
+    candidatesOptions[0],
+    candidatesOptions[1],
+    candidatesOptions[2],
+    candidatesOptions[3],
   ])
   const [dataList, setDataList] = useState([
       {
@@ -188,7 +197,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
           label:datasets[3].label,
           data: datasets[3].data,
           borderColor:candidatesOptions[3].color,
-          fill: true,
+          fill: true, 
           backgroundColor: "transparent" ,
           borderRadius: 2,
           BarThickness: 40,
@@ -207,8 +216,30 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
   const options = {    
     scales:{
       y:{
-        ticks: {beginAtZero: true,}
+        ticks: {
+          beginAtZero: true,
+          font: {
+            size: 12,
+            family: 'Gotham-Light'
+        },
+          callback: function(value, index, values) {
+            return abbreviateNumber(value);
+        }
+
       }
+    },
+    x : {
+      ticks: {
+        font: {
+          size: 12,
+          family: 'Gotham-Light'
+      },
+        
+
+    }
+    }
+              
+      
     },
     plugins: {
       legend: {
@@ -237,6 +268,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
 
 
   const onChangeSelected = (selected) => {
+    console.log(selected)
     setOptionSelected(selected)
     let list = []
       for(let s in selected) {

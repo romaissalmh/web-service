@@ -9,6 +9,7 @@ import MUIDataTable from "mui-datatables"
 import HorizontalBarChart from '../Charts/HorizontalBarChart'
 import { useIntl } from 'react-intl';
 import AdCard from '../Charts/AdCard'
+import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
 
 
 const AnalyticsView = () => {
@@ -52,7 +53,12 @@ const AnalyticsView = () => {
         labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     })
 
- 
+    const [dataPerMonthPerSocialIssue,setDataPerMonthPerSocialIssue] = useState({
+        data: [],
+        loading:true,
+        labels: []
+
+    })
   
     const [dateLocationRegion,setDateLocationRegion] = useState({
         data:[],
@@ -86,12 +92,49 @@ const AnalyticsView = () => {
         loading:true,
         labels: []
     })
+
+/*
+    const socialIssuesOptions = [
+        { value: 0, label: "Affaires internationales", color:"#ff2d2e" },
+        { value: 1, label: "Droits de l’homme libertés publiques et discriminations" , color:"#D84560"},
+        { value: 2, label: "Economic", color:"black" },
+        { value: 3, label: "Education", color:"#D8B46F" },
+        { value: 4, label: "Energie", color:"#8675FF" },
+        { value: 5, label:"Environnement", color:"#dbdff1"},
+        { value: 6, label: "Immigration", color:"#5eff5a" },
+        { value: 7, label: "Justice et criminalité", color:"#ffba69" },
+        { value: 8, label: "Opérations gouvernementales", color:"#7C4733" },
+        { value: 9, label: "Politique culturelle" , color:"#5541D8"},
+        { value: 10, label: "Politique sociale" , color:"#292B68"},
+        { value: 11, label: "Politiques urbaines et territoriales" , color:"#382B68"},
+        { value: 12, label: "Santé", color:"#BB1D4B" },
+        { value: 13, label: "Travail et emploi", color:"#CC1D4B" },
+       
+      ]*/
+      const socialIssuesOptions = [
+        { value: 0, label: "Affaires internationales", color:"#b82c73" },
+        { value: 1, label: "Energie" , color:"#3cc5af"},
+        { value: 2, label: "Immigration", color:"#253860" },
+        { value: 3, label: "Justice et criminalité", color:"#0e849e" },
+        { value: 4, label: "Opérations gouvernementales", color:"#d02d1e" },
+        { value: 5, label: "Politique culturelle", color:"#dbdff1"},
+        { value: 6, label: "Politique sociale", color:"#6e4f22" },
+        { value: 7, label: "Politiques urbaines et territoriales", color:"#b1a820" },
+        { value: 8, label: "Santé", color:"#0976fc" },
+        { value: 9, label: "Travail et emploi" , color:"#f6b9ab"},
+        { value: 10, label: "Environnement" , color:"#bbea4b"},
+        { value: 11, label: "Economic" , color:"#b604e2"},
+        { value: 12, label: "Droits de l’homme libertés publiques et discriminations", color:"#BB1D4B" },
+        { value: 13, label: "Education", color:"#f79c53" },
+       
+      ]
     useEffect(() => {
         loadDemographicBreakdown()
         loadAdsPerAdvertiser()
         loadImpressionsPerAdvertiser()
         loadSpentPerAdvertiser()
         loadDateLocationRegion(regionName)
+        loadInfoPerMonthPerSocialIssue()
     }, [])
    
     const loadDemographicBreakdown = useCallback(async () => {
@@ -235,9 +278,50 @@ const AnalyticsView = () => {
     
     }, [])
 
+    const loadInfoPerMonthPerSocialIssue = useCallback(async () => {
+        setDataPerMonthPerSocialIssue({
+            loading:true
+        })
+        const data = await fetchInfoPerMonthPerSocialIssue()
+        
+        let dataset = []
+        
+        for(let socialIssue in data){
+            let transform1 = []
+            let transform2 = []
+            //let transform3 = []
+            data[socialIssue].map((ad)=>{
+                transform1.push(parseInt(ad.countAds)) 
+                transform2.push(parseInt(ad.countMoney))
+                //transform3.push(parseInt(ad.countImpressions)) 
+            })
+            dataset.push({
+                "ads":transform1,
+                "data": transform2,
+                "label": socialIssue
+            })
 
+        }
+        let labels = []
+        data["Affaires internationales"].map((ad)=>{
+            labels.push(ad.CharMonth) 
+        })
+
+        setDataPerMonthPerSocialIssue({
+            data : dataset,
+            labels: labels,
+            loading:false,
+            adsTitle : intl.formatMessage({ id: 'plotTitle1' }),
+            spendingTitle:  intl.formatMessage({ id: 'plotTitle2' }),
+            impressionsTitle:  intl.formatMessage({ id: 'plotTitle3' }),
+
+        })
+
+       
+    })
+    
     // fetching data from the server
-
+     
 
       const fetchAdsTargetingAgeGender = async (age,gender) => {
          //change the api url
@@ -323,6 +407,18 @@ const AnalyticsView = () => {
      const fetchSpentByAdvertiser = async () => {
         let stats 
         await api.get(`api/pages/expenditureByPage`)
+         .then ( res => {
+             stats = res; 
+             //console.log(stats)
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+     }
+     const fetchInfoPerMonthPerSocialIssue = async () => {
+        let stats 
+        await api.get(`api/general/infoPerMonthPerSocialIssue`)
          .then ( res => {
              stats = res; 
              //console.log(stats)
@@ -428,6 +524,28 @@ const AnalyticsView = () => {
                      } 
                  </Col>    
             </Row> 
+
+            <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
+            <h6>  {intl.formatMessage({ id: 'analyticsSubTitle5' })}</h6>  
+            <Col xl="12"  sm="12" >  
+                     {
+                        dataPerMonthPerSocialIssue.loading ?
+                         <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+                        <LineChartMultipleDatasets
+                                title={intl.formatMessage({ id: 'socialIssuesPlot1' })}
+                                showBy = "ads"
+                                labels={dataPerMonthPerSocialIssue.labels}
+                                datasets={dataPerMonthPerSocialIssue.data}
+                                candidatesOptions = {socialIssuesOptions}
+                                currency=""
+                                total="true"
+                                color="rgba(56, 56, 116, 1)"
+                                colorOpacity="rgba(56, 56, 116, 0.1)"
+                                source={intl.formatMessage({ id: 'plotSource3' })}
+                            />
+                     }
+                </Col>
+            </Row>
             <div>
                 <Modal style={{width:"80vw", height:"80%"}} isOpen={modalDemo1} toggle={toggleModal1}>
                     <ModalHeader
@@ -449,7 +567,7 @@ const AnalyticsView = () => {
                 </Modal>
             </div>
           
-
+            
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>     
                 <Col xl="12"  sm="12" >  
                 <h6> {intl.formatMessage({ id: 'analyticsSubTitle2' })}  </h6>  
