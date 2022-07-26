@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import { default as ReactSelect } from "react-select";
 import { components } from "react-select";
 
@@ -58,50 +58,52 @@ function abbreviateNumber(number){
      // format number and add suffix
      return scaled.toFixed(1) + suffix; 
  }
-   
-export const chartOptions = {
-  plugins: {
-    title: {
-      display: false,
-    },
-    datalabels: {
+  
+export function StackedBarChart({datasets,labels,title,source,options, currency}) {
+    //console.log(datasets)
+     
+  const chartOptions = {
+    //indexAxis: 'y', 
+    plugins: {
+      title: {
         display: false,
-        color: '#383874',
-        font: {
-         size: 14,
-         family: 'Gotham',
-        }
-     }
-  },
-  responsive: true,
-  scales: {
-    x: {
-      stacked: true,
-      ticks: {
-        font: {
-          size: 12,
-          family: 'Gotham-Bold'
       },
-    },
-    },
-    y: {
-      stacked: true,
-      ticks: {
-        font: {
-          size: 12,
-          family: 'Gotham-Light'
-      },
-        callback: function(value, index, values) {
-          return abbreviateNumber(value);
+      datalabels: {
+          display: false,
+          color: '#383874',
+          font: {
+          size: 14,
+          family: 'Gotham',
+          }
       }
     },
-  },
-}
-}
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 12,
+            family: 'Gotham-Bold'
+        },
+      },
+      },
+      y: {
+        stacked: true,
+        ticks: {
+          font: {
+            size: 12,
+            family: 'Gotham-Light'
+        }, 
+          callback: function(value, index, values) {
+            return abbreviateNumber(value)+currency;
+        }
+      },
+    },
+  }
+  }
 
 
-export function StackedBarChart({datasets,labels,title,source,options}) {
-    //console.log(datasets)
     const [optionSelected, setOptionSelected] = useState([
         options[0],
         options[1],
@@ -117,6 +119,7 @@ export function StackedBarChart({datasets,labels,title,source,options}) {
         options[11],
         options[12],
         options[13],
+        options[14],
       ])
     const [dataList, setDataList] = useState(
         datasets
@@ -130,14 +133,12 @@ export function StackedBarChart({datasets,labels,title,source,options}) {
         datasets:dataList
       };
 
-    console.log(datasets)
-    console.log(dataList)
     const onChangeSelected = (selected) => {
         setOptionSelected(selected)
         let list = []
           for(let s in selected) {
             list.push({
-              label: datasets[selected[s].value].label,
+              label: options[selected[s].value].label,
               data:  datasets[selected[s].value].data,
               backgroundColor: datasets[selected[s].value].backgroundColor,
             })

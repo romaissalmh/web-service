@@ -1,12 +1,12 @@
-import React from "react";
+import React, {useRef}  from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import {pieOptions} from './variables/chart'
 
-import { Pie } from "react-chartjs-2";
-// reactstrap components
+import { Pie, 
+    getElementAtEvent } from "react-chartjs-2";
+
 import {
   Card,
-  CardBody,
   Row,
   Col
 } from "reactstrap";
@@ -14,13 +14,18 @@ import {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-const PieChart = ({ title,icon, labels, dataset }) => {
-   
+const PieChart = ({ title, labels, dataset, colors, loadAds}) => {
+    const chartRef = useRef();
+    const onClick = (event) => {
+        let index = getElementAtEvent(chartRef.current, event)[0].index
+        loadAds(labels[index])
+       
+      } 
     const pieData = {
         labels: labels,
         datasets: [{
             data: dataset,
-            backgroundColor:['#FFCB41','#8675FF','#FF9065','#5eff5a'],
+            backgroundColor: colors,
             hoverBorderColor:'#383874'
         }]
     }
@@ -33,20 +38,17 @@ const PieChart = ({ title,icon, labels, dataset }) => {
                                  {title} 
                             </h5>
                     </Col>
-                    <Col className="col-auto">
-                    <div style={{width:"3em", height:"3em", display:"flex", justifyContent:"center", alignItems:"center", backgroundColor:"#383874"}} className={"icon icon-shape text-white rounded-circle shadow"}>
-                          {icon}
-                        </div>
-                    </Col>
+                   
                 </Row>
-                <CardBody>
-                <Row style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <Row style={{widht:"100%"}} >
                         <Pie    data={pieData}
                                 options={pieOptions}
                                 height={450}
-                                width={450}/>
+                                width={450}
+                                onClick={onClick}
+                                ref={chartRef} 
+                                />
                 </Row>
-              </CardBody>
             </Card>
         </>
     );

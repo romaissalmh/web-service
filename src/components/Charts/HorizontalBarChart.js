@@ -11,7 +11,7 @@ export default function HorizontalBarChart({title,dataset,labels, source, curren
       let index = getElementAtEvent(chartRef.current, event)[0].index
       loadAds(labels[index])
      
-    }
+    } 
     function abbreviateNumber(number){
        var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 

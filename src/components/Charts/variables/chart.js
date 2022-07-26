@@ -1,5 +1,17 @@
 
-  function abbreviateNumber(number){
+const footer = (tooltipItems) => {
+
+  let sum = 0;
+  let dataArr = tooltipItems[0].dataset.data;
+  dataArr.map(data => {
+      sum += data;
+  });
+  let percentage = (tooltipItems[0].parsed*100 / sum).toFixed(2)+"%";
+  return percentage;
+        
+ 
+};
+function abbreviateNumber(number){
        var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
         // what tier? (determines SI symbol)
@@ -51,7 +63,7 @@ const lineOptions = {
         ticks: {
          
           min:0,
-           font: {
+          font: {
             size: 14,
             family: 'Gotham-Light'
          },
@@ -89,25 +101,44 @@ const lineOptions = {
 
 const pieOptions = {
   responsive: false,
+  padding:0,
   plugins: {
     legend: {
         display:true,
+        position:'left',
         labels: {
             display:true,
+            align:"start",
             font: {
-                size: 14,
-                family: 'Gotham-Bold',
+                size: 10,
+                family: 'Gotham-Light',
 
             }
         }
     },
+      tooltip:{
+        callbacks: {
+          footer:footer
+
+        }
+      },
       datalabels: {
-         display: true,
+         display: false,
+        
          color: '#383874',
          font: {
-          size: 14,
-          family: 'Gotham-Light',
-         }
+          size: 10,
+          family: 'Gotham-Bold',
+         },
+         formatter: (value, ctx) => {
+          let sum = 0;
+          let dataArr = ctx.chart.data.datasets[0].data;
+          dataArr.map(data => {
+              sum += data;
+          });
+          let percentage = (value*100 / sum).toFixed(2)+"%";
+          return percentage;
+      },
       }
   },
    elements: {
@@ -115,7 +146,7 @@ const pieOptions = {
       arc: {
         backgroundColor: ['#8675FF','#FF9065','#FFCB41','#5eff5a'],
         borderColor: '#fff',
-        borderWidth: 3,
+        borderWidth: 1,
        /* borderRadius:8*/
       },
       

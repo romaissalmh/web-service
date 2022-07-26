@@ -39,12 +39,12 @@ const SecondRoundView = () => {
         
       ];
     const [showBy, setShowBy] = useState('overall');
-    const [showByA, setShowByA] = useState('overall');
 
     const [activeB1, setActiveB1] = useState(true)
 	const [activeB2, setActiveB2] = useState(false)
 	const [activeB3, setActiveB3] = useState(false)
-
+    
+    const [showByA, setShowByA] = useState('overall');
     const [activeA1, setActiveA1] = useState(true)
 	const [activeA2, setActiveA2] = useState(false)
 
@@ -183,6 +183,7 @@ const SecondRoundView = () => {
 
     function onPointClick1 (e) {
         const series = e.target;
+        console.log(series)
         if (series.isSelected()) {
             series.clearSelection();
         } else {
@@ -382,8 +383,8 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
 
     const result = await fetchGlobalSpendingPerOfficialCandidateParSocialIssue()
     let dataset = []
-    console.log(result)
     let i = 0
+    //candidates = ["Emmanuel Macron", "Marine Le Pen","Eric Zemmour"]
     for (const [key, value] of Object.entries(result)) {
         let spending = []
         for (const candidate of value){
@@ -587,6 +588,7 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                                      source  = {intl.formatMessage({ id: 'plotSource3' })}
                                      title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
                                      options = {issuesOptions}
+                                     currency = " €"
                                      />
                               <StackedBarChart
                                      datasets = {globalSpendingPerSocialIssuePerCandidate.data}
@@ -594,6 +596,7 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                                      source  = {intl.formatMessage({ id: 'plotSource3' })}
                                      title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
                                      options = {candidatesOptions}
+                                     currency = " €"
                                      />
                              
                             
@@ -717,8 +720,9 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                      datasets = {globalSpendingOfficialPerSocialIssue.data}
                      labels = {globalSpendingOfficialPerSocialIssue.labels}
                      source  = {intl.formatMessage({ id: 'plotSource3' })}
-                     title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                     title = {intl.formatMessage({ id: 'candidatesOfficialPlotTitle1' })}
                      options = {issuesOptions}
+                     currency = " €"
                      />
                      </div>
                     

@@ -69,7 +69,7 @@ function abbreviateNumber(number){
      return scaled.toFixed(1) + suffix; 
  }
    
-function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color, colorOpacity, source, total, candidatesOptions}) {
+function LineChartMultipleDatasets({datasets,labels,title,stacked , source, candidatesOptions}) {
 
   const [optionSelected, setOptionSelected] = useState([
     candidatesOptions[0],
@@ -79,7 +79,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
   ])
   const [dataList, setDataList] = useState([
       {
-        label:datasets[0].label,
+        label:candidatesOptions[0].label,
         data: datasets[0].data,
         borderColor: candidatesOptions[0].color,
         fill: true,
@@ -95,7 +95,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
      
       },
        {
-        label:datasets[1].label,
+        label:candidatesOptions[1].label,
         data:datasets[1].data,
         borderColor: candidatesOptions[1].color,
         fill:  true ,
@@ -110,7 +110,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
         tension: 0.2,
       },
        {
-        label:datasets[2].label,
+        label:candidatesOptions[2].label,
         data: datasets[2].data,
         borderColor: candidatesOptions[2].color,
         fill: true,
@@ -126,7 +126,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
      
       },
        {
-        label:datasets[3].label,
+        label:candidatesOptions[3].label,
         data: datasets[3].data,
         borderColor:candidatesOptions[3].color,
         fill: true,
@@ -147,7 +147,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
     React.useEffect(() => {
       setDataList([
         {
-          label:datasets[0].label,
+          label:candidatesOptions[0].label,
           data: datasets[0].data,
           borderColor: candidatesOptions[0].color,
           fill: true,
@@ -163,7 +163,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
        
         },
          {
-          label:datasets[1].label,
+          label:candidatesOptions[1].label,
           data:datasets[1].data,
           borderColor: candidatesOptions[1].color,
           fill:  true ,
@@ -178,7 +178,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
           tension: 0.2,
         },
          {
-          label:datasets[2].label,
+          label:candidatesOptions[2].label,
           data: datasets[2].data,
           borderColor: candidatesOptions[2].color,
           fill: true,
@@ -194,7 +194,7 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
        
         },
          {
-          label:datasets[3].label,
+          label:candidatesOptions[3].label,
           data: datasets[3].data,
           borderColor:candidatesOptions[3].color,
           fill: true, 
@@ -268,12 +268,11 @@ function LineChartMultipleDatasets({datasets,labels,title,showBy, currency,color
 
 
   const onChangeSelected = (selected) => {
-    console.log(selected)
     setOptionSelected(selected)
     let list = []
       for(let s in selected) {
         list.push({
-          label: datasets[selected[s].value].label,
+          label: candidatesOptions[selected[s].value].label,
           data:  datasets[selected[s].value].data,
           borderColor: candidatesOptions[selected[s].value].color,
           fill: true,

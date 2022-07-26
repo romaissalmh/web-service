@@ -10,7 +10,7 @@ import {
     Tooltip,
     Legend,
     Filler 
-  } from 'chart.js';
+  } from 'chart.js'; 
 import { Line, Bar } from 'react-chartjs-2';
 import { Card,CardTitle, CardBody,Row,Col,Button,ButtonGroup} from "reactstrap";
 import {lineOptions} from './variables/chart'
@@ -23,18 +23,11 @@ ChartJS.register(
     LinearScale,
     PointElement,
     LineElement,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
+    BarElement
   );
 
-
-
-   
   
-function LineChart({dataset,labels,currency,color, colorOpacity, source,  /*,shownByMoney, changeShowBy*/}) {
+function LineChart({dataset,labels,color, colorOpacity, source}) {
   const [line, setLine] = useState(true)
   const [showBy, setShowBy] = useState('ads');
   const [activeB1, setActiveB1] = useState(true)

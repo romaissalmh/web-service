@@ -12,6 +12,11 @@ function ExploreView() {
         loading:true,
        
     })
+    const socialIssuesList = [ 'Affaires internationales', 'Energie',
+    'Immigration','Justice et criminalité','Opérations gouvernementales', 'Politique culturelle',
+    'Politique sociale','Politiques urbaines et territoriales', 'Santé', 'Travail et emploi',
+    'Droits de l’homme libertés publiques et discriminations', 'Education',
+    'Environnement', 'Economic']
 
     useEffect(() => {
         loadAds()
@@ -59,7 +64,7 @@ function ExploreView() {
             label:  intl.formatMessage({ id: 'exploreColumn6' }),
            
             options: {
-             filter: true,
+             filter: false,
              sort: true,
              customBodyRenderLite: (dataIndex) => {
                return <a target="_blank" href={"https://www.facebook.com/"+ads.data[dataIndex].page_id}>{ads.data[dataIndex].page_name}</a>              
@@ -91,16 +96,42 @@ function ExploreView() {
           sort: false,
          }
         },
-{
-         name: "FROM_UNIXTIME(a.ad_delivery_start_time)",
-         label:  intl.formatMessage({ id: 'exploreColumn5' }),
-         options: {
-          filter: false,
-          sort: true,
-         }
+        {
+            name: "ad_delivery_start_time",
+            label:  intl.formatMessage({ id: 'exploreColumn5' }),
+            options: {
+            filter: false,
+            sort: true,
+            customBodyRenderLite: (dataIndex) => {
+                return ads.data[dataIndex].ad_delivery_start_time.slice(0,10)             
+            }
+            },
         },
       
-
+        {
+            name: "social_issues_14cat",
+            label:  intl.formatMessage({ id: 'exploreColumn7' }),
+            options: {
+             filter: true,
+             filterOptions: {
+                names:socialIssuesList,
+                logic: (social_issues_14cat, filters, row) => {
+                    console.log(filters)
+                    console.log("come the si")
+                    console.log(social_issues_14cat)
+                    if (filters.length) return !social_issues_14cat.includes(filters[0]);
+                    return false;
+                  },
+             },
+             sort: false,
+             customBodyRenderLite: (dataIndex) => {
+                ads.data[dataIndex].social_issues_14cat = ads.data[dataIndex].social_issues_14cat.replace('[','')
+                ads.data[dataIndex].social_issues_14cat = ads.data[dataIndex].social_issues_14cat.replace(']','')
+                return ads.data[dataIndex].social_issues_14cat.replace(/'/g,'')
+            }
+            },
+            
+           },
 
 
        ];
@@ -112,7 +143,7 @@ function ExploreView() {
          download: false,
          print: false,
          searchOpen	:true,
-         filter:false,
+         filter:true,
          viewColumns:false,
          selectableRowsHeader:false,
          selectableRows:'none'

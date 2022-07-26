@@ -60,7 +60,6 @@ const DashboardView= () =>  {
         })
         let data =  await fetchGeneralStatistics()
         if(data !== undefined){
-            // console.log(data)
             setGeneralStatistics({
                 data : data,
                 loading: false
@@ -321,11 +320,10 @@ const DashboardView= () =>  {
 
                             {
                                 dataPerMonth.loading ? <Spinner> Loading </Spinner> 
-                                :
+                                : 
                                 <LineChart 
                                 labels = {dataPerMonth.labels} 
                                 dataset={dataPerMonth}
-                                currency = ""
                                 total="true"
                                 color="rgba(56, 56, 116, 1)"
                                 colorOpacity="rgba(56, 56, 116, 0.1)"
