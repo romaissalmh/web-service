@@ -1,31 +1,52 @@
 import React, {useEffect, useState, useCallback} from 'react'
 import {Modal, ModalHeader, ModalBody,Container, Row, Spinner, Col, ButtonGroup, Button} from 'reactstrap'
-import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
 //apis call 
 import {api} from '../../scripts/network'
-import { useIntl } from 'react-intl';
+import { useIntl } from 'react-intl'
 import TwoBarChart from '../Charts/TwoBarChart'
-import {
-    Chart, Series, ValueAxis,ArgumentAxis, Label, CommonSeriesSettings,
-  } from 'devextreme-react/chart';
+
 import AdCard from '../Charts/AdCard'
-import { LabelTemplate } from '../Charts/LabelTemplate';
 import MUIDataTable from "mui-datatables"
+import { PictureChart } from '../Charts/PictureChart'
+import { StackedBarChart } from '../Charts/StackedBarChart'
+import {candidatesOptions2 as candidatesOptions } from '../Charts/variables/data'
 
 const SecondRoundView = () => {
     const intl = useIntl();
-
+    let colors = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(65,163,58)","rgb(21,45,72)","rgb(148,67,30)","rgb(252,105,9)","rgb(219,223,241)" ]    
+    let candidates = ["Emmanuel Macron", "Marine Le Pen"]
+    let socialIssues = [ 'Affaires internationales', 'Energie',
+    'Immigration','Justice et criminalité','Opérations gouvernementales', 'Politique culturelle',
+    'Politique sociale','Politiques urbaines et territoriales', 'Santé', 'Travail et emploi',
+    'Droits de l’homme libertés publiques et discriminations', 'Education',
+    'Environnement', 'Economic', "Aucune catégorie" ]
+    const issuesOptions = [
+        { value: 0, label: "Affaires internationales", title:intl.formatMessage({ id: 'category1' }), color:"rgb(176,43,48)" },
+        { value: 1, label: "Energie",title:intl.formatMessage({ id: 'category2' }), color:"rgb(223,227,10)" },
+        { value: 2, label: "Immigration",title:intl.formatMessage({ id: 'category3' }), color:"rgb(155,177,211)" },
+        { value: 3, label: "Justice et criminalité",title:intl.formatMessage({ id: 'category4' }), color:"rgb(55,52,59)" },
+        { value: 4, label: "Opérations gouvernementales", title:intl.formatMessage({ id: 'category5' }),color:"rgb(177,100,146)" },
+        { value: 5, label: "Politique culturelle" , title:intl.formatMessage({ id: 'category6' }),color:"rgb(56,56,116)"},
+        { value: 6, label: "Politique sociale" , title:intl.formatMessage({ id: 'category7' }),color:"rgb(22,179,183)"},
+        { value: 7, label: "Politiques urbaines et territoriales", title:intl.formatMessage({ id: 'category8' }),color:"rgb(132,54,146)" },
+        { value: 8, label: "Santé", title:intl.formatMessage({ id: 'category9' }),color:"rgb(70,160,245)" },
+        { value: 9, label: "Travail et emploi" , title:intl.formatMessage({ id: 'category10' }),color:"rgb(227,161,135)"},
+        { value: 10, label: "Environnement", title:intl.formatMessage({ id: 'category11' }),color:"rgb(65,163,58)" },
+        {value:11, label: "Economic", title:intl.formatMessage({ id: 'category12' }),color:"rgb(21,45,72)"},
+        {value:12, label: "Droits de l’homme libertés publiques et discriminations", title:intl.formatMessage({ id: 'category13' }),color:"rgb(148,67,30)"},
+        {value:13, label: "Education",title:intl.formatMessage({ id: 'category14' }), color:"rgb(252,105,9)"},
+        {value:14, label: "Aucune catégorie",title:intl.formatMessage({ id: 'category15' }), color:"rgb(219,223,241)"}
+        
+      ];
     const [showBy, setShowBy] = useState('overall');
-    const [showByTime, setShowByTime] = useState('ads');
-    const [showOfBy, setShowOfBy] = useState('ads');
+    const [showByA, setShowByA] = useState('overall');
 
     const [activeB1, setActiveB1] = useState(true)
 	const [activeB2, setActiveB2] = useState(false)
 	const [activeB3, setActiveB3] = useState(false)
 
-    const [activeOfB1, setActiveOfB1] = useState(true)
-	const [activeOfB2, setActiveOfB2] = useState(false)
-	const [activeOfB3, setActiveOfB3] = useState(false)
+    const [activeA1, setActiveA1] = useState(true)
+	const [activeA2, setActiveA2] = useState(false)
 
     const [candidateName1, setCandidateName1] = useState("macron");
     const [candidateName2, setCandidateName2] = useState("Le pen");
@@ -33,16 +54,13 @@ const SecondRoundView = () => {
  	const [adsPerCandidate,setAdsPerCandidate] = useState({
         data : [],
         loading:true,
-        labels:['Jan2022','Feb2022','Mar2022','Apr2022']
 
 
     })
     const [adsPerOfficialCandidate,setAdsPerOfficialCandidate] = useState({
-        candidatesAds:[],
-        candidatesSpending:[],
-        candidatesImpressions:[],
+        
         loading:true,
-        labels: []
+        data: []
 
 
     })
@@ -58,8 +76,21 @@ const SecondRoundView = () => {
         candidate:"",
     })
 
-    const [globalSpending,setGlobalSpending] = useState([{
+    const [globalSpendingPerSocialIssue,setGlobalSpendingPerSocialIssue] = useState([{
         data : [],
+        labels : [],
+        loading:true,
+    }])
+    
+    const [globalSpendingOfficialPerSocialIssue,setGlobalSpendingOfficialPerSocialIssue] = useState([{
+        data : [],
+        labels : [],
+        loading:true,
+    }])
+    
+    const [globalSpendingPerSocialIssuePerCandidate,setGlobalSpendingPerSocialIssuePerCandidate] = useState([{
+        data : [],
+        labels : [],
         loading:true,
     }])
     const [modalDemo1, setModalDemo1] = useState(false);
@@ -79,47 +110,15 @@ const SecondRoundView = () => {
         loading:true,
         labels:['13-17', '18-24', '25-34', '35-44', '45-54', '55-64', '65+']
     })
-    const candidateImages = [
-      {
-        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/selon-emmanuel-macron-l-etape-zero-c-etait-la-5651902-removebg-preview.png'
-      }, 
-      {
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/Jean-Luc-MELENCHON-in-the-European-Parliament-in-Strasbourg-2016-cropped-removebg-preview.png'
-    },
-      {
-        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/38h-Mh5b-400x400-removebg-preview.png'
-      }, {
-        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/LiU7-6Z3-400x400-removebg-preview.png'
-      },  {
-        img: 'https://cdn-apps.letelegramme.fr/files/outils/2021/08/J4pidVIB-400x400-removebg-preview.png'
-      },
-    {
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/e-bPnDY6-400x400-removebg-preview.png',
-    },
-    {
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/TN-L-17x-400x400-removebg-preview.png',
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/xRGGJGn1-400x400-removebg-preview.png'
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/taT-x7GV-400x400-removebg-preview.png'
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/yVqvYNcU-400x400-removebg-preview.png'
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/4xEOMZ-E-400x400-removebg-preview.png'
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/4xEOMZ-E-400x400-removebg-preview.png'
-    },{
-        img:'https://cdn-apps.letelegramme.fr/files/outils/2021/08/UD3loKNE-400x400-removebg-preview.png'
-    },];
-      
+  
 
     useEffect(() => {
         loadInfoPerCandidate()
-        loadGlobalSpendingPerCandidate()
         loadDemographicBreakdown1(candidateName1)
         loadDemographicBreakdown2(candidateName2)
-
         loadInfoPerOfficialCandidatePages()
+        loadGlobalSpendingPerCandidatePerSocialIssue()
+        loadGlobalSpendingPerOfficialCandidatePerSocialIssue()
         
     }, [])
 
@@ -202,137 +201,56 @@ const SecondRoundView = () => {
         toggleModal2(series.getLabel()._data.originalArgument,series.getLabel()._data.point.tag)
 
     }
-    const loadInfoPerCandidate = useCallback(async () => {
-        setAdsPerCandidate({
-            loading:true
-        })
-        const info = await fetchInfoPerCandidate()
-
-        let candidatesAds = []
-        let candidatesSpending = []
-        let candidatesImpressions = []
-        for (const d of info)
-        {
-            if(d.data.length <4){
-                if(d.data.find(element => element.month === 1) === undefined){
-                    d.data.splice(0,0,{
-                        month: 1, countAds: 0, impressions: 0, reach: 0, spend: 0
-                    })
-                }
-                if(d.data.find(element => element.month === 2) === undefined){
-                    d.data.splice(1,0,{
-                        month: 2, countAds: 0, impressions: 0, reach: 0, spend: 0
-                    })
-                }
-                if(d.data.find(element => element.month === 3) === undefined){
-                    d.data.splice(2,0,{
-                        month: 3, countAds: 0, impressions: 0, reach: 0, spend: 0
-                    })
-                }
-                if(d.data.find(element => element.month === 4) === undefined){
-                    d.data.splice(3,0,{
-                        month: 4, countAds: 0, impressions: 0, reach: 0, spend: 0
-                    })
-                }
-            }
-            let countAds = [parseInt(d.data[0].countAds),parseInt(d.data[1].countAds),parseInt(d.data[2].countAds),parseInt(d.data[3].countAds)]
-            let impressions = [parseInt(d.data[0].impressions),parseInt(d.data[1].impressions),parseInt(d.data[2].impressions),,parseInt(d.data[3].impressions)]
-            let spending = [parseInt(d.data[0].spend),parseInt(d.data[1].spend),parseInt(d.data[2].spend),parseInt(d.data[3].spend)]
-            let reach =  [parseInt(d.data[0].reach),parseInt(d.data[1].reach),parseInt(d.data[2].reach),parseInt(d.data[3].reach)]
-        	let element = {
-        		"label":d.candidate,
-        		"data":countAds }
-		   candidatesAds.push(element)
-           element = {
-            "label":d.candidate,
-            "data":spending }
-           candidatesSpending.push(element)
-           element = {
-            "label":d.candidate,
-            "data":impressions }
-           candidatesImpressions.push(element)
-        }
-        setAdsPerCandidate({
-            candidatesAds:candidatesAds,
-            candidatesSpending:candidatesSpending,
-            candidatesImpressions:candidatesImpressions,
-            loading:false,
-            labels: ['Jan2022','Feb2022','Mar2022','Apr2022']
-        })
-    })
+   
  
     const loadInfoPerOfficialCandidatePages = useCallback(async () => {
         setAdsPerOfficialCandidate({
             loading:true
         })
         const info = await fetchInfoPerOfficialCandidatePages()
-        let candidates = []
-       /* let candidatesAds = []
-        let candidatesSpending = []
-        let candidatesImpressions = []*/
+        let dataset = []
+    
         for (const d of info)
         {
-            let element = {
+            dataset.push({
                 candidate: d.candidate,
                 party: d.partyPage,
                 countAds: d.data[0].countAds, 
                 spending:  d.data[0].money !== null ? parseInt(d.data[0].money) : 0,
                 impressions :  d.data[0].impressions !== null ? parseInt(d.data[0].impressions) : 0
-            }
-           /*
-           candidates.push(d.candidate)
-		   candidatesAds.push(d.data[0].countAds)
-           d.data[0].impressions !== null ? candidatesImpressions.push(parseInt(d.data[0].impressions)) : candidatesImpressions.push(0)
-           d.data[0].money !== null ? candidatesSpending.push(parseInt(d.data[0].money)) : candidatesSpending.push(0) */
-           candidates.push(element)
+            })
         }
 
         setAdsPerOfficialCandidate({
 
-            data:candidates,
+            data:dataset,
             loading:false,
         })
 
         
     })
  
-     function compare_lname( a, b )
-            {
-               
-            if( a.data[0] === undefined)
-                a.data.push({spend:0})
 
-                if( b.data[0] === undefined)
-                b.data.push({spend:0})
-            if ( parseInt(a.data[0].spend) < parseInt(b.data[0].spend)){
-                return -1;
-            }
-            if (parseInt(a.data[0].spend)> parseInt(b.data[0].spend)){
-                return 1;
-            }
-            return 0;
-            }
-
-    const loadGlobalSpendingPerCandidate = useCallback(async () => {
+    const loadInfoPerCandidate = useCallback(async () => {
        
-        setGlobalSpending({
+        setAdsPerCandidate({
             data:[],
             loading:true
         })
-        const result = await fetchGlobalSpendingPerCandidate()
-        result.sort(compare_lname)
+        const result = await fetchInfoPerCandidate()
         let l = []
         for (const d of result)
         {
-
             l.push({
                 candidate:d.candidate,
                 party : d.partyPage,
-                spend: d.data[0] !== undefined ? d.data[0].spend : 0,
+                spending: d.data[0] !== undefined ? parseInt(d.data[0].spend): 0,
+                impressions: d.data[0] !== undefined ? parseInt(d.data[0].impressions) : 0,
+                countAds: d.data[0] !== undefined ? parseInt(d.data[0].countAds) : 0,
             })
-        
         }
-        setGlobalSpending({
+
+        setAdsPerCandidate({
             data:l,
             loading:false
         })
@@ -403,6 +321,89 @@ const SecondRoundView = () => {
         })
 
     })
+    const loadGlobalSpendingPerCandidatePerSocialIssue = useCallback(async () => {
+        setGlobalSpendingPerSocialIssue({
+            data:[],
+            loading:true
+        })
+        setGlobalSpendingPerSocialIssuePerCandidate({
+            data:[],
+            loading:true
+        })
+        const result = await fetchGlobalSpendingPerCandidateParSocialIssue()
+        let dataset1 = []
+        let dataset2 = []
+       
+        
+        for (const candidate in candidates){
+            dataset2.push({
+                label:candidates[candidate],
+                data:[],
+                backgroundColor: colors[candidate]
+            })
+        }
+        let i = 0
+        for (const [key, value] of Object.entries(result)) {
+            let spending = []
+            let j = 0
+            for (const candidate of value){
+                spending.push(candidate.data[0].spend !== null ? parseInt(candidate.data[0].spend) : 0 )
+                dataset2[j].data.push(candidate.data[0].spend !== null ? parseInt(candidate.data[0].spend) : 0)
+                j += 1
+            }
+            dataset1.push({
+                label:key,
+                data:spending, 
+                backgroundColor: colors[i]
+            })
+            i += 1
+        }
+        setGlobalSpendingPerSocialIssue({
+            data:dataset1,
+            labels:candidates,
+            loading:false
+        })
+        setGlobalSpendingPerSocialIssuePerCandidate({
+            data:dataset2,
+            labels:socialIssues,
+            loading:false
+        })
+    
+}, [])
+
+
+
+
+const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async () => {
+    setGlobalSpendingOfficialPerSocialIssue({
+        data:[],
+        loading:true
+    })
+
+    const result = await fetchGlobalSpendingPerOfficialCandidateParSocialIssue()
+    let dataset = []
+    console.log(result)
+    let i = 0
+    for (const [key, value] of Object.entries(result)) {
+        let spending = []
+        for (const candidate of value){
+            spending.push(candidate.data[0].money !== null ? parseInt(candidate.data[0].money) : 0 )
+           
+        }
+        dataset.push({
+            label:key,
+            data:spending, 
+            backgroundColor: colors[i]
+        })
+        i += 1
+    }
+    setGlobalSpendingOfficialPerSocialIssue({
+        data:dataset,
+        labels:candidates,
+        loading:false
+    })
+    
+}, [])
     /**
      * 
      * Fetching data from the REST APIIII 
@@ -419,9 +420,33 @@ const SecondRoundView = () => {
          return stats 
     }
 
+    const fetchGlobalSpendingPerCandidateParSocialIssue = async () => {
+        let stats 
+        await api.get(`api/general/spendPerCandidatePerSocialIssue/2`)
+         .then ( res => {
+             stats = res
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+    }
+
+    const fetchGlobalSpendingPerOfficialCandidateParSocialIssue = async () => {
+        let stats 
+        await api.get(`api/pages/infosPerSocialIssuesByCandidateOfficialPages/2`)
+         .then ( res => {
+             stats = res
+         })
+         .catch(
+             err => console.log(err)
+         )
+         return stats 
+    }
+
     const fetchInfoPerOfficialCandidatePages = async () => {
         let stats 
-        await api.get(`api/pages/infosOfAdsByCandidateOfficialPages/2`)
+        await api.get(`api/pages/infosByCandidateOfficialPages/2`)
          .then ( res => {
              stats = res
          })
@@ -468,17 +493,7 @@ const SecondRoundView = () => {
          return stats 
      }
      
-    const fetchGlobalSpendingPerCandidate = async () => {
-        let stats 
-        await api.get(`api/general/spendCandidates/2`)
-         .then ( res => {
-             stats = res
-         })
-         .catch(
-             err => console.log(err)
-         )
-         return stats 
-    }
+   
 
     const columns1 = [
         {
@@ -528,7 +543,13 @@ const SecondRoundView = () => {
                         setActiveB3(false)
                         setActiveB1(true)
                     }}>{intl.formatMessage({ id: 'candidatesMenuItem1' })}</Button>
-                  
+                    
+                    <Button active={activeB2}  onClick={() => {
+                        setShowBy('socialIssues')
+                        setActiveB1(false)
+                        setActiveB3(false)
+                        setActiveB2(true)
+                    }}>{intl.formatMessage({ id: 'candidatesMenuItem4' })}</Button>
 
                     <Button active={activeB3}  onClick={() => {
                         setShowBy('demographics')
@@ -539,49 +560,44 @@ const SecondRoundView = () => {
 
             </ButtonGroup>
                 <Col xl="12"  sm="12" >  
-                {showBy === 'overall' 
-                ? 
-                globalSpending.loading ? 
-                       <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
-
+                { showBy === 'overall' ? 
+                adsPerCandidate.loading ? 
+                       <div style={{display:'flex', justifyContent:"center",alignItems:'center', height:""}}>  <Spinner>  </Spinner> </div>  
                        :
-                       <>
-                       <h5>{intl.formatMessage({ id: 'candidatesPlotTitle1' })}</h5>
-                       <br/>
-                       <Chart 
-                            id="chart"
-                            rotated={true}
-                            onPointClick={onPointClick1}
-                            dataSource={globalSpending.data}>
-                            <CommonSeriesSettings 
-                                type="bar" 
-                                argumentField="candidate" 
-                                cornerRadius={5}	
-                                barPadding={0.1} >
-                                <Label visible></Label>
-                            </CommonSeriesSettings>
-                            <Series
-                                name={intl.formatMessage({ id: 'spend' })}
-                                valueField="spend"
-
-                                color="#8AC2E6" />
-                            <ValueAxis>
-                                    <Label customizeText={customizeLabel} />
-                            </ValueAxis>
-                            <ArgumentAxis>
-                                <Label render={LabelTemplate}></Label>
-                            </ArgumentAxis>
-                        </Chart>
-                        <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
-                            {intl.formatMessage({ id: 'disclaimer2' })} 
-                        </h6>
-                       </>
-                            : demographicBreakdown1.loading && demographicBreakdown2.loading ? 
+                        <PictureChart
+                        dataset = {adsPerCandidate.data}
+                        title = {[intl.formatMessage({ id: 'candidatesPlotTitle1' }),intl.formatMessage({ id: 'candidatesPlotTitle2' }),intl.formatMessage({ id: 'candidatesPlotTitle3' })]}
+                        source = ""
+                        onPointClick = {onPointClick1}/>
+                
+                        : demographicBreakdown1.loading && demographicBreakdown2.loading ? 
                           <div style={{ width:"100%", height:"400px",
                               display:'flex', justifyContent:"center",alignItems:'center'}}>
                                 <Spinner>  </Spinner> 
                           </div> 
+                           :
+                         showBy === 'socialIssues'? 
+                         globalSpendingPerSocialIssue.loading && globalSpendingPerSocialIssue.loading ? 
+                         <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                          : 
+                         <>
+                             <StackedBarChart
+                                     datasets = {globalSpendingPerSocialIssue.data}
+                                     labels = {globalSpendingPerSocialIssue.labels}
+                                     source  = {intl.formatMessage({ id: 'plotSource3' })}
+                                     title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                                     options = {issuesOptions}
+                                     />
+                              <StackedBarChart
+                                     datasets = {globalSpendingPerSocialIssuePerCandidate.data}
+                                     labels = {globalSpendingPerSocialIssuePerCandidate.labels}
+                                     source  = {intl.formatMessage({ id: 'plotSource3' })}
+                                     title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                                     options = {candidatesOptions}
+                                     />
+                             
+                            
+                         </> :
                          <Row>
                              <Col xl="6" sm="12" >
                                 <select className='candidateSelect' value={candidateName1} onChange={(event) => loadDemographicBreakdown1(event.target.value)}>
@@ -635,10 +651,9 @@ const SecondRoundView = () => {
                                     source  = {intl.formatMessage({ id: 'plotSource3' })}
                                 />
                             </Col>
-                       </Row>
-
-               
-               }
+                       </Row> 
+                      
+                      }
                 </Col>
            
             </Row>
@@ -663,128 +678,52 @@ const SecondRoundView = () => {
                     </Modal>
             </div>
            
-            
+         
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
-
-                 <Col xl="12"  sm="12" >  
-                 <ButtonGroup >
-                    <Button active={activeOfB1} onClick={() => {
-                        setShowOfBy('ads')
-                        setActiveOfB2(false)
-                        setActiveOfB3(false)
-                        setActiveOfB1(true)
-                    }}>{intl.formatMessage({ id: 'filterType1' })}</Button>
-                    <Button active={activeOfB2} onClick={() => {
-                        setShowOfBy('spending')
-                        setActiveOfB3(false)
-                        setActiveOfB1(false)
-                        setActiveOfB2(true)
-                    }}> {intl.formatMessage({ id: 'filterType2' })} </Button>
-                    <Button active={activeOfB3} onClick={() => {
-                        setShowOfBy('impressions')
-                        setActiveOfB1(false)
-                        setActiveOfB2(false)
-                        setActiveOfB3(true)
-                    }}>{intl.formatMessage({ id: 'filterType3' })} </Button>
-                </ButtonGroup>
-
-                {
-                    showOfBy === "ads" ?
+                <ButtonGroup >
                    
-                     adsPerOfficialCandidate.loading ? 
+                        
+                        <Button active={activeA1}  onClick={() => {
+                            setShowByA('overall')
+                            setActiveA2(false)
+                            setActiveA1(true)
+                        }}>{intl.formatMessage({ id: 'candidatesMenuItem1' })}</Button>
+
+                        <Button active={activeA2}  onClick={() => {
+                            setShowByA('socialIssues')
+                            setActiveA1(false)
+                            setActiveA2(true)
+                        }}>{intl.formatMessage({ id: 'candidatesMenuItem4' })}</Button>
+
+                </ButtonGroup>
+                 <Col xl="12"  sm="12" >  
+                {
+                    showByA == "overall" ?
+                    adsPerOfficialCandidate.loading ? 
+                    <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+                     : 
+                    <PictureChart
+                        dataset = {adsPerOfficialCandidate.data}
+                        title = {[intl.formatMessage({ id: 'candidatesPlot11' }),intl.formatMessage({ id: 'candidatesPlot12' }),intl.formatMessage({ id: 'candidatesPlot13' })]}
+                        source = ""
+                        onPointClick = {onPointClick2}
+                        />
+                        :
+                     globalSpendingOfficialPerSocialIssue.loading ?  
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
-                     <>
-                     <h5>{intl.formatMessage({ id: 'candidatesPlot11' })}</h5>
-                     <br/>
-                     <Chart 
-                        id="chart"
-                        rotated={true}
-                        onPointClick={onPointClick2}
-
-                        dataSource={adsPerOfficialCandidate.data}>
-                          <CommonSeriesSettings 
-                              type="bar" 
-                              argumentField="candidate" 
-                              cornerRadius={5}	
-                              barPadding={0.1} >
-                              <Label visible></Label>
-                          </CommonSeriesSettings>
-                          <Series
-                              name={intl.formatMessage({ id: 'spend' })}
-                              valueField="countAds"
-                              tagField = "party"
-                              color="#8AC2E6" />
-                          <ArgumentAxis>
-                              <Label render={LabelTemplate}></Label>
-                          </ArgumentAxis>
-                      </Chart>
-                      <h6 style={{fontSize:"14px", fontWeight:"bold", marginTop:"10px", color:"red"}}>
-                            {intl.formatMessage({ id: 'disclaimer3' })} 
-                        </h6>
-                     </>
-                     : showOfBy === "spending" ? 
-                     adsPerOfficialCandidate.loading ?  <div style=  {{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                     : 
-                  
-                     <>
-                     <h5>{intl.formatMessage({ id: 'candidatesPlot12' })}</h5>
-                     <br/>
-                     <Chart 
-                        id="chart"
-                        rotated={true}
-                        dataSource={adsPerOfficialCandidate.data}>
-                          <CommonSeriesSettings 
-                              type="bar" 
-                              argumentField="candidate" 
-                              cornerRadius={5}	
-                              barPadding={0.1} >
-                              <Label visible></Label>
-                          </CommonSeriesSettings>
-                          <Series
-                              name={intl.formatMessage({ id: 'spend' })}
-                              valueField="spending"
-                              
-                              color="#8AC2E6" />
-                                                        <ValueAxis>
-                                    <Label customizeText={customizeLabel} />
-                            </ValueAxis>
-                          <ArgumentAxis>
-                              <Label render={LabelTemplate}></Label>
-                          </ArgumentAxis>
-                      </Chart>
-                     </>
-                     :
-                     adsPerOfficialCandidate.loading ?  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div> 
-                     : 
-                  
-
-                     <>
-                     <h5>{intl.formatMessage({ id: 'candidatesPlot13' })}</h5>
-                     <br/>
-                     <Chart 
-                        id="chart"
-                        rotated={true}
-                        dataSource={adsPerOfficialCandidate.data}>
-                          <CommonSeriesSettings 
-                              type="bar" 
-                              argumentField="candidate" 
-                              cornerRadius={5}	
-                              barPadding={0.1} >
-                              <Label visible></Label>
-                          </CommonSeriesSettings>
-                          <Series
-                              name={intl.formatMessage({ id: 'spend' })}
-                              valueField="impressions"
-                              color="#8AC2E6" />
-                                                 
-                          <ArgumentAxis>
-                              <Label render={LabelTemplate}></Label>
-                          </ArgumentAxis>
-                      </Chart>
+                     <div style={{minHeight:"800px",display:"flex",justifyContent:"center"}}>
+                     <StackedBarChart
+                     datasets = {globalSpendingOfficialPerSocialIssue.data}
+                     labels = {globalSpendingOfficialPerSocialIssue.labels}
+                     source  = {intl.formatMessage({ id: 'plotSource3' })}
+                     title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                     options = {issuesOptions}
+                     />
+                     </div>
                     
-                     </>
-                     } 
+
+                 } 
                  </Col>    
             </Row>
             <div>
