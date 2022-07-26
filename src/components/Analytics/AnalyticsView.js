@@ -11,10 +11,26 @@ import { useIntl } from 'react-intl';
 import AdCard from '../Charts/AdCard'
 import LineChartMultipleDatasets from '../Charts/LineChartMultipleDatasets'
 
-
 const AnalyticsView = () => {
     const intl = useIntl();
-
+    const socialIssuesOptions = [
+        { value: 0, title: "Affaires internationales", label:intl.formatMessage({ id: 'category1' }), color:"rgb(176,43,48)" },
+        { value: 1, title: "Energie",label:intl.formatMessage({ id: 'category2' }), color:"rgb(223,227,10)" },
+        { value: 2, title: "Immigration",label:intl.formatMessage({ id: 'category3' }), color:"rgb(155,177,211)" },
+        { value: 3, title: "Justice et criminalité",label:intl.formatMessage({ id: 'category4' }), color:"rgb(55,52,59)" },
+        { value: 4, title: "Opérations gouvernementales", label:intl.formatMessage({ id: 'category5' }),color:"rgb(177,100,146)" },
+        { value: 5, title: "Politique culturelle" , label:intl.formatMessage({ id: 'category6' }),color:"rgb(56,56,116)"},
+        { value: 6, title: "Politique sociale" , label:intl.formatMessage({ id: 'category7' }),color:"rgb(22,179,183)"},
+        { value: 7, title: "Politiques urbaines et territoriales", label:intl.formatMessage({ id: 'category8' }),color:"rgb(132,54,146)" },
+        { value: 8, title: "Santé", label:intl.formatMessage({ id: 'category9' }),color:"rgb(70,160,245)" },
+        { value: 9, title: "Travail et emploi" , label:intl.formatMessage({ id: 'category10' }),color:"rgb(227,161,135)"},
+        { value: 10, title: "Environnement", label:intl.formatMessage({ id: 'category11' }),color:"rgb(65,163,58)" },
+        {value:11, title: "Economic", label:intl.formatMessage({ id: 'category12' }),color:"rgb(21,45,72)"},
+        {value:12, title: "Droits de l’homme libertés publiques et discriminations", label:intl.formatMessage({ id: 'category13' }),color:"rgb(148,67,30)"},
+        {value:13, title: "Education",label:intl.formatMessage({ id: 'category14' }), color:"rgb(252,105,9)"},
+        {value:14, title: "Aucune catégorie",label:intl.formatMessage({ id: 'category15' }), color:"rgb(219,223,241)"}
+        
+      ];
     const [activeB1, setActiveB1] = useState(true)
     const [activeB2, setActiveB2] = useState(false)
     const [activeB3, setActiveB3] = useState(false)
@@ -93,41 +109,7 @@ const AnalyticsView = () => {
         labels: []
     })
 
-/*
-    const socialIssuesOptions = [
-        { value: 0, label: "Affaires internationales", color:"#ff2d2e" },
-        { value: 1, label: "Droits de l’homme libertés publiques et discriminations" , color:"#D84560"},
-        { value: 2, label: "Economic", color:"black" },
-        { value: 3, label: "Education", color:"#D8B46F" },
-        { value: 4, label: "Energie", color:"#8675FF" },
-        { value: 5, label:"Environnement", color:"#dbdff1"},
-        { value: 6, label: "Immigration", color:"#5eff5a" },
-        { value: 7, label: "Justice et criminalité", color:"#ffba69" },
-        { value: 8, label: "Opérations gouvernementales", color:"#7C4733" },
-        { value: 9, label: "Politique culturelle" , color:"#5541D8"},
-        { value: 10, label: "Politique sociale" , color:"#292B68"},
-        { value: 11, label: "Politiques urbaines et territoriales" , color:"#382B68"},
-        { value: 12, label: "Santé", color:"#BB1D4B" },
-        { value: 13, label: "Travail et emploi", color:"#CC1D4B" },
-       
-      ]*/
-      const socialIssuesOptions = [
-        { value: 0, label: "Affaires internationales", color:"#b82c73" },
-        { value: 1, label: "Energie" , color:"#3cc5af"},
-        { value: 2, label: "Immigration", color:"#253860" },
-        { value: 3, label: "Justice et criminalité", color:"#0e849e" },
-        { value: 4, label: "Opérations gouvernementales", color:"#d02d1e" },
-        { value: 5, label: "Politique culturelle", color:"#dbdff1"},
-        { value: 6, label: "Politique sociale", color:"#6e4f22" },
-        { value: 7, label: "Politiques urbaines et territoriales", color:"#b1a820" },
-        { value: 8, label: "Santé", color:"#0976fc" },
-        { value: 9, label: "Travail et emploi" , color:"#f6b9ab"},
-        { value: 10, label: "Environnement" , color:"#bbea4b"},
-        { value: 11, label: "Economic" , color:"#b604e2"},
-        { value: 12, label: "Droits de l’homme libertés publiques et discriminations", color:"#BB1D4B" },
-        { value: 13, label: "Education", color:"#f79c53" },
-       
-      ]
+     
     useEffect(() => {
         loadDemographicBreakdown()
         loadAdsPerAdvertiser()
@@ -491,12 +473,12 @@ const AnalyticsView = () => {
                      <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                      : 
                        <HorizontalBarChart 
-                     loadAds={toggleModal1}
-                     title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
-                     labels = {adsPerAdvertiser.labels} 
-                     dataset={adsPerAdvertiser.data}
-                      source={intl.formatMessage({ id: 'plotSource3' })} 
-                      disclaimer = {intl.formatMessage({ id: 'disclaimer4' })}
+                        loadAds={toggleModal1}
+                        title={intl.formatMessage({ id: 'analyticsPlotTitle1' })} 
+                        labels = {adsPerAdvertiser.labels} 
+                        dataset={adsPerAdvertiser.data}
+                        source={intl.formatMessage({ id: 'plotSource3' })} 
+                        disclaimer = {intl.formatMessage({ id: 'disclaimer4' })}
 
                      /> 
                        
