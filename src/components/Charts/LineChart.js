@@ -13,7 +13,7 @@ import {
   } from 'chart.js'; 
 import { Line, Bar } from 'react-chartjs-2';
 import { Card,CardTitle, CardBody,Row,Col,Button,ButtonGroup} from "reactstrap";
-import {lineOptions} from './variables/chart'
+//import {lineOptions} from './variables/chart'
 import '../../assets/css/styles.css'
 import { BiBarChartAlt2, BiLineChart} from "react-icons/bi";
 import { useIntl } from 'react-intl';
@@ -25,14 +25,102 @@ ChartJS.register(
     LineElement,
     BarElement
   );
+  function abbreviateNumber(number){
+    var SI_SYMBOL = ["", "k", "M", "G", "T", "P", "E"];
 
+     // what tier? (determines SI symbol)
+     var tier = Math.log10(Math.abs(number)) / 3 | 0;
+
+     // if zero, we don't need a suffix
+     if(tier === 0) return number;
+
+     // get suffix and determine scale
+     var suffix = SI_SYMBOL[tier];
+     var scale = Math.pow(10, tier * 3);
+
+     // scale the number
+     var scaled = number / scale;
+
+     // format number and add suffix
+     return scaled.toFixed(1) + suffix; 
+ }
   
 function LineChart({dataset,labels,color, colorOpacity, source}) {
+
+
+const lineOptions = {
+  //maintainAspectRatio:false,
+  responsive: true,
+  layout: {
+    padding: 0
+  }, 
+  scales: {
+    x: 
+      {
+        display:true,
+        position:'right',
+        ticks: {
+          font: {
+            size: 14,
+            family: 'Gotham-Light'
+        },
+        
+      },
+        grid: {
+          display: false,
+          borderColor: 'transparent'
+        },
+       
+      }
+    ,
+    y: 
+      {
+        display:true,
+        beginAtZero: true , 
+        ticks: {
+         
+          min:0,
+          font: {
+            size: 14,
+            family: 'Gotham-Light'
+         },
+          callback: function(value, index, values) {
+                        return abbreviateNumber(value) + currency;
+                    }
+        
+          },
+        grid: {
+          display: false,
+          borderColor: 'transparent'
+        },
+      },
+  },
+  plugins: {
+    legend: {
+        display:false,
+        labels: {
+            display:false,
+            font: {
+                size: 12,
+                family: 'Gotham-Light'
+            }
+        }
+    },
+      datalabels: {
+         display: false,
+      }
+  },
+ 
+} 
+
+
+
   const [line, setLine] = useState(true)
   const [showBy, setShowBy] = useState('ads');
   const [activeB1, setActiveB1] = useState(true)
   const [activeB2, setActiveB2] = useState(false)
   const [activeB3, setActiveB3] = useState(false)
+  let currency = showBy === 'spending' ? " €": " "
   const intl = useIntl();
     const data = {
       labels,
