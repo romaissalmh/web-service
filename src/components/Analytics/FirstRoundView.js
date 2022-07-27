@@ -30,16 +30,15 @@ const CandidatesView = () => {
         { value: 7, title: "Politiques urbaines et territoriales", label:intl.formatMessage({ id: 'category8' }),color:"rgb(132,54,146)" },
         { value: 8, title: "Santé", label:intl.formatMessage({ id: 'category9' }),color:"rgb(70,160,245)" },
         { value: 9, title: "Travail et emploi" , label:intl.formatMessage({ id: 'category10' }),color:"rgb(227,161,135)"},
-        { value: 10, title: "Environnement", label:intl.formatMessage({ id: 'category11' }),color:"rgb(65,163,58)" },
-        {value:11, title: "Economic", label:intl.formatMessage({ id: 'category12' }),color:"rgb(21,45,72)"},
-        {value:12, title: "Droits de l’homme libertés publiques et discriminations", label:intl.formatMessage({ id: 'category13' }),color:"rgb(148,67,30)"},
-        {value:13, title: "Education",label:intl.formatMessage({ id: 'category14' }), color:"rgb(252,105,9)"},
+        {value:10, title: "Droits de l’homme libertés publiques et discriminations", label:intl.formatMessage({ id: 'category13' }),color:"rgb(148,67,30)"},
+        {value:11, title: "Education",label:intl.formatMessage({ id: 'category14' }), color:"rgb(252,105,9)"},
+        {value: 12, title: "Environnement", label:intl.formatMessage({ id: 'category11' }),color:"rgb(65,163,58)" },
+        {value:13, title: "Economic", label:intl.formatMessage({ id: 'category12' }),color:"rgb(21,45,72)"},
         {value:14, title: "Aucune catégorie",label:intl.formatMessage({ id: 'category15' }), color:"rgb(219,223,241)"}
         
       ];
     const [showBy, setShowBy] = useState('overall');
     const [showByTime, setShowByTime] = useState('ads');
-    const [showOfBy, setShowOfBy] = useState('ads');
    
     const [showByA, setShowByA] = useState('overall');
     const [activeA1, setActiveA1] = useState(true)
@@ -51,9 +50,9 @@ const CandidatesView = () => {
 	const [activeB3, setActiveB3] = useState(false)
     const [activeB4, setActiveB4] = useState(false)
 
-    const [activeOfB1, setActiveOfB1] = useState(true)
-	const [activeOfB2, setActiveOfB2] = useState(false)
-	const [activeOfB3, setActiveOfB3] = useState(false)
+    const [activeC1, setActiveC1] = useState(true)
+    const [activeC2, setActiveC2] = useState(false)
+    const [showByC, setShowByC] = useState("spending")
 
     const [candidateName1, setCandidateName1] = useState("macron");
     const [candidateName2, setCandidateName2] = useState("Le pen");
@@ -97,7 +96,17 @@ const CandidatesView = () => {
         loading:true,
     }])
     
+    const [globalImpressionsPerSocialIssue,setGlobalImpressionsPerSocialIssue] = useState([{
+        data : [],
+        labels : [],
+        loading:true,
+    }])
     const [globalSpendingPerSocialIssuePerCandidate,setGlobalSpendingPerSocialIssuePerCandidate] = useState([{
+        data : [],
+        labels : [],
+        loading:true,
+    }])
+    const [globalImpressionsPerSocialIssuePerCandidate,setGlobalImpressionsPerSocialIssuePerCandidate] = useState([{
         data : [],
         labels : [],
         loading:true,
@@ -220,7 +229,6 @@ const CandidatesView = () => {
     
 
 const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async () => {
-    console.log('hel')
     setGlobalSpendingOfficialPerSocialIssue({
         data:[],
         loading:true
@@ -228,9 +236,9 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
 
     const result = await fetchGlobalSpendingPerOfficialCandidateParSocialIssue()
     let dataset = []
-    console.log(result)
     let i = 0
-    let colors = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(65,163,58)","rgb(21,45,72)","rgb(148,67,30)","rgb(252,105,9)","rgb(219,223,241)" ]    
+    let colors = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(148,67,30)","rgb(252,105,9)","rgb(65,163,58)","rgb(21,45,72)","rgb(219,223,241)"] 
+       
     let candidates = ["Emmanuel Macron", "Marine Le Pen", "Eric Zemmour"]
    
     for (const [key, value] of Object.entries(result)) {
@@ -370,11 +378,21 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
             data:[],
             loading:true
         })
+        setGlobalImpressionsPerSocialIssuePerCandidate({
+            data:[],
+            loading:true
+        })
+        setGlobalImpressionsPerSocialIssuePerCandidate({
+            data:[],
+            loading:true
+        })
         const result = await fetchGlobalSpendingPerCandidateParSocialIssue()
         let dataset1 = []
         let dataset2 = []
+        let dataset3 = []
+        let dataset4 = []
         let colors = [ "rgb(56,56,116)" ,"rgb(124,71,51)", "rgb(134,117,255)" ,"rgb(250,132,132)","rgb(35,116,171)","rgb(214,255,247)","rgb(77,204,189)","rgb(187,29,75)","rgb(116,116,102)","rgb(0,93,98)","rgb(196,181,186)" ,"rgb(53,162,235)"]
-        let colors1 = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(65,163,58)","rgb(21,45,72)","rgb(148,67,30)","rgb(252,105,9)","rgb(219,223,241)" ]    
+        let colors1 = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(148,67,30)","rgb(252,105,9)","rgb(65,163,58)","rgb(21,45,72)","rgb(219,223,241)"] 
         let candidates = ["Emmanuel Macron", "Jean-Luc Mélenchon", "Marine Le Pen", "Eric Zemmour", "Fabien Roussel", "Anne Hidalgo" , "Nathalie Arthaud" , "Nicolas Dupont-Aignan", "Jean Lassalle",   "Philippe Poutou" , "Yannick Jadot","Valérie Pécresse"]
         let socialIssues = [ 'Affaires internationales', 'Energie',
 		'Immigration','Justice et criminalité','Opérations gouvernementales', 'Politique culturelle',
@@ -387,14 +405,22 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                 data:[],
                 backgroundColor: colors[candidate]
             })
+            dataset4.push({
+                label:candidates[candidate],
+                data:[],
+                backgroundColor: colors[candidate]
+            })
         }
         let i = 0
         for (const [key, value] of Object.entries(result)) {
             let spending = []
+            let impressions = []
             let j = 0
             for (const candidate of value){
                 spending.push(candidate.data[0].spend !== null ? parseInt(candidate.data[0].spend) : 0 )
+                impressions.push(candidate.data[0].impressions !== null ? parseInt(candidate.data[0].impressions) : 0 )
                 dataset2[j].data.push(candidate.data[0].spend !== null ? parseInt(candidate.data[0].spend) : 0)
+                dataset4[j].data.push(candidate.data[0].impressions !== null ? parseInt(candidate.data[0].impressions) : 0)
                 j += 1
             }
             dataset1.push({
@@ -402,17 +428,32 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                 data:spending, 
                 backgroundColor: colors1[i]
             })
+            dataset3.push({
+                label:key,
+                data:impressions, 
+                backgroundColor: colors1[i]
+            })
             i += 1
-           
         }
+
         setGlobalSpendingPerSocialIssue({
             data:dataset1,
+            labels:candidates,
+            loading:false
+        })
+        setGlobalImpressionsPerSocialIssue({
+            data:dataset3,
             labels:candidates,
             loading:false
         })
       
         setGlobalSpendingPerSocialIssuePerCandidate({
             data:dataset2,
+            labels:socialIssues,
+            loading:false
+        })
+        setGlobalImpressionsPerSocialIssuePerCandidate({
+            data:dataset4,
             labels:socialIssues,
             loading:false
         })
@@ -434,7 +475,7 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
             l.push({
                 candidate:d.candidate,
                 party : d.partyPage,
-                spend: d.data[0] !== undefined ? d.data[0].spend : 0,
+                spend: d.data[0] !== undefined ? parseInt(d.data[0].spend) : 0,
             })
         
         }
@@ -599,17 +640,7 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
          return stats 
     }
     
-    const fetchAdsPerOfficialCandidatePerSocialIssue = async () => {
-        let stats 
-        await api.get(`api/general/infosPerSocialIssuesByCandidateOfficialPages/1`)
-         .then ( res => {
-             stats = res
-         })
-         .catch(
-             err => console.log(err)
-         )
-         return stats 
-    }
+   
     const fetchGlobalSpendingPerCandidateParSocialIssue = async () => {
         let stats 
         await api.get(`api/general/spendPerCandidatePerSocialIssue/1`)
@@ -707,7 +738,7 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                                             setActiveB3(true)
                                         }}>{intl.formatMessage({ id: 'candidatesMenuItem3' })}</Button>
             </ButtonGroup>
-                <Col xl="12"  sm="12" >  
+                <Col xl="11"  sm="12" >  
                 {showBy === 'overall' 
                 ? 
                 globalSpending.loading ? 
@@ -735,11 +766,9 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                             <Series
                                 name={intl.formatMessage({ id: 'spend' })}
                                 valueField="spend"
-
+                                tagField = "party"
                                 color="#8AC2E6" />
-                            <ValueAxis>
-                                    <Label customizeText={customizeLabel} />
-                            </ValueAxis>
+        
                             <ArgumentAxis>
                                 <Label render={LabelTemplate}></Label>
                             </ArgumentAxis>
@@ -804,13 +833,26 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                     source={intl.formatMessage({ id: 'plotSource3' })}
                 />
                 </div> :
-                 ( showBy === 'socialIssues')? 
+                 ( showBy === 'socialIssues') &&
+                 showByC == "spending"  ?
                  globalSpendingPerSocialIssue.loading && globalSpendingPerSocialIssuePerCandidate.loading ? 
                  <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
                  : 
                  <>
-                     
-                       <StackedBarChart
+                             <ButtonGroup >
+                                <Button active={activeC1}  onClick={() => {
+                                    setShowByC('spending')
+                                    setActiveC2(false)
+                                    setActiveC1(true)
+                                }}>{intl.formatMessage({ id: 'filterType2' })}</Button>
+                                
+                                <Button active={activeC2}  onClick={() => {
+                                    setShowByC('impressions')
+                                    setActiveC1(false)
+                                    setActiveC2(true)
+                                }}>{intl.formatMessage({ id: 'filterType3' })}</Button>
+                                </ButtonGroup> 
+                            <StackedBarChart
                               datasets = {globalSpendingPerSocialIssue.data}
                               labels = {globalSpendingPerSocialIssue.labels}
                               source  = {intl.formatMessage({ id: 'plotSource3' })}
@@ -818,18 +860,53 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                               options = {issuesOptions}
                               currency = " €"
                              />
-                      
-                      <StackedBarChart
-                              datasets = {globalSpendingPerSocialIssuePerCandidate.data}
-                              labels = {globalSpendingPerSocialIssuePerCandidate.labels}
-                              source  = {intl.formatMessage({ id: 'plotSource3' })}
-                              title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
-                              options = {candidatesOptions}
-                              currency = " €"
-                             />
-                       </>
-                
-                :   ( showBy === 'demographics') && 
+                       
+                           <StackedBarChart
+                           datasets = {globalSpendingPerSocialIssuePerCandidate.data}
+                           labels = {globalSpendingPerSocialIssuePerCandidate.labels}
+                           source  = {intl.formatMessage({ id: 'plotSource3' })}
+                           title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                           options = {candidatesOptions}
+                           currency = " €"
+                          />
+                       </> : 
+                       showByC == "impressions"  ?
+                        globalImpressionsPerSocialIssue.loading && globalImpressionsPerSocialIssuePerCandidate.loading ? 
+                        <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  
+                        :
+                        <>
+                         <ButtonGroup >
+                                <Button active={activeC1}  onClick={() => {
+                                    setShowByC('spending')
+                                    setActiveC2(false)
+                                    setActiveC1(true)
+                                }}>{intl.formatMessage({ id: 'filterType2' })}</Button>
+                                
+                                <Button active={activeC2}  onClick={() => {
+                                    setShowByC('impressions')
+                                    setActiveC1(false)
+                                    setActiveC2(true)
+                                }}>{intl.formatMessage({ id: 'filterType3' })}</Button>
+                                </ButtonGroup> 
+                        <StackedBarChart
+                           datasets = {globalImpressionsPerSocialIssue.data}
+                           labels = {globalImpressionsPerSocialIssue.labels}
+                           source  = {intl.formatMessage({ id: 'plotSource3' })}
+                           title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                           options = {issuesOptions}
+                           currency = ""
+                          />
+                    
+                        <StackedBarChart
+                        datasets = {globalImpressionsPerSocialIssuePerCandidate.data}
+                        labels = {globalImpressionsPerSocialIssuePerCandidate.labels}
+                        source  = {intl.formatMessage({ id: 'plotSource3' })}
+                        title = {intl.formatMessage({ id: 'candidatesPlotTitle2' })}
+                        options = {candidatesOptions}
+                        currency = ""
+                       />
+                    </>
+                    :   ( showBy === 'demographics') && 
                         ( demographicBreakdown1.loading && demographicBreakdown2.loading )? 
                           <div style={{ width:"100%", height:"400px",
                               display:'flex', justifyContent:"center",alignItems:'center'}}>
@@ -890,9 +967,9 @@ const loadGlobalSpendingPerOfficialCandidatePerSocialIssue = useCallback(async (
                                 />
                             </Col>
                        </Row>
-
+                 }
                
-               }
+                
                 </Col>
            
             </Row>

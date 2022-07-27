@@ -15,6 +15,7 @@ export default {
     plotTitle1:"Nombre de publicités politiques publiées par mois",
     plotTitle2:"Dépenses mensuelles générées par les publicités politiques",
     plotTitle3:"Nombre de visualisations sur les publicités politiques par mois",
+    
     dashboardTitle:"Statistiques générales",
     dashboardSubTitle:"Nombre de publicités publiées en France",
     dashboardSubTitle1:"Nombre d'annonceurs",
@@ -53,6 +54,8 @@ export default {
 
     candidatesPlotTitle1:"Total des dépenses publicitaires mentionnant les candidates à la présidentielle",
     candidatesPlotTitle2:"Total des dépenses publicitaires par enjeu social mentionnant les candidates à la présidentielle",
+    candidatesPlotTitle3:"Nombre des publicités mentionnant les candidates à la présidentielle",
+    candidatesPlotTitle4:"Visualisations sur les publicités mentionnant les candidates à la présidentielle",
     candidatesOfficialPlotTitle1:"Total des dépenses publicitaires publiées/sponsorisées par les candidats éléctoraux par enjeu social",
     candidatesMenuItem1:"Total",
     candidatesMenuItem21:"Derniers Chiffres des publicités",
@@ -172,7 +175,8 @@ export default {
 
     candidatesPlotTitle1:"Spend on ads mentioning presidential candidates",
     candidatesPlotTitle2:"Spend on ads mentioning presidential candidates per social issue",
-
+    candidatesPlotTitle3:"Number of ads mentioning presidential candidates",
+    candidatesPlotTitle4:"Impressions on ads mentioning presidential candidates",
     candidatesMenuItem1:"Over all",
     candidatesMenuItem2:"Over Time",
     candidatesMenuItem3:"Demographics",

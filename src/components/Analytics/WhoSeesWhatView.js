@@ -12,13 +12,13 @@ const WhoSeesWhat = () => {
     const [modalDemo1, setModalDemo1] = useState(false);
     const [modalDemo2, setModalDemo2] = useState(false);
 
-    const colors = ["#b82c73" ,"#3cc5af","#253860","#0e849e","#d02d1e","#dbdff1", "#6e4f22", "#b1a820", "#0976fc", "#f6b9ab", "#bbea4b", "#b604e2", "#BB1D4B" , "#f79c53"  ]
+    let colors = ["rgb(176,43,48)", "rgb(223,227,10)", "rgb(155,177,211)" ,"rgb(55,52,59)","rgb(177,100,146)", "rgb(56,56,116)", "rgb(22,179,183)","rgb(132,54,146)", "rgb(70,160,245)", "rgb(227,161,135)","rgb(65,163,58)","rgb(21,45,72)","rgb(148,67,30)","rgb(252,105,9)","rgb(219,223,241)" ]    
     const [adsPart1,setAdsPart1] = useState({
         data : [],
         age:'18-24',
         gender:'male',
         candidate:'',
-        loading:true,
+        loading:true, 
 
     })
   
@@ -261,7 +261,7 @@ const WhoSeesWhat = () => {
          
                   
                 <br/>      <br/>
-                <Col xl="6" sm="12" >
+                <Col xl="5" sm="12" >
                     <div style={{display:"flex", justifyContent:"space-around"}}> 
                         <select value={adsPerSocialIssuesPart1.gender} onChange={(event) => loadAdsPerSocialIssuesPart1(adsPerSocialIssuesPart1.age,event.target.value)}>
                             <option value="female">{intl.formatMessage({ id: 'female' })} </option>

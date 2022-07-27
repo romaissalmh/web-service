@@ -339,7 +339,7 @@ const DashboardView= () =>  {
                            
                         </Col>  
                         
-                        <Col style={{minHeight:"85vh"}} xl="6"  sm="12" >  
+                        <Col style={{minHeight:"85vh"}} xl="5"  sm="12" >  
                         {
                             dataByRegion.loading  ?  <Spinner> Loading </Spinner> 
                             :   <FranceMap

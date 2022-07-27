@@ -34,7 +34,9 @@ const AnalyticsView = () => {
     const [activeB1, setActiveB1] = useState(true)
     const [activeB2, setActiveB2] = useState(false)
     const [activeB3, setActiveB3] = useState(false)
-   
+    const [activeC1, setActiveC1] = useState(true)
+    const [activeC2, setActiveC2] = useState(false)
+    const [showByC, setShowByC] = useState("spending")
     const [regionName, setRegionName] = useState("Alsace");
      
     // Modal open state
@@ -70,6 +72,13 @@ const AnalyticsView = () => {
     })
 
     const [dataPerMonthPerSocialIssue,setDataPerMonthPerSocialIssue] = useState({
+        data: [],
+        loading:true,
+        labels: []
+
+    })
+
+    const [impressionsPerMonthPerSocialIssue,setImpressionsPerMonthPerSocialIssue] = useState({
         data: [],
         loading:true,
         labels: []
@@ -264,25 +273,37 @@ const AnalyticsView = () => {
         setDataPerMonthPerSocialIssue({
             loading:true
         })
+        setImpressionsPerMonthPerSocialIssue({
+            loading:true
+        })
         const data = await fetchInfoPerMonthPerSocialIssue()
         
-        let dataset = []
-        
+        let dataset1 = []
+        let dataset2 = []
+        console.log(data)
         for(let socialIssue in data){
             let transform1 = []
             let transform2 = []
-            //let transform3 = []
+            let transform3 = []
             data[socialIssue].map((ad)=>{
                 transform1.push(parseInt(ad.countAds)) 
                 transform2.push(parseInt(ad.countMoney))
-                //transform3.push(parseInt(ad.countImpressions)) 
+                transform3.push(parseInt(ad.impressions)) 
             })
-            dataset.push({
+            
+            console.log(transform3)
+            dataset1.push({
                 "ads":transform1,
                 "data": transform2,
-                "label": socialIssue
+                "label": socialIssue,
+                "impressions":transform3
             })
-
+            dataset2.push({
+                "ads":transform1,
+                "spending": transform2,
+                "label": socialIssue,
+                "data":transform3
+            })
         }
         let labels = []
         data["Affaires internationales"].map((ad)=>{
@@ -290,7 +311,7 @@ const AnalyticsView = () => {
         })
 
         setDataPerMonthPerSocialIssue({
-            data : dataset,
+            data : dataset1,
             labels: labels,
             loading:false,
             adsTitle : intl.formatMessage({ id: 'plotTitle1' }),
@@ -299,7 +320,15 @@ const AnalyticsView = () => {
 
         })
 
-       
+        setImpressionsPerMonthPerSocialIssue({
+            data : dataset2,
+            labels: labels,
+            loading:false,
+            adsTitle : intl.formatMessage({ id: 'plotTitle1' }),
+            spendingTitle:  intl.formatMessage({ id: 'plotTitle2' }),
+            impressionsTitle:  intl.formatMessage({ id: 'plotTitle3' }),
+
+        })
     })
     
     // fetching data from the server
@@ -509,22 +538,54 @@ const AnalyticsView = () => {
 
             <Row style={{marginTop:"20px", minHeight:"300px", padding:"30px"}}>  
             <h6>  {intl.formatMessage({ id: 'analyticsSubTitle5' })}</h6>  
-            <Col xl="12"  sm="12" >  
+            <ButtonGroup >
+                    <Button active={activeC1}  onClick={() => {
+                        setShowByC('spending')
+                        setActiveC2(false)
+                        setActiveC1(true)
+                    }}>{intl.formatMessage({ id: 'filterType2' })}</Button>
+                    
+                    <Button active={activeC2}  onClick={() => {
+                        setShowByC('impressions')
+                        setActiveC1(false)
+                        setActiveC2(true)
+                    }}>{intl.formatMessage({ id: 'filterType3' })}</Button>
+
+            </ButtonGroup>
+            <Col xl="12" sm="12" >  
                      {
-                        dataPerMonthPerSocialIssue.loading ?
+                        showByC == "spending"  ?
+                         dataPerMonthPerSocialIssue.loading ?
                          <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
-                        <LineChartMultipleDatasets
+
+                         <LineChartMultipleDatasets
                                 title={intl.formatMessage({ id: 'socialIssuesPlot1' })}
                                 showBy = "ads"
-                                labels={dataPerMonthPerSocialIssue.labels}
-                                datasets={dataPerMonthPerSocialIssue.data}
+                                labels = {dataPerMonthPerSocialIssue.labels}
+                                datasets = {dataPerMonthPerSocialIssue.data}
                                 candidatesOptions = {socialIssuesOptions}
-                                currency=""
-                                total="true"
-                                color="rgba(56, 56, 116, 1)"
-                                colorOpacity="rgba(56, 56, 116, 0.1)"
-                                source={intl.formatMessage({ id: 'plotSource3' })}
-                            />
+                                currency = ""
+                                total = "true"
+                                color = "rgba(56, 56, 116, 1)"
+                                colorOpacity = "rgba(56, 56, 116, 0.1)"
+                                source = {intl.formatMessage({ id: 'plotSource3' })}
+                            /> :
+                            impressionsPerMonthPerSocialIssue.loading ? 
+                            <div style={{display:'flex', justifyContent:"center",alignItems:'center',height: 'inherit'}}>  <Spinner>  </Spinner> </div>  :
+
+                            <LineChartMultipleDatasets
+                            title={intl.formatMessage({ id: 'socialIssuesPlot1' })}
+                            showBy = "ads"
+                            labels = {impressionsPerMonthPerSocialIssue.labels}
+                            datasets = {impressionsPerMonthPerSocialIssue.data}
+                            candidatesOptions = {socialIssuesOptions}
+                            currency = ""
+                            total = "true"
+                            color = "rgba(56, 56, 116, 1)"
+                            colorOpacity = "rgba(56, 56, 116, 0.1)"
+                            source = {intl.formatMessage({ id: 'plotSource3' })} 
+                        
+                        /> 
                      }
                 </Col>
             </Row>
@@ -635,7 +696,10 @@ const AnalyticsView = () => {
                         />
                         }  
                 </Col>  
+                
             </Row>
+
+          
         </Container>
     )
 }
