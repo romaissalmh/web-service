@@ -65,7 +65,7 @@ const WhoSeesWhat = () => {
         adsPart1.advertiser = adsPerSocialIssuesPart1.advertiser
         adsPart1.social_issue = social_issue !== "Aucune catégorie" ? social_issue : "[]"
         setModalDemo1(!modalDemo1);
-        loadAdsPart1(adsPart1.age , adsPart1.gender, adsPart1.social_issue)
+        loadAdsPart1(adsPart1.age , adsPart1.gender, adsPart1.social_issue,adsPart1.advertiser)
     }
 
     const toggleModal2 = (social_issue) => {
@@ -89,7 +89,7 @@ const WhoSeesWhat = () => {
         })
         const data = await fetchAdsPart1(age,gender,social_issue,advertiser)
       
-
+        console.log(data)
         setAdsPart1({
             data:data,
             loading:false,
@@ -111,8 +111,8 @@ const WhoSeesWhat = () => {
             advertiser:advertiser
 
         })
-        const data = await fetchAdsPart2(age, gender, social_issue)
-     
+        const data = await fetchAdsPart2(age, gender, social_issue,advertiser)
+      console.log(data)
 
         setAdsPart2({
             data:data,
